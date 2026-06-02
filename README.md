@@ -48,11 +48,46 @@ Pastikan perangkat lunak berikut sudah terinstal:
    - `belikuy_delivery_db`
 4. Lakukan *Import* _file_ SQL yang telah disediakan ke masing-masing *database* tersebut.
 
-### 3. Menjalankan Aplikasi
+### 3. Instalasi *Dependencies* (Wajib Dilakukan Sekali)
+Sebelum menjalankan, pastikan semua *library* pendukung terinstal. Buka Terminal/CMD dan jalankan:
+1. **Untuk Frontend**:
+   ```bash
+   cd belikuy_frontend
+   pip install -r requirements.txt
+   ```
+2. **Untuk Backend (Lakukan di masing-masing folder service)**:
+   ```bash
+   cd belikuy_api_gateway && npm install
+   cd ../belikuy_marketplace_service && npm install
+   cd ../belikuy_seller_service && npm install
+   cd ../belikuy_payment_service && npm install
+   cd ../belikuy_delivery_service && npm install
+   ```
+
+### 4. Menjalankan Aplikasi
+
+**Opsi A: Cara Cepat (Menggunakan Script Otomatis - Windows)**
 Kami telah menyediakan *script* otomatis agar kamu tidak perlu menyalakan *service* satu per satu!
 1. Buka *folder* utama proyek `belikuy`.
 2. Klik dua kali (*double-click*) pada _file_ **`start_all.bat`**.
-3. Tunggu beberapa detik hingga semua jendela *Command Prompt* bermunculan (menandakan *API Gateway*, *Microservices*, dan *Frontend* sedang dinyalakan).
-4. *Browser* akan otomatis membuka `http://localhost:8501` yang merupakan halaman utama aplikasi BeliKuy.
+3. Tunggu beberapa detik hingga semua jendela *Command Prompt* bermunculan (menandakan API dan UI menyala).
+
+**Opsi B: Cara Manual (Direkomendasikan untuk Mac/Linux atau Debugging)**
+Buka terminal baru untuk masing-masing perintah berikut:
+1. Jalankan **semua layanan Backend**:
+   ```bash
+   cd belikuy_api_gateway && npm start
+   cd belikuy_marketplace_service && npm start
+   cd belikuy_seller_service && npm start
+   cd belikuy_payment_service && npm start
+   cd belikuy_delivery_service && npm start
+   ```
+2. Jalankan **Frontend (Antarmuka UI)**:
+   ```bash
+   cd belikuy_frontend
+   streamlit run app.py
+   ```
+
+*Browser* akan otomatis membuka `http://localhost:8501` yang merupakan halaman utama aplikasi BeliKuy.
 
 Selamat berbelanja dan berjualan di BeliKuy! 🎉
