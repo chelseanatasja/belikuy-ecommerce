@@ -13,7 +13,7 @@ Aplikasi ini terbagi menjadi 3 peran (*role*) utama:
 ## 🛠️ Teknologi yang Digunakan
 * **Frontend (UI/UX)**: Python 3 & Streamlit (dengan Injeksi HTML/JS kustom untuk UI kelas atas).
 * **Backend (API)**: Node.js & Express.js (Arsitektur *Microservices* murni).
-* **Database**: MySQL (Terdistribusi ke dalam 3 *database* terpisah).
+* **Database**: MySQL (Terdistribusi ke dalam 4 *database* terpisah).
 * **Komunikasi**: RESTful API Gateway.
 
 ## 📂 Struktur Repositori
@@ -41,10 +41,11 @@ Pastikan perangkat lunak berikut sudah terinstal:
 2. Akses *database client*:
    - Jika menggunakan **Laragon**: Klik tombol **Database** (HeidiSQL) atau akses `http://localhost/phpmyadmin` jika terinstal.
    - Jika menggunakan **XAMPP**: Buka *browser* dan akses `http://localhost/phpmyadmin`.
-3. Buat 3 *database* kosong dengan nama berikut:
+3. Buat 4 *database* kosong dengan nama berikut:
    - `belikuy_marketplace_db`
    - `belikuy_seller_db`
    - `belikuy_payment_db`
+   - `belikuy_delivery_db`
 4. Lakukan *Import* _file_ SQL yang telah disediakan ke masing-masing *database* tersebut.
 
 ### 3. Menjalankan Aplikasi
