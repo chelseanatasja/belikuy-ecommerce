@@ -32,13 +32,15 @@ Ikuti langkah-langkah di bawah ini untuk menjalankan aplikasi BeliKuy di kompute
 
 ### 1. Persiapan Kebutuhan Sistem
 Pastikan perangkat lunak berikut sudah terinstal:
-* **XAMPP** (untuk menjalankan MySQL Server).
+* **Laragon** atau **XAMPP** (untuk menjalankan MySQL Server).
 * **Node.js** (versi 16 atau lebih baru).
 * **Python** (versi 3.9 atau lebih baru).
 
 ### 2. Konfigurasi Database
-1. Buka aplikasi **XAMPP Control Panel** dan klik **Start** pada modul **MySQL**.
-2. Buka *browser* dan akses `http://localhost/phpmyadmin`.
+1. Buka aplikasi **Laragon** lalu klik **Start All** (atau buka **XAMPP** dan klik **Start** pada modul **MySQL**).
+2. Akses *database client*:
+   - Jika menggunakan **Laragon**: Klik tombol **Database** (HeidiSQL) atau akses `http://localhost/phpmyadmin` jika terinstal.
+   - Jika menggunakan **XAMPP**: Buka *browser* dan akses `http://localhost/phpmyadmin`.
 3. Buat 3 *database* kosong dengan nama berikut:
    - `belikuy_marketplace_db`
    - `belikuy_seller_db`
