@@ -19,6 +19,7 @@ app.use('/api/categories', require('./routes/categoryRoutes'));
 app.use('/api/payments', require('./routes/paymentRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/withdrawals', require('./routes/withdrawalRoutes'));
+app.use('/api/suppliers', require('./routes/supplierRoutes'));
 
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => console.log(`Seller Service running on port ${PORT}`));

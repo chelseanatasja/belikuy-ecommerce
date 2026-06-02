@@ -22,7 +22,8 @@ app.use(createProxyMiddleware({
         '/api/companies': SELLER,
         '/api/categories': SELLER,
         '/api/payments': PAYMENT,
-        '/api/shipments': DELIVERY
+        '/api/shipments': DELIVERY,
+        '/api/suppliers': SELLER
     }
 }));
 

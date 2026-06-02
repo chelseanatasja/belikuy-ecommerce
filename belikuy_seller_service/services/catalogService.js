@@ -62,7 +62,7 @@ const getProductsByCompany = async (companyId) => {
                (SELECT COUNT(id) FROM Reviews WHERE product_id = p.id) AS review_count
         FROM Products p
         LEFT JOIN Categories cat ON p.category_id = cat.id
-        LEFT JOIN Supply_Companies sc ON p.supply_company_id = sc.id
+        LEFT JOIN belikuy_supplier_db.supply_companies sc ON p.supply_company_id = sc.id
         WHERE p.company_id = ?
         ORDER BY p.created_at DESC
     `, [companyId]);

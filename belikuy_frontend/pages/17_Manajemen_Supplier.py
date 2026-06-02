@@ -12,7 +12,7 @@ require_role("admin")
 import mysql.connector
 
 def get_db_connection():
-    return mysql.connector.connect(host="127.0.0.1", user="root", password="", database="belikuy")
+    return mysql.connector.connect(host="127.0.0.1", user="root", password="", database="belikuy_supplier_db")
 
 conn = get_db_connection()
 cursor = conn.cursor(dictionary=True)

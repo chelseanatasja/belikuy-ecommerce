@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>{PAGE_TITLE}</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#874e58",
+                        "surface-container-lowest": "#ffffff",
+                        background: "#f8f9fa",
+                        "on-background": "#191c1d",
+                        "primary-container": "#ffb6c1",
+                        "on-primary-container": "#7b444e",
+                        outline: "#847375",
+                        "on-surface-variant": "#514345",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-variant": "#e1e3e4",
+                    },
+                    fontFamily: {
+                        h3: ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["Inter"],
+                        h1: ["Plus Jakarta Sans"],
+                        h2: ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Mobile padding for bottom nav */
+        @media (max-width: 767px) {
+            main {
+                padding-bottom: 100px !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex m-0 p-0 overflow-x-hidden">
+
+    <!-- The sidebar will be injected here by Python -->
+
+    <!-- Main Content Area -->
+    <main class="flex-1 md:ml-64 p-4 md:p-8 min-h-screen">
+        <!-- Header Section -->
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div>
+                <h1 class="font-h2 text-3xl font-bold text-on-background">Halo, {USERNAME}! <span class="text-2xl">✨</span></h1>
+                <p class="font-body-md text-sm text-on-surface-variant flex items-center gap-2 mt-2">
+                    <span class="inline-flex items-center gap-1 bg-surface-container-high px-2 py-1 rounded-full text-xs font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-green-500"></span> {ROLE_CAPS} Aktif
+                    </span>
+                    {SUBTITLE}
+                </p>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="w-10 h-10 rounded-full bg-surface-container-lowest shadow-[0_4px_15px_rgba(255,182,193,0.15)] flex items-center justify-center text-outline relative hover:-translate-y-0.5 transition-transform">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+                </button>
+                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold shadow-md">
+                    {USER_INITIAL}
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Stat Card 1 -->
+            <div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_8px_30px_rgba(255,182,193,0.15)] flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-container opacity-20 rounded-full blur-2xl"></div>
+                <div class="flex justify-between items-start mb-4">
+                    <span class="font-body-sm text-xs font-semibold text-on-surface-variant uppercase tracking-wider">{STAT1_TITLE}</span>
+                    <span class="material-symbols-outlined text-primary bg-primary-container/30 p-2 rounded-lg" style="font-variation-settings: 'FILL' 1;">{STAT1_ICON}</span>
+                </div>
+                <div>
+                    <h3 class="font-h3 text-2xl font-bold text-on-background">{STAT1_VAL}</h3>
+                    <p class="font-body-sm text-xs text-green-500 mt-1 flex items-center gap-1 font-medium">
+                        {STAT1_DESC}
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Stat Card 2 -->
+            <div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_8px_30px_rgba(255,182,193,0.15)] flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-blue-100 opacity-30 rounded-full blur-2xl"></div>
+                <div class="flex justify-between items-start mb-4">
+                    <span class="font-body-sm text-xs font-semibold text-on-surface-variant uppercase tracking-wider">{STAT2_TITLE}</span>
+                    <span class="material-symbols-outlined text-blue-600 bg-blue-50 p-2 rounded-lg" style="font-variation-settings: 'FILL' 1;">{STAT2_ICON}</span>
+                </div>
+                <div>
+                    <h3 class="font-h3 text-2xl font-bold text-on-background">{STAT2_VAL}</h3>
+                    <p class="font-body-sm text-xs text-on-surface-variant mt-1 flex items-center gap-1">
+                        {STAT2_DESC}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Stat Card 3 -->
+            <div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_8px_30px_rgba(255,182,193,0.15)] flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-100 opacity-30 rounded-full blur-2xl"></div>
+                <div class="flex justify-between items-start mb-4">
+                    <span class="font-body-sm text-xs font-semibold text-on-surface-variant uppercase tracking-wider">{STAT3_TITLE}</span>
+                    <span class="material-symbols-outlined text-purple-600 bg-purple-50 p-2 rounded-lg" style="font-variation-settings: 'FILL' 1;">{STAT3_ICON}</span>
+                </div>
+                <div>
+                    <h3 class="font-h3 text-2xl font-bold text-on-background">{STAT3_VAL}</h3>
+                    <p class="font-body-sm text-xs text-on-surface-variant mt-1 flex items-center gap-1">
+                        {STAT3_DESC}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Stat Card 4 -->
+            <div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_8px_30px_rgba(255,182,193,0.15)] flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-yellow-100 opacity-40 rounded-full blur-2xl"></div>
+                <div class="flex justify-between items-start mb-4">
+                    <span class="font-body-sm text-xs font-semibold text-on-surface-variant uppercase tracking-wider">{STAT4_TITLE}</span>
+                    <span class="material-symbols-outlined text-yellow-600 bg-yellow-50 p-2 rounded-lg" style="font-variation-settings: 'FILL' 1;">{STAT4_ICON}</span>
+                </div>
+                <div>
+                    <h3 class="font-h3 text-2xl font-bold text-on-background">{STAT4_VAL}</h3>
+                    <p class="font-body-sm text-xs text-on-surface-variant mt-1 flex items-center gap-1">
+                        {STAT4_DESC}
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Main Content (Tables, Logs, etc) -->
+        <div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_8px_30px_rgba(255,182,193,0.15)] flex flex-col mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-h3 text-[20px] font-semibold text-on-background">{TABLE_TITLE}</h3>
+            </div>
+            
+            <div class="overflow-x-auto w-full">
+                <table class="w-full text-left text-sm whitespace-nowrap">
+                    <thead class="bg-surface-container text-on-surface-variant font-label-caps text-xs">
+                        {TABLE_HEADERS}
+                    </thead>
+                    <tbody class="divide-y divide-surface-variant text-on-background">
+                        {TABLE_ROWS}
+                    </tbody>
+                </table>
+                {EMPTY_STATE}
+            </div>
+        </div>
+
+        {EXTRA_CONTENT}
+
+    </main>
+
+</body>
+</html>

@@ -24,4 +24,15 @@ router.post('/pay', async (req, res) => {
     }
 });
 
+// Process Supplier B2B Payment
+router.post('/supplier_pay', async (req, res) => {
+    const { supplier_order_id, company_id, amount, payment_method } = req.body;
+    try {
+        const result = await paymentService.processSupplierPayment(supplier_order_id, company_id, amount, payment_method);
+        res.json(result);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 module.exports = router;

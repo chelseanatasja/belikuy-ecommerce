@@ -17,7 +17,7 @@ const createOrder = async (userId, addressId, totalPrice, cartItems, paymentMeth
         // 1b. Create Pending Payment if method is provided
         if (paymentMethodId) {
             await connection.query(
-                "INSERT INTO belikuy_payment_db.Payments (order_id, payment_method_id, payment_status) VALUES (?, ?, 'pending')",
+                "INSERT INTO belikuy_fintech_db.Payments (order_id, payment_method_id, payment_status) VALUES (?, ?, 'pending')",
                 [orderId, paymentMethodId]
             );
         }
@@ -60,8 +60,8 @@ const createOrder = async (userId, addressId, totalPrice, cartItems, paymentMeth
 const getUserOrders = async (userId) => {
     const [orders] = await db.query(`
         SELECT o.id AS order_id, o.created_at, o.total_price, o.status,
-               (SELECT pm.institution_name FROM belikuy_payment_db.Payments p JOIN belikuy_payment_db.Payment_Methods pm ON p.payment_method_id = pm.id WHERE p.order_id = o.id ORDER BY p.id DESC LIMIT 1) AS payment_method,
-               (SELECT p.payment_status FROM belikuy_payment_db.Payments p WHERE p.order_id = o.id ORDER BY p.id DESC LIMIT 1) AS payment_status
+               (SELECT pm.institution_name FROM belikuy_fintech_db.Payments p JOIN belikuy_fintech_db.Payment_Methods pm ON p.payment_method_id = pm.id WHERE p.order_id = o.id ORDER BY p.id DESC LIMIT 1) AS payment_method,
+               (SELECT p.payment_status FROM belikuy_fintech_db.Payments p WHERE p.order_id = o.id ORDER BY p.id DESC LIMIT 1) AS payment_status
         FROM belikuy_marketplace_db.Orders o
         WHERE o.user_id = ?
         ORDER BY o.created_at DESC

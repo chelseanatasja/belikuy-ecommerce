@@ -13,6 +13,8 @@ def inject_seller_sidebar(html, current_page, company_name="Kawaiify Official"):
         {"id": "products", "icon": "inventory_2", "text": "Produk", "action": "go_products", "active_match": ["10_Kelola_Produk"]},
         {"id": "orders", "icon": "shopping_bag", "text": "Pesanan", "action": "go_orders", "active_match": ["11_Kelola_Pesanan"]},
         {"id": "analytics", "icon": "analytics", "text": "Laporan", "action": "go_income", "active_match": ["12_Laporan_Pendapatan"]},
+        {"id": "supplier_procurement", "icon": "local_shipping", "text": "Pesan Stok (B2B)", "action": "go_supplier_procurement", "active_match": ["22_Pesan_Stok_Supplier"]},
+        {"id": "supplier_payment", "icon": "request_quote", "text": "Tagihan Supplier", "action": "go_supplier_payment", "active_match": ["23_Tagihan_Supplier"]},
         {"id": "settings", "icon": "settings", "text": "Pengaturan", "action": "go_settings", "active_match": ["19_Seller_Settings"]},
     ]
     
@@ -127,6 +129,12 @@ def handle_seller_global_action(st, act):
         return True
     elif act == "go_settings":
         st.switch_page("pages/19_Seller_Settings.py")
+        return True
+    elif act == "go_supplier_procurement":
+        st.switch_page("pages/22_Pesan_Stok_Supplier.py")
+        return True
+    elif act == "go_supplier_payment":
+        st.switch_page("pages/23_Tagihan_Supplier.py")
         return True
     elif act == "go_storefront":
         st.switch_page("pages/1_Storefront.py")

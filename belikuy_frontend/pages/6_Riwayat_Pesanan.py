@@ -1,7 +1,7 @@
 import streamlit as st
 import sys, os, re, base64
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + "/..")
-from utils import get_api, post_api, require_login, hide_streamlit_ui, format_rupiah
+from utils import get_api, post_api, put_api, require_login, hide_streamlit_ui, format_rupiah
 from html_bridge import render_original_html
 from unified_navbar import inject_navbar, handle_global_action
 import mysql.connector
@@ -38,8 +38,8 @@ def show_transaction_details(tid):
                         sh.company_name as ship_co, sh.service_type as ship_svc
                  FROM belikuy_marketplace_db.orders o
                  LEFT JOIN belikuy_marketplace_db.users u ON o.user_id = u.id 
-                 LEFT JOIN belikuy_payment_db.payments pay ON o.id = pay.order_id
-                 LEFT JOIN belikuy_payment_db.payment_methods pm ON pay.payment_method_id = pm.id
+                 LEFT JOIN belikuy_fintech_db.payments pay ON o.id = pay.order_id
+                 LEFT JOIN belikuy_fintech_db.payment_methods pm ON pay.payment_method_id = pm.id
                  LEFT JOIN belikuy_delivery_db.shipments shi ON o.id = shi.order_id
                  LEFT JOIN belikuy_delivery_db.shipment_companies sh ON shi.shipment_company_id = sh.id
                  WHERE o.id = %s ORDER BY pay.id DESC LIMIT 1""", (tid,))
@@ -51,6 +51,7 @@ def show_transaction_details(tid):
             'pending':   ('Menunggu Pembayaran', '#c2410c', '#fff7ed'),
             'paid':      ('Sedang Dikemas',      '#1d4ed8', '#eff6ff'),
             'shipped':   ('Dalam Pengiriman',    '#7c3aed', '#f5f3ff'),
+            'delivered': ('Paket Tiba',          '#1d4ed8', '#eff6ff'),
             'completed': ('Selesai',             '#15803d', '#f0fdf4'),
             'cancelled': ('Dibatalkan',          '#b91c1c', '#fef2f2'),
         }
@@ -108,14 +109,15 @@ def show_track_order(tid):
     ship_svc = order.get('service_type') or ''
 
     # Step index
-    step_keys = ['pending', 'paid', 'shipped', 'completed']
-    order_idx = step_keys.index(status) if status in step_keys else (3 if status == 'completed' else -1)
+    step_keys = ['pending', 'paid', 'shipped', 'delivered', 'completed']
+    order_idx = step_keys.index(status) if status in step_keys else (4 if status == 'completed' else -1)
 
     steps = [
         ('receipt_long',   'Pesanan Dibuat',      'Pesanan berhasil dibuat'),
         ('inventory_2',    'Sedang Dikemas',       'Seller sedang memproses pesananmu'),
         ('local_shipping', 'Dalam Pengiriman',     (ship_co + ' ' + ship_svc).strip() or 'Paket sedang dikirim'),
-        ('check_circle',   'Pesanan Diterima',     'Pesanan berhasil diterima'),
+        ('home',           'Paket Tiba',           'Paket telah tiba di tujuan'),
+        ('check_circle',   'Pesanan Selesai',      'Pesanan berhasil diterima'),
     ]
 
     # Inject fonts
@@ -211,6 +213,7 @@ def status_badge(status):
         'pending':   ('#fff7ed', '#c2410c', 'schedule',       'Menunggu Pembayaran'),
         'paid':      ('#eff6ff', '#1d4ed8', 'inventory_2',    'Sedang Dikemas'),
         'shipped':   ('#f5f3ff', '#7c3aed', 'local_shipping', 'Dalam Pengiriman'),
+        'delivered': ('#eff6ff', '#1d4ed8', 'home',           'Paket Tiba'),
         'completed': ('#f0fdf4', '#15803d', 'check_circle',   'Selesai'),
         'cancelled': ('#fef2f2', '#b91c1c', 'cancel',         'Dibatalkan'),
     }
@@ -255,7 +258,7 @@ for o in orders:
 
     # Shipment pill
     ship_pill = ""
-    if status in ('shipped', 'completed') and ship_co:
+    if status in ('shipped', 'delivered', 'completed') and ship_co:
         ship_pill = f'''
         <div style="display:inline-flex; align-items:center; gap:6px; background:#eff6ff; color:#1d4ed8; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:600; margin-top:10px;">
             <span class="material-symbols-outlined" style="font-size:14px;">local_shipping</span>
@@ -291,7 +294,7 @@ for o in orders:
             <span class="material-symbols-outlined" style="font-size:14px;">cancel</span> Batalkan
         </button>'''
 
-    if status == 'shipped':
+    if status in ('shipped', 'delivered'):
         btns += f'''
         <button onclick="stNavigate({{action:'confirm_received', oid:{oid}}})" style="{btn_style_green}">
             <span class="material-symbols-outlined" style="font-size:14px;">verified</span> Konfirmasi Diterima
@@ -341,10 +344,11 @@ tabs_cfg = [
     ("Menunggu",            "pending"),
     ("Dikemas",             "paid"),
     ("Dikirim",             "shipped"),
+    ("Tiba",                "delivered"),
     ("Selesai",             "completed"),
     ("Dibatalkan",          "cancelled"),
 ]
-tabs_html = '<div style="display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:20px; scrollbar-width:none; -ms-overflow-style:none;">'
+tabs_html = '<div style="display:flex; gap:8px; flex-wrap:wrap; padding-bottom:8px; margin-bottom:20px;">'
 for label, val in tabs_cfg:
     count = len(all_orders) if val == "all" else sum(1 for o in all_orders if o.get("status") == val)
     active = current_status == val
@@ -440,20 +444,22 @@ if action_data:
     elif act == 'confirm_received':
         order_id = action_data.get("oid")
         try:
-            import requests as _req
-            _req.put(f"http://localhost:5000/api/orders/{order_id}/status",
-                     json={"status": "completed", "user_id": user['id']}, timeout=8)
-            st.success("Pesanan dikonfirmasi diterima!")
+            res, status = put_api(f"orders/{order_id}/status", {"status": "completed", "user_id": user['id']})
+            if status == 200:
+                st.success("Pesanan dikonfirmasi diterima!")
+            else:
+                st.error(f"Gagal konfirmasi: {res.get('error', 'Unknown Error')}")
         except Exception as e:
             st.error(f"Gagal konfirmasi: {e}")
         st.rerun()
     elif act == 'cancel_order':
         order_id = action_data.get("oid")
         try:
-            import requests as _req
-            _req.put(f"http://localhost:5000/api/orders/{order_id}/status",
-                     json={"status": "cancelled", "user_id": user['id']}, timeout=8)
-            st.success("Pesanan berhasil dibatalkan.")
+            res, status = put_api(f"orders/{order_id}/status", {"status": "cancelled", "user_id": user['id']})
+            if status == 200:
+                st.success("Pesanan berhasil dibatalkan.")
+            else:
+                st.error(f"Gagal membatalkan: {res.get('error', 'Unknown Error')}")
         except Exception as e:
             st.error(f"Gagal membatalkan: {e}")
         st.rerun()

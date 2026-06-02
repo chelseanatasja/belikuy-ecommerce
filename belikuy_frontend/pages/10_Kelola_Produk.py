@@ -374,6 +374,7 @@ if action_data:
         pid = action_data.get("pid")
         is_active = action_data.get("is_active", 1)
         if pid:
+            import requests as _req
             _req.patch(f"http://localhost:5000/api/products/{pid}/toggle",
                        json={"company_id": company_id, "is_active": int(is_active)}, timeout=8)
         st.rerun()

@@ -97,7 +97,7 @@ def make_tab(label, val):
 tabs_html = ''.join([make_tab(label, val) for label, val in tab_map])
 html = re.sub(
     r'<div class="flex overflow-x-auto no-scrollbar gap-2 mb-lg border-b border-surface-variant pb-xs">.*?</div>',
-    f'<div class="flex overflow-x-auto no-scrollbar gap-2 mb-lg border-b border-surface-variant pb-xs">{tabs_html}</div>',
+    f'<div class="flex flex-wrap gap-2 mb-lg border-b border-surface-variant pb-xs">{tabs_html}</div>',
     html, flags=re.DOTALL
 )
 

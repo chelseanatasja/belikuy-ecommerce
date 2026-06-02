@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Pesan Stok B2B - BeliKuy</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#874e58",
+                        "primary-container": "#ffb6c1",
+                        "on-primary-container": "#7b444e",
+                        surface: "#f8f9fa",
+                        "on-surface": "#191c1d",
+                        "on-surface-variant": "#514345",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-container-lowest": "#ffffff",
+                        error: "#ba1a1a",
+                        "error-container": "#ffdad6"
+                    },
+                    fontFamily: {
+                        h1: ["Plus Jakarta Sans"], h2: ["Plus Jakarta Sans"], h3: ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"], "body-sm": ["Inter"], "label-caps": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .shadow-glow { box-shadow: 0 8px 30px rgba(255, 182, 193, 0.2); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex">
+    <!-- Sidebar will be injected here -->
+    
+    <main class="flex-1 md:ml-64 p-6 md:p-12 flex flex-col gap-8 pb-32">
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h1 class="font-h2 text-3xl font-bold text-on-surface">📦 Pengadaan Barang (B2B Procurement)</h1>
+                <p class="font-body-md text-on-surface-variant mt-2">Cari dan pesan stok grosir dari Supplier terverifikasi BeliKuy.</p>
+            </div>
+        </header>
+
+        {EMPTY_STATE}
+
+        <section class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-4 items-center">
+            <div class="flex-1 w-full">
+                <label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Pilih Supplier B2B</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <span class="material-symbols-outlined text-gray-400">factory</span>
+                    </div>
+                    <select id="supplier_select" onchange="changeSupplier()" class="w-full pl-12 pr-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-primary-container outline-none cursor-pointer font-medium">
+                        {SUPPLIER_OPTIONS}
+                    </select>
+                </div>
+            </div>
+            {SUPPLIER_INFO}
+        </section>
+        
+        {CHECKOUT_BAR}
+
+        {CATALOG_HTML}
+
+    </main>
+
+    <script>
+        function changeSupplier() {
+            const sid = document.getElementById('supplier_select').value;
+            if(sid && typeof stNavigate === "function") {
+                stNavigate({action: 'select_supplier', supplier_id: sid});
+            } else if(sid && window.Streamlit) {
+                window.Streamlit.setComponentValue({action: 'select_supplier', supplier_id: sid, _ts: Date.now()});
+            }
+        }
+
+        function calculateTotal() {
+            const inputs = document.querySelectorAll('.qty-input');
+            let totalQty = 0;
+            let totalPrice = 0;
+            inputs.forEach(input => {
+                const qty = parseInt(input.value) || 0;
+                const price = parseFloat(input.dataset.price) || 0;
+                totalQty += qty;
+                totalPrice += (qty * price);
+            });
+            
+            const btn = document.getElementById('checkoutBtn');
+            const summary = document.getElementById('checkoutSummary');
+            if(btn && summary) {
+                if(totalQty > 0) {
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    summary.innerHTML = `<span class="text-sm text-gray-500">Total:</span> Rp ${totalPrice.toLocaleString('id-ID')} <span class="text-sm text-gray-500 ml-2">(${totalQty} Item)</span>`;
+                } else {
+                    btn.disabled = true;
+                    btn.classList.add('opacity-50', 'cursor-not-allowed');
+                    summary.innerHTML = `Belum ada barang dipilih`;
+                }
+            }
+        }
+
+        function incrementQty(id, max) {
+            const input = document.getElementById(`qty_${id}`);
+            let val = parseInt(input.value) || 0;
+            if(val < max) {
+                input.value = val + 1;
+                calculateTotal();
+            }
+        }
+
+        function decrementQty(id) {
+            const input = document.getElementById(`qty_${id}`);
+            let val = parseInt(input.value) || 0;
+            if(val > 0) {
+                input.value = val - 1;
+                calculateTotal();
+            }
+        }
+
+        function submitOrder() {
+            const inputs = document.querySelectorAll('.qty-input');
+            const items = [];
+            inputs.forEach(input => {
+                const qty = parseInt(input.value) || 0;
+                if(qty > 0) {
+                    items.push({
+                        id: parseInt(input.dataset.id),
+                        qty: qty
+                    });
+                }
+            });
+            
+            if(items.length === 0) return alert('Pilih minimal 1 barang!');
+            
+            if(typeof stNavigate === "function") {
+                stNavigate({action: 'submit_order', items: JSON.stringify(items)});
+            } else if(window.Streamlit) {
+                window.Streamlit.setComponentValue({action: 'submit_order', items: JSON.stringify(items), _ts: Date.now()});
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', calculateTotal);
+    </script>
+</body>
+</html>

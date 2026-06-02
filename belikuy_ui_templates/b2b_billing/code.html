@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Tagihan Supplier - BeliKuy</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#874e58",
+                        "primary-container": "#ffb6c1",
+                        "on-primary-container": "#7b444e",
+                        surface: "#f8f9fa",
+                        "on-surface": "#191c1d",
+                        "on-surface-variant": "#514345",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-container-lowest": "#ffffff",
+                        error: "#ba1a1a",
+                        "error-container": "#ffdad6"
+                    },
+                    fontFamily: {
+                        h1: ["Plus Jakarta Sans"], h2: ["Plus Jakarta Sans"], h3: ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"], "body-sm": ["Inter"], "label-caps": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .shadow-glow { box-shadow: 0 8px 30px rgba(255, 182, 193, 0.2); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .accordion-content { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; max-height: 0; opacity: 0; overflow: hidden; }
+        .accordion-content.expanded { max-height: 1000px; opacity: 1; }
+        .accordion-icon { transition: transform 0.3s ease-in-out; }
+        .accordion-icon.rotated { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex">
+    <!-- Sidebar will be injected here -->
+    
+    <main class="flex-1 md:ml-64 p-6 md:p-12 flex flex-col gap-8 pb-32">
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h1 class="font-h2 text-3xl font-bold text-on-surface">💸 Tagihan & Pembayaran B2B</h1>
+                <p class="font-body-md text-on-surface-variant mt-2">Kelola dan lunasi tagihan pemesanan grosir dari Supplier Anda.</p>
+            </div>
+        </header>
+
+        {SUCCESS_ALERT}
+
+        <!-- Custom Tabs -->
+        <div class="flex p-1 bg-surface-container-low rounded-xl w-full max-w-md mx-auto md:mx-0">
+            <button onclick="switchTab('pending')" id="tab_pending" class="flex-1 py-2 text-sm font-bold text-center rounded-lg bg-white text-on-surface shadow-sm transition-all">Menunggu Pembayaran</button>
+            <button onclick="switchTab('paid')" id="tab_paid" class="flex-1 py-2 text-sm font-bold text-center rounded-lg text-gray-500 hover:text-on-surface transition-all">Riwayat Lunas</button>
+        </div>
+
+        <section id="content_pending" class="flex flex-col gap-4 block">
+            {PENDING_HTML}
+        </section>
+
+        <section id="content_paid" class="flex flex-col gap-4 hidden">
+            {PAID_HTML}
+        </section>
+
+    </main>
+
+    <script>
+        function switchTab(tab) {
+            const tPending = document.getElementById('tab_pending');
+            const tPaid = document.getElementById('tab_paid');
+            const cPending = document.getElementById('content_pending');
+            const cPaid = document.getElementById('content_paid');
+            
+            if(tab === 'pending') {
+                tPending.classList.add('bg-white', 'text-on-surface', 'shadow-sm');
+                tPending.classList.remove('text-gray-500');
+                tPaid.classList.remove('bg-white', 'text-on-surface', 'shadow-sm');
+                tPaid.classList.add('text-gray-500');
+                cPending.classList.remove('hidden');
+                cPaid.classList.add('hidden');
+            } else {
+                tPaid.classList.add('bg-white', 'text-on-surface', 'shadow-sm');
+                tPaid.classList.remove('text-gray-500');
+                tPending.classList.remove('bg-white', 'text-on-surface', 'shadow-sm');
+                tPending.classList.add('text-gray-500');
+                cPaid.classList.remove('hidden');
+                cPending.classList.add('hidden');
+            }
+        }
+        
+        function toggleAccordion(id) {
+            const content = document.getElementById(`acc_content_${id}`);
+            const icon = document.getElementById(`acc_icon_${id}`);
+            if(content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                icon.classList.remove('rotated');
+            } else {
+                content.classList.add('expanded');
+                icon.classList.add('rotated');
+            }
+        }
+
+        function payBill(orderId) {
+            const pMethod = document.getElementById(`pay_method_${orderId}`).value;
+            if(!pMethod) return alert('Pilih metode pembayaran!');
+            
+            if(typeof stNavigate === "function") {
+                stNavigate({action: 'pay_bill', order_id: orderId, method: pMethod});
+            } else if(window.Streamlit) {
+                window.Streamlit.setComponentValue({action: 'pay_bill', order_id: orderId, method: pMethod, _ts: Date.now()});
+            }
+        }
+    </script>
+</body>
+</html>

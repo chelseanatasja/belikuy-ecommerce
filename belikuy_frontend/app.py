@@ -25,6 +25,12 @@ if st.session_state.get('user'):
         st.switch_page("pages/13_Admin_Dashboard.py")
     elif role == 'seller':
         st.switch_page("pages/9_Seller_Dashboard.py")
+    elif role == 'supplier':
+        st.switch_page("pages/24_Supplier_Dashboard.py")
+    elif role == 'fintech':
+        st.switch_page("pages/25_Fintech_Dashboard.py")
+    elif role == 'delivery':
+        st.switch_page("pages/26_Delivery_Dashboard.py")
     else:
         st.switch_page("pages/1_Storefront.py")
 
@@ -131,6 +137,9 @@ REGISTER_HTML = """
       <select id="reg-role" class="w-full pl-[48px] pr-md py-3 bg-surface-bright border-none rounded-lg font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-primary-container outline-none cursor-pointer" style="appearance:none;">
         <option value="customer">&#128100; Pembeli (Customer)</option>
         <option value="seller">&#127978; Penjual (Seller)</option>
+        <option value="supplier">&#127981; Supplier (B2B)</option>
+        <option value="fintech">&#127974; Fintech (Bank)</option>
+        <option value="delivery">&#128666; Kurir (Ekspedisi)</option>
       </select>
     </div>
     <button onclick="doRegister()" class="w-full py-4 rounded-full bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-label-caps text-label-caps hover:shadow-[0_8px_20px_rgba(255,182,193,0.4)] hover:-translate-y-0.5 transition-all duration-300" type="button">
@@ -169,6 +178,12 @@ if action_data:
                 st.switch_page("pages/13_Admin_Dashboard.py")
             elif role == 'seller':
                 st.switch_page("pages/9_Seller_Dashboard.py")
+            elif role == 'supplier':
+                st.switch_page("pages/24_Supplier_Dashboard.py")
+            elif role == 'fintech':
+                st.switch_page("pages/25_Fintech_Dashboard.py")
+            elif role == 'delivery':
+                st.switch_page("pages/26_Delivery_Dashboard.py")
             else:
                 st.switch_page("pages/1_Storefront.py")
         else:

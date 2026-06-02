@@ -5,15 +5,18 @@ BeliKuy adalah platform *e-commerce* modern berbasis *Microservices Architecture
 Proyek ini dibangun sebagai **Final Project**, mengintegrasikan antarmuka dinamis berbasis Python dengan ketangguhan pemrosesan data *backend* berbasis Node.js.
 
 ## 🚀 Fitur Utama
-Aplikasi ini terbagi menjadi 3 peran (*role*) utama:
+Aplikasi ini terbagi menjadi 6 peran (*role*) utama:
 1. **👨‍💼 Customer**: Eksplorasi katalog, pencarian cerdas, *checkout* multi-produk, manajemen alamat, simulasi *payment gateway*, dan pelacakan resi.
 2. **🏪 Seller**: Pembukaan toko otomatis, manajemen inventaris/katalog barang, pemrosesan pesanan, input resi ekspedisi, laporan pendapatan (*omzet*), dan penarikan dana (*withdrawal*).
-3. **👑 Super Admin**: *Dashboard* analitik omzet (*Gross Merchandise Value*), *monitoring* seluruh transaksi lintas toko, persetujuan penarikan dana *seller*, serta manajemen status *vendor*, metode pembayaran, dan jasa ekspedisi.
+3. **🏭 Supplier**: Manajemen persediaan grosir, penerimaan pesanan *B2B* dari *Seller*, pelacakan pengiriman ke pihak toko, dan laporan penjualan.
+4. **🚚 Delivery**: *Dashboard* khusus untuk kurir dan agen ekspedisi guna melacak pengiriman, memantau rute logistik, serta memperbarui status paket dari *Seller* maupun *Supplier* hingga tiba di tangan penerima.
+5. **💳 Fintech**: *Dashboard* penyedia layanan pembayaran digital (Payment Gateway/Bank) untuk memantau arus kas, status transaksi pembayaran pembeli, dan manajemen metode pembayaran.
+6. **👑 Super Admin**: *Dashboard* analitik omzet (*Gross Merchandise Value*), *monitoring* seluruh transaksi lintas toko, persetujuan penarikan dana *seller*, serta manajemen status *vendor*, metode pembayaran, dan jasa ekspedisi.
 
 ## 🛠️ Teknologi yang Digunakan
 * **Frontend (UI/UX)**: Python 3 & Streamlit (dengan Injeksi HTML/JS kustom untuk UI kelas atas).
 * **Backend (API)**: Node.js & Express.js (Arsitektur *Microservices* murni).
-* **Database**: MySQL (Terdistribusi ke dalam 4 *database* terpisah).
+* **Database**: MySQL (Terdistribusi ke dalam 5 *database* pusat terpisah).
 * **Komunikasi**: RESTful API Gateway.
 
 ## 📂 Struktur Repositori
@@ -21,8 +24,9 @@ Aplikasi ini terbagi menjadi 3 peran (*role*) utama:
 * `belikuy_api_gateway/` - Pintu gerbang utama API (Port 3000).
 * `belikuy_marketplace_service/` - Layanan inti pengguna, produk, dan transaksi utama.
 * `belikuy_seller_service/` - Layanan khusus manajemen toko dan katalog.
-* `belikuy_payment_service/` - Layanan pembayaran dan dompet pencairan dana.
+* `belikuy_payment_service/` - Layanan pembayaran (*Fintech*) dan dompet pencairan dana.
 * `belikuy_delivery_service/` - Layanan logistik dan ekspedisi.
+* `belikuy_supplier_service/` - Layanan manajemen B2B *Supplier*.
 
 ---
 
@@ -41,11 +45,12 @@ Pastikan perangkat lunak berikut sudah terinstal:
 2. Akses *database client*:
    - Jika menggunakan **Laragon**: Klik tombol **Database** (HeidiSQL) atau akses `http://localhost/phpmyadmin` jika terinstal.
    - Jika menggunakan **XAMPP**: Buka *browser* dan akses `http://localhost/phpmyadmin`.
-3. Buat 4 *database* kosong di phpMyAdmin/HeidiSQL dengan nama persis seperti berikut:
+3. Buat 5 *database* pusat kosong di phpMyAdmin/HeidiSQL dengan nama persis seperti berikut:
    - `belikuy_marketplace_db`
    - `belikuy_seller_db`
-   - `belikuy_payment_db`
+   - `belikuy_fintech_db`
    - `belikuy_delivery_db`
+   - `belikuy_supplier_db`
 4. Buka folder `database_dumps` yang ada di dalam repositori ini.
 5. Lakukan *Import* _file_ `.sql` yang ada di dalam folder tersebut ke masing-masing *database* yang bersesuaian (contoh: *import* `belikuy_marketplace_db.sql` ke dalam *database* `belikuy_marketplace_db`).
 

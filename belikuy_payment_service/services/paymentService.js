@@ -32,7 +32,29 @@ const processPayment = async (orderId, paymentMethodId) => {
     }
 };
 
+// Process a B2B supplier payment
+const processSupplierPayment = async (supplierOrderId, companyId, amount, paymentMethod) => {
+    if (!supplierOrderId || !companyId || !amount || !paymentMethod) {
+        throw new Error("Missing required fields for supplier payment");
+    }
+    try {
+        // Insert B2B Payment Record
+        const [result] = await db.query(
+            "INSERT INTO supplier_payments (supplier_order_id, company_id, amount, payment_method, status) VALUES (?, ?, ?, ?, 'success')",
+            [supplierOrderId, companyId, amount, paymentMethod]
+        );
+        
+        // Update order status in belikuy_supplier_db
+        await db.query("UPDATE belikuy_supplier_db.supplier_orders SET status = 'paid' WHERE id = ?", [supplierOrderId]);
+        
+        return { success: true, message: "Supplier payment recorded successfully" };
+    } catch (err) {
+        throw new Error("Supplier payment processing failed: " + err.message);
+    }
+};
+
 module.exports = {
     getPaymentMethods,
-    processPayment
+    processPayment,
+    processSupplierPayment
 };

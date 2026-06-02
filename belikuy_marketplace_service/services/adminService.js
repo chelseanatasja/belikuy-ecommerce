@@ -51,22 +51,22 @@ const deleteShipmentCompany = async (id) => {
 };
 
 const getSupplyCompanies = async () => {
-    const [rows] = await db.query('SELECT * FROM belikuy_seller_db.Supply_Companies ORDER BY supply_company_name ASC');
+    const [rows] = await db.query('SELECT * FROM belikuy_supplier_db.supply_companies ORDER BY supply_company_name ASC');
     return rows;
 };
 
 const addSupplyCompany = async (name, contact, address) => {
-    const [result] = await db.query('INSERT INTO belikuy_seller_db.Supply_Companies (supply_company_name, contact_number, address) VALUES (?, ?, ?)', [name, contact, address]);
+    const [result] = await db.query('INSERT INTO belikuy_supplier_db.supply_companies (supply_company_name, contact_number, address) VALUES (?, ?, ?)', [name, contact, address]);
     return { id: result.insertId };
 };
 
 const updateSupplyCompany = async (id, name, contact, address) => {
-    await db.query('UPDATE belikuy_seller_db.Supply_Companies SET supply_company_name = ?, contact_number = ?, address = ? WHERE id = ?', [name, contact, address, id]);
+    await db.query('UPDATE belikuy_supplier_db.supply_companies SET supply_company_name = ?, contact_number = ?, address = ? WHERE id = ?', [name, contact, address, id]);
     return true;
 };
 
 const deleteSupplyCompany = async (id) => {
-    await db.query('DELETE FROM belikuy_seller_db.Supply_Companies WHERE id = ?', [id]);
+    await db.query('DELETE FROM belikuy_supplier_db.supply_companies WHERE id = ?', [id]);
     return true;
 };
 
