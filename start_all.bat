@@ -7,5 +7,8 @@ start "Seller Service (Port 3002)" cmd /c "cd belikuy_seller_service && npm star
 start "Payment Service (Port 3003)" cmd /c "cd belikuy_payment_service && npm start"
 start "Delivery Service (Port 3004)" cmd /c "cd belikuy_delivery_service && npm start"
 
-echo All services are starting in separate windows!
+echo Starting BeliKuy Frontend (Streamlit)...
+start "BeliKuy Frontend (Streamlit)" cmd /c "cd belikuy_frontend && streamlit run app.py"
+
+echo All services and frontend are starting in separate windows!
 pause
