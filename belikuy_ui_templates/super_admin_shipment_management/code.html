@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BeliKuy Super Admin - Shipment Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#fcb3be",
+                        "on-secondary-fixed": "#29132c",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-variant": "#e1e3e4",
+                        "primary": "#874e58",
+                        "surface-bright": "#f8f9fa",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#f7ddda",
+                        "surface": "#f8f9fa",
+                        "surface-dim": "#d9dadb",
+                        "outline-variant": "#d6c2c3",
+                        "tertiary-container": "#ddc4c1",
+                        "secondary": "#715572",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#f8f9fa",
+                        "secondary-container": "#f8d5f7",
+                        "on-primary-fixed": "#360c17",
+                        "inverse-surface": "#2e3132",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#ffb6c1",
+                        "on-primary-container": "#7b444e",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#ffd9de",
+                        "on-secondary": "#ffffff",
+                        "outline": "#847375",
+                        "on-tertiary-container": "#63504e",
+                        "primary-fixed-dim": "#fcb3be",
+                        "on-primary-fixed-variant": "#6b3741",
+                        "on-background": "#191c1d",
+                        "tertiary-fixed-dim": "#dac1be",
+                        "on-surface-variant": "#514345",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#583e5a",
+                        "secondary-fixed-dim": "#debcde",
+                        "on-secondary-container": "#755977",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-container-high": "#e7e8e9",
+                        "tertiary": "#6d5a58",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#544341",
+                        "on-surface": "#191c1d",
+                        "on-tertiary-fixed": "#261817",
+                        "surface-tint": "#874e58",
+                        "surface-container": "#edeeef",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed": "#fbd8fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "xl": "48px"
+                    },
+                    "fontFamily": {
+                        "h3": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h3": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "h2": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-lowest dark:bg-zinc-900 font-['Plus_Jakarta_Sans'] text-sm font-semibold h-screen w-64 fixed left-0 top-0 border-r border-outline-variant/30 flex flex-col p-4 z-40 hidden md:flex">
+<div class="mb-8 px-4 py-2">
+<h1 class="text-xl font-bold text-on-surface dark:text-white">Seller Center</h1>
+<p class="text-xs text-on-surface-variant mt-1">BeliKuy Marketplace</p>
+</div>
+<div class="flex-1 overflow-y-auto">
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="inventory_2">inventory_2</span>
+                Products
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="shopping_bag">shopping_bag</span>
+                Orders
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="analytics">analytics</span>
+                Analytics
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="campaign">campaign</span>
+                Marketing
+            </a>
+<a class="flex items-center gap-3 bg-primary-container/30 text-primary-container-on-primary-container rounded-xl px-4 py-3 mb-1 font-bold" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="local_shipping" data-weight="fill">local_shipping</span>
+                Shipment
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="settings">settings</span>
+                Settings
+            </a>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant/30">
+<button class="w-full bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-label-caps text-label-caps py-3 rounded-full hover:shadow-[0_8px_30px_rgb(255,182,193,0.3)] transition-all duration-300 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+                Add New Product
+            </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-64 h-screen overflow-y-auto bg-surface-bright p-gutter lg:p-xl relative">
+<!-- Header -->
+<header class="flex justify-between items-end mb-xl pb-md border-b border-outline-variant/20">
+<div>
+<h2 class="font-h2 text-h2 text-on-surface">Manajemen Pengiriman</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Kelola mitra logistik, tarif, dan area layanan BeliKuy.</p>
+</div>
+<button class="bg-gradient-to-r from-primary to-secondary text-on-primary font-label-caps text-label-caps px-6 py-3 rounded-full hover:shadow-[0_8px_30px_rgb(135,78,88,0.2)] transition-all duration-300 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="add_circle">add_circle</span>
+                Tambah Kurir Baru
+            </button>
+</header>
+<!-- Bento Grid Layout for Couriers -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+<!-- JNE Card -->
+<article class="bg-surface-container-lowest rounded-xl p-lg shadow-[0_8px_30px_rgb(255,182,193,0.05)] flex flex-col relative group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-16 h-16 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden">
+<img alt="JNE Logo" class="w-full h-full object-cover" data-alt="A stylized, modern flat illustration of a fast delivery truck icon in vibrant blue and red, representing a high-end logistics company logo. The background is a crisp white to fit a kawaii-chic minimal aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaxxCugCLHuSeb7QmDcluDobNUUYauNApa-wSuptsNzdRam_inJe2tBDLXs_Xsu-KMpCJ7lTD8mJpDTYeRcOScG5-NrCHIYPOFrj5TiMjSNfkKO1yvTIqQvoPuBg8XrUXpqbYPcSjjsehGe4NYVWXWmqA36Gzn5c1gb--h3prx9Js-BRH2pSiva0ZA4GDoeMaCoGJk5OSG1xVJCJuVl2z1nw4LtPt62xZ6MI8SioKC41x9mnNDZ30bSt_hpY1HbOGEjR2hiUPTCw"/>
+</div>
+<!-- Toggle -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-surface-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+<span class="sr-only">Toggle Aktif</span>
+</label>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface mb-1">JNE Express</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Aktif
+                </p>
+<div class="space-y-4 flex-1">
+<div class="bg-surface rounded-lg p-4">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">Layanan Tersedia</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-primary-container/30 text-on-primary-container font-body-sm text-[12px] rounded-full">Reguler</span>
+<span class="px-3 py-1 bg-secondary-container/30 text-on-secondary-container font-body-sm text-[12px] rounded-full">YES (Next Day)</span>
+<span class="px-3 py-1 bg-tertiary-container/30 text-on-tertiary-container font-body-sm text-[12px] rounded-full">OKE</span>
+</div>
+</div>
+<div class="bg-surface rounded-lg p-4">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">Zona Tarif</p>
+<p class="font-body-sm text-body-sm text-on-surface">Nasional (Seluruh Indonesia)</p>
+</div>
+</div>
+<div class="mt-6 flex gap-2">
+<button class="flex-1 bg-surface-container-low text-on-surface font-label-caps text-[12px] py-2 rounded-full hover:bg-surface-variant transition-colors">Edit</button>
+<button class="flex-1 bg-error-container text-on-error-container font-label-caps text-[12px] py-2 rounded-full hover:bg-error hover:text-on-error transition-colors">Hapus</button>
+</div>
+</article>
+<!-- SiCepat Card -->
+<article class="bg-surface-container-lowest rounded-xl p-lg shadow-[0_8px_30px_rgb(255,182,193,0.05)] flex flex-col relative group opacity-75">
+<div class="flex justify-between items-start mb-6">
+<div class="w-16 h-16 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden">
+<img alt="SiCepat Logo" class="w-full h-full object-cover" data-alt="A stylized, modern flat illustration of a lightning bolt merging with a package box, representing a rapid delivery service logo in bold red. The background is a crisp white to fit a kawaii-chic minimal aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1bZOKy02aMi27S6kxODo9NtozsYR17mzg5E9cQOFKw74Z3zBfXlh3VmotF_IxdQ2oZ_E8_7xTaK2RaSaGAx2VFrWBXT3EAe7m2de5SHPWyHKzCuSa0aY_tRDA02cJ30JtOx_xP-BtRYcgUzIMu3HQcIjuLtrLrMXr_Y0qT_mVq2dOe6bg7vg4TyHWvZPBKpvIT4yoylA9_d_btqKGIITzi3Uxg7IzwGR7fSPs1ZU92JYFRoBqP42lJKAcN74NEoAPyAqOTEzDYQ"/>
+</div>
+<!-- Toggle -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-surface-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+<span class="sr-only">Toggle Nonaktif</span>
+</label>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface mb-1">SiCepat Ekspres</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-outline"></span> Nonaktif
+                </p>
+<div class="space-y-4 flex-1">
+<div class="bg-surface rounded-lg p-4">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">Layanan Tersedia</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-primary-container/30 text-on-primary-container font-body-sm text-[12px] rounded-full">SiUntung</span>
+<span class="px-3 py-1 bg-secondary-container/30 text-on-secondary-container font-body-sm text-[12px] rounded-full">BEST</span>
+</div>
+</div>
+<div class="bg-surface rounded-lg p-4">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">Zona Tarif</p>
+<p class="font-body-sm text-body-sm text-on-surface">Nasional (Jawa &amp; Bali Fokus)</p>
+</div>
+</div>
+<div class="mt-6 flex gap-2">
+<button class="flex-1 bg-surface-container-low text-on-surface font-label-caps text-[12px] py-2 rounded-full hover:bg-surface-variant transition-colors">Edit</button>
+<button class="flex-1 bg-error-container text-on-error-container font-label-caps text-[12px] py-2 rounded-full hover:bg-error hover:text-on-error transition-colors">Hapus</button>
+</div>
+</article>
+<!-- GoSend Card -->
+<article class="bg-surface-container-lowest rounded-xl p-lg shadow-[0_8px_30px_rgb(255,182,193,0.05)] flex flex-col relative group border border-primary-container/50">
+<div class="absolute -top-3 right-4 bg-primary text-on-primary font-label-caps text-[10px] px-3 py-1 rounded-full shadow-sm">Paling Laris</div>
+<div class="flex justify-between items-start mb-6">
+<div class="w-16 h-16 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden">
+<img alt="GoSend Logo" class="w-full h-full object-cover" data-alt="A stylized, modern flat illustration of a minimalist green circle with a sleek white delivery scooter inside, representing a hyper-local instant delivery service. The background is a crisp white to fit a kawaii-chic minimal aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8MYiP4V4eN_m9zacnSh3Dcq2qRG-ZIKI8iojVutL81fJFVt2HRr-tbEVMNImrB_uYd662aOoH6CwY67FY6H9Jb4RjXPpsAiQRvGTqbryg7szBKc0VkctPsiT0iH5OpHLFgdtffxKmWOzq5n1Clw8970Mt15_mhMJJCcxoiBC62h_IUSGSG0N9ZJtACtOTLL3NH6lOLkUDG9qF5lb9mLn_T0JXbXivdzJzwTQGlpaGNoLNJRH8mE1S1pAkNhITWQ4BfmQyL90zgA"/>
+</div>
+<!-- Toggle -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-surface-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+<span class="sr-only">Toggle Aktif</span>
+</label>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface mb-1">GoSend</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Aktif
+                </p>
+<div class="space-y-4 flex-1">
+<div class="bg-surface rounded-lg p-4">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">Layanan Tersedia</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-tertiary-container/50 text-on-tertiary-container font-body-sm text-[12px] rounded-full font-semibold">Instant (3 Jam)</span>
+<span class="px-3 py-1 bg-surface-container-high text-on-surface font-body-sm text-[12px] rounded-full">Same Day</span>
+</div>
+</div>
+<div class="bg-surface rounded-lg p-4">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">Zona Tarif</p>
+<p class="font-body-sm text-body-sm text-on-surface">Jabodetabek, Bandung, Surabaya</p>
+</div>
+</div>
+<div class="mt-6 flex gap-2">
+<button class="flex-1 bg-surface-container-low text-on-surface font-label-caps text-[12px] py-2 rounded-full hover:bg-surface-variant transition-colors">Edit</button>
+<button class="flex-1 bg-error-container text-on-error-container font-label-caps text-[12px] py-2 rounded-full hover:bg-error hover:text-on-error transition-colors">Hapus</button>
+</div>
+</article>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 rounded-t-3xl border-t border-pink-100/30 dark:border-zinc-800 shadow-[0_-10px_40px_rgba(255,182,193,0.15)] md:hidden">
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="dashboard">dashboard</span>
+            Dashboard
+        </a>
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="inventory_2">inventory_2</span>
+            Products
+        </a>
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-950/30 dark:to-purple-950/30 text-pink-500 rounded-2xl px-5 py-2 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="local_shipping" data-weight="fill">local_shipping</span>
+            Shipment
+        </a>
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="settings">settings</span>
+            Settings
+        </a>
+</nav>
+</body></html>

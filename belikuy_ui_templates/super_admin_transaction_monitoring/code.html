@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BeliKuy - Transaction Monitoring</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#fcb3be",
+                        "on-secondary-fixed": "#29132c",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-variant": "#e1e3e4",
+                        "primary": "#874e58",
+                        "surface-bright": "#f8f9fa",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#f7ddda",
+                        "surface": "#f8f9fa",
+                        "surface-dim": "#d9dadb",
+                        "outline-variant": "#d6c2c3",
+                        "tertiary-container": "#ddc4c1",
+                        "secondary": "#715572",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#f8f9fa",
+                        "secondary-container": "#f8d5f7",
+                        "on-primary-fixed": "#360c17",
+                        "inverse-surface": "#2e3132",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#ffb6c1",
+                        "on-primary-container": "#7b444e",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#ffd9de",
+                        "on-secondary": "#ffffff",
+                        "outline": "#847375",
+                        "on-tertiary-container": "#63504e",
+                        "primary-fixed-dim": "#fcb3be",
+                        "on-primary-fixed-variant": "#6b3741",
+                        "on-background": "#191c1d",
+                        "tertiary-fixed-dim": "#dac1be",
+                        "on-surface-variant": "#514345",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#583e5a",
+                        "secondary-fixed-dim": "#debcde",
+                        "on-secondary-container": "#755977",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-container-high": "#e7e8e9",
+                        "tertiary": "#6d5a58",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#544341",
+                        "on-surface": "#191c1d",
+                        "on-tertiary-fixed": "#261817",
+                        "surface-tint": "#874e58",
+                        "surface-container": "#edeeef",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed": "#fbd8fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "xl": "48px"
+                    },
+                    "fontFamily": {
+                        "h3": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h3": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "h2": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="h-screen w-64 fixed left-0 top-0 border-r border-r border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-pink-400 dark:text-pink-300 font-['Plus_Jakarta_Sans'] text-sm font-semibold flat no shadows flex flex-col h-full p-4 z-40">
+<div class="mb-8 px-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img alt="Store Logo" class="w-full h-full object-cover" data-alt="A small circular logo placeholder showing a minimalist modern storefront icon in pastel colors, highly detailed, clean lines, representing an online seller identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBpbnHCjRTXI0WfLK9VXW94EpjcfEO0KEwnDlrQWNGKoB49zUQWOLvNtAubCiL3MXgsxNMqQgY0NBcXvfx05OG10g_mnlu0IYVqcCWPpvbKLDxLuA2BG1qzoArw5TpA5SmksE_7YvwhlS4j8Y9KD5_IWMZV3ZKidX0cnfZy6go5B5cSYqED9VWoKL0H4BhnmHpm5fTOXxsjETApDST18YPc8nh3PaouZFZ3r98RLKPiJZMTXwracodId5DuQT7kS6w3RqDx0z2EA"/>
+</div>
+<div>
+<h2 class="text-xl font-bold text-zinc-900 dark:text-white">Seller Center</h2>
+<p class="text-zinc-500 text-xs font-normal">BeliKuy Marketplace</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300 tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+                        Dashboard
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300 tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+                        Products
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 bg-pink-100/50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-300 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300 tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+                        Orders
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300 tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+                        Analytics
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300 tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined text-[20px]">campaign</span>
+                        Marketing
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300 tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+                        Settings
+                    </a>
+</li>
+</ul>
+</div>
+<div class="mt-auto">
+<button class="w-full py-3 px-4 bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container rounded-full font-label-caps text-label-caps hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                Add New Product
+            </button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-64 flex-1 flex flex-col p-lg min-h-screen">
+<!-- Header -->
+<header class="flex justify-between items-center mb-lg">
+<div>
+<h1 class="font-h1 text-h1 text-on-background">Transaction Monitoring</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Super Admin Overview</p>
+</div>
+<button class="px-6 py-3 bg-surface-container-low border border-surface-variant text-on-surface-variant rounded-full font-label-caps text-label-caps hover:bg-surface-bright transition-colors flex items-center gap-2 shadow-[0_4px_15px_rgba(0,0,0,0.05)]">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                Export Excel/CSV
+            </button>
+</header>
+<!-- Filters Grid -->
+<section class="bg-surface-container-lowest rounded-xl p-lg shadow-[0_4px_20px_rgba(255,182,193,0.1)] mb-lg flex flex-col gap-md">
+<h3 class="font-h3 text-h3 text-on-surface mb-sm">Advanced Filters</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Date Range</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">calendar_today</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-bright border-none rounded-lg font-body-sm text-body-sm text-on-surface focus:bg-white focus:ring-2 focus:ring-primary-container transition-all" placeholder="Select dates..." type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Amount Range</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">payments</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-bright border-none rounded-lg font-body-sm text-body-sm text-on-surface focus:bg-white focus:ring-2 focus:ring-primary-container transition-all" placeholder="Min - Max (Rp)" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Specific Seller</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">storefront</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-bright border-none rounded-lg font-body-sm text-body-sm text-on-surface focus:bg-white focus:ring-2 focus:ring-primary-container transition-all" placeholder="Search seller..." type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Specific Buyer</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">person_search</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-bright border-none rounded-lg font-body-sm text-body-sm text-on-surface focus:bg-white focus:ring-2 focus:ring-primary-container transition-all" placeholder="Search buyer..." type="text"/>
+</div>
+</div>
+</div>
+<div class="flex justify-end mt-sm">
+<button class="px-6 py-2 bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container rounded-full font-label-caps text-label-caps hover:shadow-lg transition-all duration-300">
+                    Apply Filters
+                </button>
+</div>
+</section>
+<!-- Data Table -->
+<section class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(255,182,193,0.1)] flex-1 overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-surface-variant bg-surface-bright">
+<th class="p-md font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Order ID</th>
+<th class="p-md font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Date</th>
+<th class="p-md font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Buyer</th>
+<th class="p-md font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Seller</th>
+<th class="p-md font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Total Amount</th>
+<th class="p-md font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="p-md font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface">
+<!-- Row 1 -->
+<tr class="border-b border-surface-variant hover:bg-surface-bright transition-colors group cursor-pointer">
+<td class="p-md font-semibold text-primary">#ORD-001</td>
+<td class="p-md text-on-surface-variant">24 Oct 2023, 14:30</td>
+<td class="p-md">Budi Santoso</td>
+<td class="p-md">Toko Kawaii ID</td>
+<td class="p-md font-semibold text-on-background">Rp 450.000</td>
+<td class="p-md">
+<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded-full font-label-caps text-[10px]">Processing</span>
+</td>
+<td class="p-md text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-surface-variant hover:bg-surface-bright transition-colors group cursor-pointer">
+<td class="p-md font-semibold text-primary">#ORD-002</td>
+<td class="p-md text-on-surface-variant">24 Oct 2023, 11:15</td>
+<td class="p-md">Siti Aminah</td>
+<td class="p-md">Gadget Murah</td>
+<td class="p-md font-semibold text-on-background">Rp 1.250.000</td>
+<td class="p-md">
+<span class="px-3 py-1 bg-surface-variant text-on-surface-variant rounded-full font-label-caps text-[10px]">Completed</span>
+</td>
+<td class="p-md text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-surface-variant hover:bg-surface-bright transition-colors group cursor-pointer">
+<td class="p-md font-semibold text-primary">#ORD-003</td>
+<td class="p-md text-on-surface-variant">23 Oct 2023, 09:45</td>
+<td class="p-md">Andi Wijaya</td>
+<td class="p-md">Fashion Trends</td>
+<td class="p-md font-semibold text-on-background">Rp 275.000</td>
+<td class="p-md">
+<span class="px-3 py-1 bg-error-container text-on-error-container rounded-full font-label-caps text-[10px]">Cancelled</span>
+</td>
+<td class="p-md text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md border-t border-surface-variant flex justify-between items-center text-on-surface-variant font-body-sm text-body-sm">
+<span>Showing 1 to 10 of 256 entries</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-surface-bright transition-colors disabled:opacity-50"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-primary-container text-on-primary-container font-semibold">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-surface-bright transition-colors">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-surface-bright transition-colors"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+</section>
+</main>
+</body></html>

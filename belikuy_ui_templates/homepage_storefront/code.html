@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BeliKuy - Minimalist Kawaii Storefront</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#fcb3be",
+                        "on-secondary-fixed": "#29132c",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-variant": "#e1e3e4",
+                        "primary": "#874e58",
+                        "surface-bright": "#f8f9fa",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#f7ddda",
+                        "surface": "#f8f9fa",
+                        "surface-dim": "#d9dadb",
+                        "outline-variant": "#d6c2c3",
+                        "tertiary-container": "#ddc4c1",
+                        "secondary": "#715572",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#f8f9fa",
+                        "secondary-container": "#f8d5f7",
+                        "on-primary-fixed": "#360c17",
+                        "inverse-surface": "#2e3132",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#ffb6c1",
+                        "on-primary-container": "#7b444e",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#ffd9de",
+                        "on-secondary": "#ffffff",
+                        "outline": "#847375",
+                        "on-tertiary-container": "#63504e",
+                        "primary-fixed-dim": "#fcb3be",
+                        "on-primary-fixed-variant": "#6b3741",
+                        "on-background": "#191c1d",
+                        "tertiary-fixed-dim": "#dac1be",
+                        "on-surface-variant": "#514345",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#583e5a",
+                        "secondary-fixed-dim": "#debcde",
+                        "on-secondary-container": "#755977",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-container-high": "#e7e8e9",
+                        "tertiary": "#6d5a58",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#544341",
+                        "on-surface": "#191c1d",
+                        "on-tertiary-fixed": "#261817",
+                        "surface-tint": "#874e58",
+                        "surface-container": "#edeeef",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed": "#fbd8fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "xl": "48px"
+                    },
+                    "fontFamily": {
+                        "h3": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h3": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "h2": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .shadow-glow {
+            box-shadow: 0 8px 30px rgba(255, 182, 193, 0.2);
+        }
+        .shadow-glow-hover:hover {
+            box-shadow: 0 12px 40px rgba(255, 182, 193, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-surface-container-lowest text-on-surface font-body-md min-h-screen pt-[72px] pb-[80px] md:pb-0">
+<!-- TopNavBar (Web) -->
+<header class="hidden md:flex bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-pink-50/50 dark:border-zinc-800/50 shadow-[0_8px_30px_rgb(255,182,193,0.1)]">
+<div class="flex justify-between items-center px-6 py-3 max-w-[1200px] w-full mx-auto">
+<!-- Logo -->
+<a class="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-500 font-h2" href="#">BeliKuy</a>
+<!-- Navigation -->
+<nav class="flex gap-8 items-center font-['Plus_Jakarta_Sans'] text-sm font-medium">
+<a class="text-pink-500 dark:text-pink-300 font-bold border-b-2 border-pink-400 pb-1" href="#">Categories</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-pink-400 transition-colors duration-200" href="#">Flash Sale</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-pink-400 transition-colors duration-200" href="#">Brands</a>
+</nav>
+<!-- Search Bar -->
+<div class="flex-1 max-w-md mx-8">
+<div class="relative flex items-center w-full h-10 rounded-full focus-within:shadow-[0_0_0_2px_rgba(255,182,193,0.5)] bg-surface-bright overflow-hidden">
+<div class="grid place-items-center h-full w-12 text-outline">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="peer h-full w-full outline-none text-sm text-on-surface bg-transparent pr-2 font-body-sm" id="search" placeholder="Search aesthetic items..." type="text"/>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-4 text-pink-400 dark:text-pink-300">
+<button class="active:scale-95 transition-transform hover:text-pink-500 p-2 rounded-full hover:bg-primary-fixed">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<button class="active:scale-95 transition-transform hover:text-pink-500 p-2 rounded-full hover:bg-primary-fixed">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="h-9 w-9 rounded-full overflow-hidden border-2 border-primary-fixed ml-2 active:scale-95 transition-transform">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A small circular avatar showing a stylish young woman with a soft pastel background, matching the overall kawaii-chic aesthetic of the site." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCk6UO_1SMsWPIFOWEx08NWQO-0AsxUyugBqO-7RkTzC0lUUSlkjx3aCENqnfsJX5_d8llW3me2xtNnMdedOZ-3jbAzE2bAkzlfyxwv3-yMPUFIUGfdlBoPuleU9nPJcdPS7unmfwgj7Gfx5oUKSxIdjFFPq1M9jMDVhodo1Mx7KvDB3mSiA3WJF69zT_I5wz9BGN8HuysLea789O74nE3LmDpNTzaGvNa6Kb8gHY5c-Ps8Vk1MkNtqy7-snEFgyB3iXUs-qq5DpA"/>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="max-w-[1200px] mx-auto px-4 md:px-6 py-6 md:py-8 flex flex-col gap-xl">
+<!-- Hero Banner -->
+<section class="relative w-full h-[250px] md:h-[400px] rounded-[32px] overflow-hidden shadow-glow bg-gradient-to-br from-pink-100 via-purple-50 to-pink-50 flex items-center">
+<div class="absolute inset-0 bg-gradient-to-r from-white/60 to-transparent z-10 pointer-events-none"></div>
+<div class="relative z-20 px-8 md:px-16 max-w-lg">
+<span class="inline-block px-4 py-1.5 bg-white/80 backdrop-blur-sm rounded-full text-primary font-label-caps text-label-caps mb-4 shadow-sm">Limited Time Offer</span>
+<h1 class="font-h1 text-h1 text-on-surface mb-4">Flash Sale 50%</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">Discover aesthetic finds for your cozy space. Handpicked curations just for you.</p>
+<button class="bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-label-caps text-label-caps px-8 py-4 rounded-full shadow-glow hover:shadow-glow-hover transition-all duration-300 active:scale-95">Shop Now</button>
+</div>
+<!-- Decorative image element (could be a graphic, using an img tag for prompt) -->
+<img alt="Hero Illustration" class="absolute right-0 bottom-0 h-full w-1/2 object-cover object-left opacity-80 mix-blend-multiply" data-alt="A soft, pastel-toned abstract arrangement of aesthetic objects like a ceramic mug, a small succulent, and soft fabric folds. The lighting is bright and dreamy, utilizing a color palette of blush pinks, soft lavenders, and creamy whites, evoking a calm, kawaii-chic mood perfect for a modern lifestyle brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCQPf80jgmc7sGBL8fp1H8GlUNSMWeP2ixyVs4bRw2p70Rd7gJOgt-pjLlnckJpb2kl_A3FbxcETWYsCxqtPEsDq8PTSetFXt7ufnHjZ-PUEF2Bvd9ErL8pjNtaPWVzIToRdYl9MFcrtanl4uM9z0WEJnWIFIzWjOGDckXJ6m7cmMiJL4rcyzBp6WZbnNskPkxvM-wfU_N3h9Q2WGE8pkl68B5qHJlbhIx7xcXAhqbopDw9VpmTmqigaqKTqQArZ5uua2jpiZacg"/>
+</section>
+<!-- Category Section -->
+<section class="flex flex-col gap-md">
+<h2 class="font-h2 text-h3 text-on-surface mb-2">Explore Categories</h2>
+<div class="flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory scrollbar-hide">
+<!-- Fashion -->
+<a class="snap-start flex flex-col items-center gap-3 min-w-[100px] group" href="#">
+<div class="w-16 h-16 rounded-2xl bg-surface-bright shadow-glow group-hover:-translate-y-1 transition-all duration-300 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[32px] font-light" style="font-variation-settings: 'wght' 200;">checkroom</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary transition-colors">Fashion</span>
+</a>
+<!-- Electronics -->
+<a class="snap-start flex flex-col items-center gap-3 min-w-[100px] group" href="#">
+<div class="w-16 h-16 rounded-2xl bg-surface-bright shadow-glow group-hover:-translate-y-1 transition-all duration-300 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[32px] font-light" style="font-variation-settings: 'wght' 200;">devices</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary transition-colors">Electronics</span>
+</a>
+<!-- Home -->
+<a class="snap-start flex flex-col items-center gap-3 min-w-[100px] group" href="#">
+<div class="w-16 h-16 rounded-2xl bg-surface-bright shadow-glow group-hover:-translate-y-1 transition-all duration-300 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[32px] font-light" style="font-variation-settings: 'wght' 200;">home</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary transition-colors">Home</span>
+</a>
+<!-- Beauty -->
+<a class="snap-start flex flex-col items-center gap-3 min-w-[100px] group" href="#">
+<div class="w-16 h-16 rounded-2xl bg-surface-bright shadow-glow group-hover:-translate-y-1 transition-all duration-300 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[32px] font-light" style="font-variation-settings: 'wght' 200;">face_retouching_natural</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary transition-colors">Beauty</span>
+</a>
+<!-- Food -->
+<a class="snap-start flex flex-col items-center gap-3 min-w-[100px] group" href="#">
+<div class="w-16 h-16 rounded-2xl bg-surface-bright shadow-glow group-hover:-translate-y-1 transition-all duration-300 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[32px] font-light" style="font-variation-settings: 'wght' 200;">restaurant</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary transition-colors">Food</span>
+</a>
+</div>
+</section>
+<!-- Trending Stores (Small Avatars) -->
+<section class="flex flex-col gap-md">
+<div class="flex justify-between items-end">
+<h2 class="font-h2 text-h3 text-on-surface">Trending Boutiques</h2>
+<a class="font-label-caps text-label-caps text-primary hover:underline" href="#">View All</a>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory">
+<div class="snap-start flex flex-col items-center gap-2 min-w-[80px]">
+<div class="w-14 h-14 rounded-full p-1 border-2 border-primary-fixed">
+<img alt="Store 1" class="w-full h-full object-cover rounded-full" data-alt="A minimalist logo or storefront image featuring clean typography and soft beige and pink tones, representing a high-end kawaii boutique." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPriXjTZW-94tCDWHABnL-4TV0P-P_azh4kku1WvIMFbNbCUdTfao_HXpXJGaJmcKsjoAgCI7YT45oyuARim0dWSl3l4aPXN8RuFRCqm3v6K80i8W4J429ItQorj_DwnlYngpDBAN6VcHHP-4mfAvXNgFheD2-En4_GwKuYpvBN9Z8PsmeLbVfDfxBV9gEP8EJzowN9BU4I1oEWRd7115dybDbZImQ8RFBp0yzpxnEWT2UOoBJKnFf2Cnj0ceeeZdLvKUz2BUuVg"/>
+</div>
+<span class="font-body-sm text-[12px] text-on-surface-variant text-center leading-tight">Pastel Co.</span>
+</div>
+<div class="snap-start flex flex-col items-center gap-2 min-w-[80px]">
+<div class="w-14 h-14 rounded-full p-1 border-2 border-transparent">
+<img alt="Store 2" class="w-full h-full object-cover rounded-full" data-alt="A soft focus image of a curated display of minimalist stationery, with warm sunlight highlighting the soft textures and pastel colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlK9BW6ZatcjqSfKRqh-VJR_n-I6spd5LYLkEFYIE78RClGX2CM9nXLlHWkFobsGF1v7RFWj0Wz4M5rZY9jcIH7U69R_uzkJ4B4nV0vRqF-u2jP0YqLzYT-zbfDfgh0lAs8oOK5SfCSBT6TET9QeOLGOt4TsP5Em3l_THhGJJjpwMU0x6gMQAGQV4b2VKulmqn_mh25sMu418G1nSBdisNu12w_iZKeD37vrMAzIDLppeK4SO0PwYUYM42EGp6xcExU-BcYSUdXw"/>
+</div>
+<span class="font-body-sm text-[12px] text-on-surface-variant text-center leading-tight">Muji Vibes</span>
+</div>
+<div class="snap-start flex flex-col items-center gap-2 min-w-[80px]">
+<div class="w-14 h-14 rounded-full p-1 border-2 border-transparent">
+<img alt="Store 3" class="w-full h-full object-cover rounded-full" data-alt="A close-up of a delicate ceramic vase with dry flowers, set against a pristine white background with soft, diffused lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDD-VlXrtI1aTRS0KV-ZLqLohkW83hmbdEf2DOIP2SmcjONTd9o9HO3cK-plHZJ3v4lM0qxhbHlG50yNtHyIuELXJRG7HhNrCuZPe-trULB0UIukNzYEmA3HTGER4KZ2thfw8pzfJOmNVwbmSYDD8KeaD6rYh_Si07z2MYmw2rvXiK5STFLMKABqm22gYTwOCepnU7k73GpR8YNML6CgcDdBJmQpvax3yvUkTRwiZOhN07AnQ4KQaeX13IL_L_bud1TsU_-Jtylfg"/>
+</div>
+<span class="font-body-sm text-[12px] text-on-surface-variant text-center leading-tight">Ceramic Haven</span>
+</div>
+</div>
+</section>
+<!-- Featured Products (Bento/Grid) -->
+<section class="flex flex-col gap-lg">
+<div class="flex justify-between items-end">
+<h2 class="font-h2 text-h2 text-on-surface">Curated Picks</h2>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<!-- Product Card 1 -->
+<div class="group flex flex-col bg-surface-container-lowest rounded-2xl shadow-glow hover:shadow-glow-hover transition-all duration-300 p-3">
+<div class="relative aspect-square rounded-xl overflow-hidden mb-3 bg-surface-bright">
+<img alt="Aesthetic Mug" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A beautifully crafted, hand-thrown ceramic mug with a speckled cream glaze and a thick, chunky handle. It sits on a smooth, pale pink surface bathed in soft, natural window light, creating gentle shadows. The mood is serene, minimalist, and perfectly aligned with a cozy, kawaii-chic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2o69vZVT7Gy_m4kUl_EVOGK86RJ3ix3TWZng9cK8G4xerhnvWGHnyeQmsg27UCWiJCt8-i-czid1FjHEAVIHcQv58LjjPw3nMDO7cvYap4Zy3gHiG8Y4gWQYkoxbWnczCrhakeao_3KsTlAVeyL17IbBO_2YGmHwiUvu-akeoYFNrJtSDYOm57xSoKzq-CovBAXDJaLkThRmIpKjWEWtEyXLWeHwICiIyzoSeb2lz4zTfvsz7I1ImjvOmrgVaqK9hIU_OGsIVNQ"/>
+<button class="absolute top-2 right-2 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="px-1 flex flex-col gap-1 flex-1">
+<h3 class="font-body-md text-body-sm font-medium text-on-surface line-clamp-2">Chunky Ceramic Cloud Mug</h3>
+<div class="flex items-center gap-1 mt-auto pt-2">
+<span class="font-h3 text-body-md text-primary">$24.00</span>
+<div class="ml-auto flex items-center text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-yellow-400 mr-0.5" style="font-variation-settings: 'FILL' 1;">star</span>
+                                4.9
+                            </div>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group flex flex-col bg-surface-container-lowest rounded-2xl shadow-glow hover:shadow-glow-hover transition-all duration-300 p-3">
+<div class="relative aspect-square rounded-xl overflow-hidden mb-3 bg-surface-bright">
+<img alt="Minimalist Keyboard" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek, pastel-colored mechanical keyboard with round, typewriter-style keys in shades of marshmallow pink and white. It is positioned on a clean, light wood desk surface beside a small succulent. The lighting is bright and airy, emphasizing the soft curves and minimalist design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-AELAnIQLIKlKDWSI-bn8occacIMhKk6rr7SkD-_qE8ZB-PhG80CI8tZcp7zSX1ixkEF4eZiu13WzYwShctpLtNG4dY4wGKu0d8vBd20FErOt3zlygxjYgLQx3QR8IV2H8xRCgvtnDKdIIlhL1ZPp0b6BquCK9nZ9UM-IFeHQdpDbYIdSJ2NuQTVD7_cVrbwG7Y1xQ93y4yUVtcczluNrLRBV8XK7WvTAhTKtByjbxtDzeEzP-Cu9-iqOmMWLxYenMtDwX4J2xg"/>
+<button class="absolute top-2 right-2 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="px-1 flex flex-col gap-1 flex-1">
+<h3 class="font-body-md text-body-sm font-medium text-on-surface line-clamp-2">Pastel Mechanical Keyboard</h3>
+<div class="flex items-center gap-1 mt-auto pt-2">
+<span class="font-h3 text-body-md text-primary">$89.00</span>
+<div class="ml-auto flex items-center text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-yellow-400 mr-0.5" style="font-variation-settings: 'FILL' 1;">star</span>
+                                4.8
+                            </div>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="group flex flex-col bg-surface-container-lowest rounded-2xl shadow-glow hover:shadow-glow-hover transition-all duration-300 p-3">
+<div class="relative aspect-square rounded-xl overflow-hidden mb-3 bg-surface-bright">
+<span class="absolute top-2 left-2 bg-inverse-primary text-on-primary-container text-[10px] font-label-caps px-2 py-1 rounded-full z-10">Sale</span>
+<img alt="Scented Candle" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A minimalist, frosted glass scented candle with a simple, elegant label sitting on a soft white linen cloth. Delicate shadows are cast by gentle, warm sunlight streaming through a nearby window. The overall tone is tranquil, soft, and inviting, fitting a luxury pastel lifestyle brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrWpxt1oKDdQ-n1PnIOCA6_Y6dcUaKS0QsvzTzHln7e6JkkA3H4L73QUtPEFkLrlAJ869TsHL_o39OyAAaU8_SWF9POcd_46--9iq0YaLB7iEcqLKC6KUNU6T8rXGewhIEGMaPfxwWwetuxoH06MuvTg7I-6ZMU59QbYW-Sqnf8WOS4uBQ6FkQOiBWxk7pVt37Ecf8gL1lSBH-knAukLVqbC1d8O5fHXzSsQ0-e0ahaVcsvUjbBxA-7d_PtKpVqW-h3PTthBJT2g"/>
+<button class="absolute top-2 right-2 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-outline hover:text-primary transition-colors z-10">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="px-1 flex flex-col gap-1 flex-1">
+<h3 class="font-body-md text-body-sm font-medium text-on-surface line-clamp-2">Vanilla Bean Dream Candle</h3>
+<div class="flex items-center gap-1 mt-auto pt-2">
+<span class="font-h3 text-body-md text-primary">$18.00</span>
+<span class="text-xs text-outline line-through">$24.00</span>
+<div class="ml-auto flex items-center text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-yellow-400 mr-0.5" style="font-variation-settings: 'FILL' 1;">star</span>
+                                5.0
+                            </div>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="group flex flex-col bg-surface-container-lowest rounded-2xl shadow-glow hover:shadow-glow-hover transition-all duration-300 p-3">
+<div class="relative aspect-square rounded-xl overflow-hidden mb-3 bg-surface-bright">
+<img alt="Ribbon Hair Clip" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A delicate, oversized silk ribbon hair clip in a soft lavender color, resting on a white marble surface. The fabric catches the light gracefully, highlighting its premium texture. The setting is clean, bright, and romantic, perfectly capturing the kawaii-chic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDF9oYCSboT5J_bOLJheefoLKPozjdIQ0utzbA7UxqGC1n3MlNo5jBAVhN5VKoZ7KlJQFdQ1yaDuxzQQD6jduuZwbzj0PlBmKFzx7DAbs-wxJl4rtI8iSALZAeUCywRQWKGf4LCDesavDSO0eNCG07lhcVmXGFVIOIPVxzGvcyRMr71uMLdcpCOzndmpD4621WCrMN8dSYD26RZBjkLPGB_zi8f1Cz0ZABV0J3ULsqZiyiQY7RC6-6_zwTgihBnpVQpWA3odKPqgA"/>
+<button class="absolute top-2 right-2 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="px-1 flex flex-col gap-1 flex-1">
+<h3 class="font-body-md text-body-sm font-medium text-on-surface line-clamp-2">Silk Ribbon Hair Clip</h3>
+<div class="flex items-center gap-1 mt-auto pt-2">
+<span class="font-h3 text-body-md text-primary">$12.00</span>
+<div class="ml-auto flex items-center text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-yellow-400 mr-0.5" style="font-variation-settings: 'FILL' 1;">star</span>
+                                4.7
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom padding for mobile nav -->
+<div class="h-24 md:hidden"></div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl fixed bottom-0 w-full rounded-t-3xl border-t border-t border-pink-100/30 dark:border-zinc-800 shadow-[0_-10px_40px_rgba(255,182,193,0.15)] fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-950/30 dark:to-purple-950/30 text-pink-500 rounded-2xl px-5 py-2 scale-110 duration-500 ease-out font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">home</span>
+            Home
+        </a>
+<!-- Wishlist -->
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined mb-1">favorite</span>
+            Wishlist
+        </a>
+<!-- Orders -->
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined mb-1">receipt_long</span>
+            Orders
+        </a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+            Profile
+        </a>
+</nav>
+</body></html>

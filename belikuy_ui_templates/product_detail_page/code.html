@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BeliKuy - Product Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#fcb3be",
+                        "on-secondary-fixed": "#29132c",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-variant": "#e1e3e4",
+                        "primary": "#874e58",
+                        "surface-bright": "#f8f9fa",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#f7ddda",
+                        "surface": "#f8f9fa",
+                        "surface-dim": "#d9dadb",
+                        "outline-variant": "#d6c2c3",
+                        "tertiary-container": "#ddc4c1",
+                        "secondary": "#715572",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#f8f9fa",
+                        "secondary-container": "#f8d5f7",
+                        "on-primary-fixed": "#360c17",
+                        "inverse-surface": "#2e3132",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#ffb6c1",
+                        "on-primary-container": "#7b444e",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#ffd9de",
+                        "on-secondary": "#ffffff",
+                        "outline": "#847375",
+                        "on-tertiary-container": "#63504e",
+                        "primary-fixed-dim": "#fcb3be",
+                        "on-primary-fixed-variant": "#6b3741",
+                        "on-background": "#191c1d",
+                        "tertiary-fixed-dim": "#dac1be",
+                        "on-surface-variant": "#514345",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#583e5a",
+                        "secondary-fixed-dim": "#debcde",
+                        "on-secondary-container": "#755977",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-container-high": "#e7e8e9",
+                        "tertiary": "#6d5a58",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#544341",
+                        "on-surface": "#191c1d",
+                        "on-tertiary-fixed": "#261817",
+                        "surface-tint": "#874e58",
+                        "surface-container": "#edeeef",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed": "#fbd8fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "xl": "48px"
+                    },
+                    "fontFamily": {
+                        "h3": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h3": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "h2": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Soft Neomorphism Shadows */
+        .shadow-glow {
+            box-shadow: 0 10px 30px rgba(255, 182, 193, 0.15);
+        }
+        .shadow-glow-hover:hover {
+            box-shadow: 0 15px 40px rgba(255, 182, 193, 0.25);
+        }
+        .shadow-subtle {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+        
+        /* Hide scrollbar for horizontal scrolling areas */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen pb-24 md:pb-0 pt-20 md:pt-24">
+<!-- TopNavBar -->
+<nav class="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md font-['Plus_Jakarta_Sans'] text-sm font-medium fixed top-0 w-full z-50 border-b border-pink-50/50 dark:border-zinc-800/50 shadow-[0_8px_30px_rgb(255,182,193,0.1)] active:scale-95 transition-transform hidden md:block">
+<div class="flex justify-between items-center px-6 py-3 max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<a class="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-500" href="#">
+                    BeliKuy
+                </a>
+<div class="hidden lg:flex items-center gap-6">
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-pink-400 transition-colors duration-200" href="#">Categories</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-pink-400 transition-colors duration-200" href="#">Flash Sale</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-pink-400 transition-colors duration-200" href="#">Brands</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-bright border-none rounded-full focus:ring-2 focus:ring-primary-container focus:bg-white transition-all shadow-subtle w-64 text-sm outline-none text-on-surface" placeholder="Search kawaii products..." type="text"/>
+</div>
+<button class="p-2 text-pink-400 dark:text-pink-300 hover:text-pink-500 hover:bg-pink-50 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-pink-400 dark:text-pink-300 hover:text-pink-500 hover:bg-pink-50 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<img alt="User profile" class="w-8 h-8 rounded-full object-cover border-2 border-primary-container" data-alt="A close-up portrait of a young woman with a soft, natural smile. The lighting is bright and airy, perfectly matching the kawaii-chic aesthetic. The background is a soft, blurred pastel color. The overall vibe is friendly, approachable, and premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvhfvEE3TDiLgWmFDPt2JbBdWK0yPO6jFwkqYHLRN_TfHlgJllbULcGqYgnemM2WbpfyHmqb34abmDr5oOCBkq24Ae4yF_l6l4W11LARjhydUAsKQHuoEceJotuNU2_oz-MxCUZnAxdUIvM6noaA4SbgxYVLyEhhiQxjkmkZhfm0yfF6UrFHv90AcKsw1qScKaIc8_Uajl-QWRIApUsr7MHRqk_R_nyjJxcNGzvJDiJO6hGpJ75QIFOxh67RSgqGtE1TN7njufDQ"/>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-lg">
+<!-- Breadcrumb -->
+<div class="flex items-center gap-2 text-body-sm text-on-surface-variant mb-6 font-body-sm">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Categories</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Accessories</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-on-surface font-medium">Cloud Soft Crossbody Bag</span>
+</div>
+<!-- Product Presentation Container -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+<!-- Left Side: Image Gallery (Visual First, Airy) -->
+<div class="flex flex-col gap-4">
+<!-- Main Image -->
+<div class="bg-surface-container-lowest rounded-[24px] aspect-square overflow-hidden shadow-glow relative group">
+<button class="absolute top-4 right-4 z-10 p-3 bg-white/80 backdrop-blur-sm rounded-full text-outline hover:text-error hover:bg-error-container transition-all shadow-subtle">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+<img alt="Cloud Soft Crossbody Bag Main" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-in-out" data-alt="A high-quality, perfectly lit studio shot of a plush, cloud-shaped crossbody bag in a soft pastel pink color. The bag is placed on a pristine white surface with a very subtle, diffused shadow beneath it, emphasizing the soft-neomorphism aesthetic. The background is clean and slightly off-white to make the product pop. The overall mood is soft, tactile, and highly curated." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5ZqVFryS4LtD-vd0--GgI2UxFy0J3s8qfGLy9R-vTxuHP7DDNWjIA5HFVPUAgHoDryMg1A1DPLsh2PCTjAuCob2Rxq9RtRqHTWU00SqBg5C3qlhl8tXc22t0wNsrgxENHLO76i5k4uQIkI1sn8vv8Zx6FY6sWuB0sSHj8RYvd4dVNfXy6m2zKDuu0GT7KF7XxpZ4t5ygRpoK6sFV6Tz_G_rLmCK8Hhzj8KkdD_KYrxLYbq7ZvQnkRvInpOxTDiQ1rYekhGIItwA"/>
+</div>
+<!-- Thumbnails -->
+<div class="grid grid-cols-4 gap-4">
+<button class="bg-surface-container-lowest rounded-xl aspect-square overflow-hidden border-2 border-primary-container shadow-subtle">
+<img alt="Thumbnail 1" class="w-full h-full object-cover" data-alt="A close-up shot focusing on the delicate gold zipper and soft texture of the pastel pink cloud-shaped bag. Soft, warm lighting highlights the material's premium feel. The background is a completely smooth, airy white space." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqWIIvALNqIkHMnFmZRmeZG4Lw71sXKpkVhCiUJ1hilBLeR36v_H9SySWnndyXXEUqG4DhOjSYxttoB9MtNj-RjA8rcHBFkAay858CxznZl8v6e0FVkZVEkYkzYlkG3ZEtiTddHGi01afJRC7lvFghGtn0S9OW4lvep0u3UVc9CqrRJMqcc6qJbKKcxlE5hH7myONHPZpu9VvFyj11zXMU9Zvm_Y3WyM1oCj5ekYFNL5dEoz8Jb2YjW9z6Ei0_MWVNCIkeh-yCBA"/>
+</button>
+<button class="bg-surface-container-lowest rounded-xl aspect-square overflow-hidden border-2 border-transparent hover:border-outline-variant opacity-70 hover:opacity-100 transition-all shadow-subtle">
+<img alt="Thumbnail 2" class="w-full h-full object-cover" data-alt="A lifestyle shot showing the cloud bag worn by a model in a light-filled, minimalist room. The model wears neutral tones to let the pastel pink bag stand out. The lighting is soft and natural, contributing to the kawaii-chic vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2KzTzcbaeresA86BsCK0h3f8MbNQsN7dMqBcY83h77ur-jBHaBHiH-qu0ujMuY3Hqd1q_JlWnNJRSARCShpnOuZpztd6xHbDXyn-FgjEK4Ucc2zuWvNygnyD8UeM2M95PiPbFJI5VFDUFKMfllgtc1rReDtrFrNhwDs35TxkqQ-I_C-DnYDKaiMmTPXj5VyzH0nb9dZmKDdaYV2QUGmUuJpdBE2F4iAUs_RAu_6-VCir2F_CAfWXooDEFdXw-A0TkJDCt0l1_Kw"/>
+</button>
+<button class="bg-surface-container-lowest rounded-xl aspect-square overflow-hidden border-2 border-transparent hover:border-outline-variant opacity-70 hover:opacity-100 transition-all shadow-subtle">
+<img alt="Thumbnail 3" class="w-full h-full object-cover" data-alt="An open view of the pastel pink cloud bag, revealing its perfectly organized, light cream interior lining. Small, cute accessories are neatly arranged inside. The lighting is bright and emphasizes the clean, functional design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQJeRE_sw6C60b0usaBNfsg2jMYKKNaYP2VWGYxfdr3QuM9AgEOVgGn9BinTKvIeLORFmjVGBgrb8gkdSjiCD840H0LBAsEvtAAOYnjSl6gLMPpaQ-Sr3DhjrWiVaMSA1HEYSPM00vvyHbKtk9vnHPxeaUJQ5UljnUyn95lusoSJCB1o4JLL4CZXDEHFm21ybzlUqUJnDqq9XkULkngEli1YNS2wx3wTbjP24d8VW_IxhOpQFApQc0pjCovr3NDvDMLT5pgXHudA"/>
+</button>
+<button class="bg-surface-container-lowest rounded-xl aspect-square overflow-hidden border-2 border-transparent hover:border-outline-variant opacity-70 hover:opacity-100 transition-all shadow-subtle relative flex items-center justify-center">
+<img alt="Thumbnail 4" class="w-full h-full object-cover" data-alt="The back view of the cloud bag, showing the precise stitching and the adjustable strap attachment. Shot against a soft, creamy background with a gentle gradient to pure white. The mood is calm and detail-oriented." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9SL6mHajvaybjKgErBnb_J1G84R8I1rmSJ7oQSnJYGdwZmBhA06cTidmRZQKqDiQkWWp3AKuY7VQDSQIYHWL5xfdnlso0-Pxp7QlYuUpNciC63RcxQIwUCOrJngInaymScKU4TF0La7TUwZG1kKy_vb8jHKFCjpOswzORh0rm4aFiM9UAK-6upY3Kh6db4PBS9g_C-jEqrxvk8i-jf136wmTv6csJL5iIS6iTtKn5A9vq0aTEcfJeZ8z2EXIhetNFjFTY-fRp-Q"/>
+<div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+<span class="text-white font-h3 text-h3">+3</span>
+</div>
+</button>
+</div>
+</div>
+<!-- Right Side: Product Details & Actions -->
+<div class="flex flex-col">
+<!-- Title & Badges -->
+<div class="mb-4 flex gap-2">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container font-label-caps text-label-caps rounded-full">BEST SELLER</span>
+<span class="px-3 py-1 bg-surface-container text-on-surface-variant font-label-caps text-label-caps rounded-full">NEW ARRIVAL</span>
+</div>
+<h1 class="font-h1 text-h1 text-on-background mb-2">Cloud Soft Crossbody Bag</h1>
+<!-- Rating -->
+<div class="flex items-center gap-4 mb-6">
+<div class="flex items-center text-yellow-400">
+<span class="material-symbols-outlined icon-fill">star</span>
+<span class="material-symbols-outlined icon-fill">star</span>
+<span class="material-symbols-outlined icon-fill">star</span>
+<span class="material-symbols-outlined icon-fill">star</span>
+<span class="material-symbols-outlined">star_half</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface font-semibold">4.9</span>
+<span class="text-outline-variant">|</span>
+<a class="font-body-sm text-body-sm text-primary hover:underline" href="#">1,284 Reviews</a>
+<span class="text-outline-variant">|</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">3k+ sold</span>
+</div>
+<!-- Price -->
+<div class="mb-8">
+<div class="flex items-end gap-3">
+<span class="font-h2 text-h2 text-on-primary-container font-bold">$45.00</span>
+<span class="font-body-lg text-body-lg text-outline line-through mb-1">$65.00</span>
+<span class="font-label-caps text-label-caps text-error bg-error-container px-2 py-1 rounded mb-1">-30%</span>
+</div>
+</div>
+<!-- Description Snippet -->
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 leading-relaxed">
+                    Elevate your everyday cute with our signature Cloud Soft Crossbody. Crafted from premium, ultra-soft vegan leather that feels like a marshmallow. Features a surprisingly spacious interior, adjustable strap, and our custom golden star zipper pull.
+                </p>
+<!-- Selectors Container (Glassmorphism card vibe) -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-subtle mb-8 border border-surface-variant/50">
+<!-- Color Selection -->
+<div class="mb-6">
+<div class="flex justify-between items-center mb-3">
+<span class="font-h3 text-[16px] text-on-surface">Color</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Selected: <span class="text-on-surface font-medium">Pastel Pink</span></span>
+</div>
+<div class="flex gap-3">
+<button class="w-10 h-10 rounded-full bg-[#FFD1DC] ring-2 ring-primary-container ring-offset-2 ring-offset-surface-container-lowest transition-all shadow-sm"></button>
+<button class="w-10 h-10 rounded-full bg-[#E0BBE4] hover:ring-2 hover:ring-outline-variant hover:ring-offset-2 transition-all shadow-sm"></button>
+<button class="w-10 h-10 rounded-full bg-[#FFFFB5] hover:ring-2 hover:ring-outline-variant hover:ring-offset-2 transition-all shadow-sm"></button>
+<button class="w-10 h-10 rounded-full bg-[#F5F5F5] hover:ring-2 hover:ring-outline-variant hover:ring-offset-2 transition-all shadow-sm"></button>
+</div>
+</div>
+<!-- Quantity -->
+<div>
+<span class="font-h3 text-[16px] text-on-surface block mb-3">Quantity</span>
+<div class="flex items-center gap-4">
+<div class="flex items-center bg-surface-bright rounded-full p-1 shadow-inner border border-surface-variant/50">
+<button class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-white hover:shadow-subtle transition-all">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="w-12 text-center font-body-md text-body-md font-medium text-on-surface">1</span>
+<button class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-white hover:shadow-subtle transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Only 12 left in stock!</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex flex-col sm:flex-row gap-4 mb-10">
+<button class="flex-1 py-4 px-6 rounded-full bg-surface-bright text-on-surface-variant font-label-caps text-label-caps border border-surface-variant hover:bg-white hover:shadow-subtle transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+<button class="flex-1 py-4 px-6 rounded-full bg-gradient-to-r from-primary-container to-inverse-primary text-on-primary-container font-label-caps text-label-caps shadow-glow shadow-glow-hover transition-all flex items-center justify-center gap-2">
+                        Buy Now
+                    </button>
+</div>
+<!-- Store Info Card -->
+<div class="bg-surface-container-lowest rounded-2xl p-5 shadow-subtle border border-surface-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<img alt="Store Logo" class="w-14 h-14 rounded-full object-cover border border-surface-variant" data-alt="A clean, minimalist logo of a boutique store featuring a stylized, cute cloud icon in pastel colors against a pure white background. The aesthetic is modern, approachable, and aligns perfectly with the kawaii-chic theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjC8PfEtVCVnT4XZpCqEXpewx7nTxzIbHUirbB9hFo8Q6CJGRoM0oWT-nI2XCx4dy0LJaItRq34-YfxJczoSQaivAuNm5lD5ODC0dY7YFtJkmZxHY8rf1qp6AuvMoOCNgqUyeas1bp5HQunz2rfb3JNY9jFz3jxz3Of6iSckm6TFIGjI1X4sLBGaGnwNKNz8H7ASTSZTnp2OEYboFzkAplV2kvhu2UNuSXAbgvHqSWG3aj9u9FxxurHHRLRd8zto_kDE9ywzEBqg"/>
+<div>
+<h3 class="font-h3 text-[18px] text-on-surface m-0">Kawaiify Official</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Active 2 mins ago • 150k Followers</p>
+</div>
+</div>
+<button class="px-4 py-2 rounded-full border border-primary text-primary font-label-caps text-[10px] hover:bg-primary-fixed hover:text-on-primary-container transition-colors">
+                        Visit Store
+                    </button>
+</div>
+</div>
+</div>
+<!-- Related Products Section (Bento Grid approach) -->
+<div class="mt-24">
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-h2 text-h2 text-on-background">You Might Also Love</h2>
+<a class="font-label-caps text-label-caps text-primary hover:text-on-primary-container transition-colors flex items-center gap-1" href="#">
+                    See All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<!-- Product Card 1 -->
+<div class="group cursor-pointer">
+<div class="bg-surface-container-lowest rounded-2xl aspect-[4/5] mb-4 overflow-hidden shadow-subtle relative">
+<button class="absolute top-3 right-3 z-10 p-2 bg-white/60 backdrop-blur-md rounded-full text-outline opacity-0 group-hover:opacity-100 transition-opacity hover:text-error">
+<span class="material-symbols-outlined text-sm">favorite</span>
+</button>
+<img alt="Related Product 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A fluffy, textured tote bag in a pale lavender color sitting on a clean, light surface. The lighting is soft and airy, creating a gentle shadow. The overall mood is soft neomorphism, highly curated and visually appealing." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX_Sr80uAS0e_t7nvTgXOtHNQDKVqTwc-YT25yaohqUqbqq6a6hav-ctQ7fzvmt4BVvtAZUFMkLFVF4RWRfregYZ80Zu-K8n43mDxMUM-eNyhFRXz2etZPz0U_tZxo7c27hBdPN0fFvUbab_TGuoOOUyW2eOJ-vUIMn7efQGIoJG44m2lGkebopEpFkoDf3vuYPrw_XxTrLRbA2jRwrlXy7g0_rUdyl_yiSLRNo3U9-Vybjmq9G1l9N2B5D1gWiYuHNENo33nRBA"/>
+</div>
+<h3 class="font-body-md text-body-md text-on-surface font-medium truncate">Fluffy Dream Tote</h3>
+<div class="flex items-center justify-between mt-1">
+<span class="font-body-md text-body-md text-primary font-semibold">$55.00</span>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] icon-fill text-yellow-400">star</span>
+<span class="font-body-sm text-body-sm">4.8</span>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group cursor-pointer">
+<div class="bg-surface-container-lowest rounded-2xl aspect-[4/5] mb-4 overflow-hidden shadow-subtle relative">
+<span class="absolute top-3 left-3 z-10 px-2 py-1 bg-surface-container text-on-surface-variant font-label-caps text-[10px] rounded-full">NEW</span>
+<button class="absolute top-3 right-3 z-10 p-2 bg-white/60 backdrop-blur-md rounded-full text-outline opacity-0 group-hover:opacity-100 transition-opacity hover:text-error">
+<span class="material-symbols-outlined text-sm">favorite</span>
+</button>
+<img alt="Related Product 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek, minimalist curved shoulder bag in a pristine cream color, placed against a very soft, light beige background. The lighting is diffused, emphasizing the smooth texture of the bag and perfectly fitting the high-end boutique aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8vk13syZ7Tvya4NUn_j-aGcm2I3Ve8w2KvKgDX57qFgjDD3dpBzGDvVlATw6ALha8QH6yPe9a12w8qnduSvd6VOl0W7pZohWmBN8I-UBHoZzyR2tMwkOMIUcim80HpE62jIthQ7bGWY8SFtgpHv0DVeZ_ivOQzZ0tsM9mESX6Xv-7El9scaWpI6rAlxPgQ8k369pYyIs1BruS6D0t08Fsc4ntp9aLdQgnp3RBGvdIZOnZRXADSbSx8adOgH1fVSkaBfv4C2IMtA"/>
+</div>
+<h3 class="font-body-md text-body-md text-on-surface font-medium truncate">Minimalist Crescent Bag</h3>
+<div class="flex items-center justify-between mt-1">
+<span class="font-body-md text-body-md text-primary font-semibold">$38.00</span>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] icon-fill text-yellow-400">star</span>
+<span class="font-body-sm text-body-sm">4.9</span>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="group cursor-pointer">
+<div class="bg-surface-container-lowest rounded-2xl aspect-[4/5] mb-4 overflow-hidden shadow-subtle relative">
+<button class="absolute top-3 right-3 z-10 p-2 bg-white/60 backdrop-blur-md rounded-full text-outline opacity-0 group-hover:opacity-100 transition-opacity hover:text-error">
+<span class="material-symbols-outlined text-sm">favorite</span>
+</button>
+<img alt="Related Product 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A small, structured mini backpack in a muted mint green color. It rests on a clean, white marble-like surface. The lighting is bright and even, highlighting the clean lines and kawaii aesthetic of the bag. Minimalist and fresh." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnq5stjw1xl4Q2oe1CE07oJu4eXAkkXavdWUvr94JCM4ygGQMobby0LQCOI0YdXlhRwSn7KFcJTwlo3RcmG2Ao2sODM17Ptsn0j1SoZqJAKLqKXVvScFuUlERk6qBpUvJNFy3-eBoX_Hjj1sPATHjW4IbEYp1jQli8cvXIRvoW4Wrdrx2ee6KbnF3-fuchTPQIy9_Kz7VSw9JuxH_d46bBNhglAQkVlz3AoGMrQmjHl-XCJPRaDhga3DE_qzQDFhDeuC3NKLExkw"/>
+</div>
+<h3 class="font-body-md text-body-md text-on-surface font-medium truncate">Mint Mini Backpack</h3>
+<div class="flex items-center justify-between mt-1">
+<span class="font-body-md text-body-md text-primary font-semibold">$42.00</span>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] icon-fill text-yellow-400">star</span>
+<span class="font-body-sm text-body-sm">4.7</span>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="group cursor-pointer">
+<div class="bg-surface-container-lowest rounded-2xl aspect-[4/5] mb-4 overflow-hidden shadow-subtle relative">
+<span class="absolute top-3 left-3 z-10 px-2 py-1 bg-error-container text-error font-label-caps text-[10px] rounded-full">-15%</span>
+<button class="absolute top-3 right-3 z-10 p-2 bg-white/60 backdrop-blur-md rounded-full text-outline opacity-0 group-hover:opacity-100 transition-opacity hover:text-error">
+<span class="material-symbols-outlined text-sm">favorite</span>
+</button>
+<img alt="Related Product 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A cute, round coin purse with a subtle embossed face design, in a light peach color. Shot from directly above on a plain, bright white surface. The lighting is incredibly soft, eliminating harsh shadows to maintain the airy, soft neomorphism style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8cKVl2e9spCGS3JNBxw2oL47yrNfLX-9VfmuXQEMWwX6pOGLcCrOqhozvo_OpWtYxnZDYS7Tx6Q3V72ME9JZhK_PwMbyjFFgwpd6tPPoDxsj-K6QNhkMrcUpPAVJiyQvWbo7ljzXnh4uKXQqxiASo--Lqjq2OZO5w-cFc6CT5lRMKRGfsp2mnw5Pvl6fj8y6yiyWMGuhMP1Ay-FlmUI-Ig9a_o_oP99efUN6dKAW24bpA-GM0MRoOxoKElChsCOWgdrcPEJcfWg"/>
+</div>
+<h3 class="font-body-md text-body-md text-on-surface font-medium truncate">Peach Coin Purse</h3>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-2">
+<span class="font-body-md text-body-md text-primary font-semibold">$18.00</span>
+<span class="font-body-sm text-body-sm text-outline line-through">$21.00</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] icon-fill text-yellow-400">star</span>
+<span class="font-body-sm text-body-sm">5.0</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest fixed bottom-0 w-full rounded-t-3xl border-t border-pink-100/30 dark:border-zinc-800 shadow-[0_-10px_40px_rgba(255,182,193,0.15)] z-50">
+<div class="flex justify-around items-center px-4 pb-6 pt-3">
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+                Home
+            </a>
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-950/30 dark:to-purple-950/30 text-pink-500 rounded-2xl px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined mb-1">favorite</span>
+                Wishlist
+            </a>
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined mb-1">receipt_long</span>
+                Orders
+            </a>
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+                Profile
+            </a>
+</div>
+</nav>
+</body></html>

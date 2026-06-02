@@ -1,0 +1,1381 @@
+﻿Final Project - Workshop RPL
+
+
+Anggota Kelompok:
+1. Aulia Fathus Tsani (24/534388/PA/22661)
+2. Miera Ardiyanti Farica (24/534436/PA/22665)
+3. Alifa Batrisyia Nariswari (24/535256/PA/22707)
+4. Chelsea Natasja Jesslyne Sembiring (24/543571/PA/23097)
+
+
+1. Identitas Produk
+* Nama Produk        : BeliKuy
+* Tagline                : "Lapak Luas, Belanja Puas."
+* Logo Produk                :
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* Poster Design        :
+  
+
+2. Spesifikasi dan Fitur Sistem
+1. Arsitektur Sistem
+Sistem e-commerce bertipe Marketplace ini menggunakan model Client-Server dengan pembagian hak akses (Role-Based Access).
+* Frontend (UI Gateway): Dibangun dengan Streamlit (Python). Sistem akan memiliki 3 antarmuka/portal berbeda:
+   1. Storefront (Untuk Pembeli)
+   2. Seller Center (Untuk Penjual/Vendor mengelola tokonya)
+   3. Super Admin Dashboard (Untuk pemilik aplikasi BeliKuy! memantau seluruh aktivitas).
+* Backend: Node.js bertugas menangani logika bisnis (API), memisahkan request antara pembeli, penjual, dan sistem pembayaran.
+* Database: Relasional SQL (MySQL/PostgreSQL) terpusat. Tabel akan sangat bergantung pada Foreign Key untuk menghubungkan entitas Users, Stores, Products, dan Orders.
+
+
+
+
+
+
+2. Kebutuhan Perangkat Lunak (Software Stack)
+Komponen
+	Teknologi Rekomendasi
+	Bahasa Pemrograman
+	Python (Frontend) & JavaScript/TypeScript (Backend) 
+	Framework Frontend
+	Streamlit 
+	Framework Backend (Microservices) 
+	Node.js dengan Express.js 
+	Database
+	MySQL
+	State Management
+	st.session_state (bawaan Streamlit untuk keranjang & sesi login) 
+	API Integration 
+	requests library di Python untuk memanggil API Node.js, ditambah integrasi API Payment (seperti Midtrans/Stripe) 
+	Reporting/Export
+	Library FPDF / Pandas (Python) untuk cetak laporan & invoice dari Streamlit 
+	
+
+3. Spesifikasi Fungsional (Fitur Utama)
+1. Modul Pembeli (Storefront)
+* Pencarian Global & Filter: Mencari produk dari berbagai toko dengan filter kategori, harga, dan rating.
+* Keranjang Belanja Pintar: Manajemen item belanja yang otomatis dikelompokkan berdasarkan toko penjual (multi-store cart).
+* Checkout & Pembayaran: Integrasi sistem pembayaran (Transfer/E-wallet) dan pemilihan kurir.
+* Riwayat Transaksi (Order History): Halaman khusus bagi pembeli untuk melihat daftar pesanan yang sedang berjalan maupun yang sudah selesai.
+2. Modul Penjual (Seller Center)
+* Manajemen Toko: Fitur untuk membuka toko, mengatur profil, banner, dan deskripsi toko.
+* Manajemen Produk Mandiri (CRUD): Hak akses penuh untuk menambah, menghapus, atau memperbarui detail produk dan stok milik tokonya sendiri.
+* Laporan Pendapatan Toko: Dashboard sederhana bagi penjual untuk memantau total omzet dan saldo yang bisa ditarik.
+3. Modul Pemrosesan Pesanan & Tracking (Order Service)
+* Penerimaan & Routing Pesanan: Menangkap data transaksi masuk dan memecahnya ke masing-masing toko jika pembeli membeli dari beberapa vendor sekaligus.
+* Manajemen Status Pengiriman: Fitur bagi penjual untuk memperbarui status (Pending, Packed, Shipped, Delivered) yang dapat dilacak secara real-time oleh pembeli.
+* Kalkulasi Biaya & Ongkir: Sistem penghitungan otomatis untuk total belanja, pajak aplikasi, dan biaya pengiriman berdasarkan lokasi toko.
+4. Modul Super Admin (Owner Dashboard)
+* Manajemen Vendor: Verifikasi pendaftaran toko baru dan otoritas untuk memblokir toko yang melanggar aturan.
+* Pantauan Transaksi Global: Monitoring seluruh aliran uang dan aktivitas transaksi yang terjadi di seluruh platform BeliKuy!.
+* Laporan Pendapatan Platform: Analitik terkait komisi yang didapat penyedia platform dari setiap transaksi sukses.
+5. Modul Manajemen Pengguna & Keamanan (User & Auth Service)
+* Registrasi & Login (Authentication): Sistem pendaftaran dan masuk akun yang aman (bisa menggunakan JWT untuk backend Node.js).
+* Manajemen Hak Akses (RBAC): Proteksi halaman agar user hanya bisa mengakses fitur sesuai perannya (Pembeli, Penjual, atau Admin).
+* Manajemen Profil & Alamat: Penyimpanan data diri, buku alamat pengiriman (untuk pembeli), dan data rekening bank (untuk penjual).
+* Manajemen Sesi (Session Management): Integrasi st.session_state di Streamlit agar status login tetap terjaga selama pengguna berpindah-pindah halaman.
+
+
+4. Spesifikasi Perangkat Keras (Hardware)
+Untuk mendukung kelancaran operasional dan pengembangan platform e-commerce BeliKuy ("Lapak Luas, Belanja Puas"), berikut adalah spesifikasi perangkat keras minimum yang dibutuhkan:
+1. Server Lokal (Development & Database Hosting)
+Lingkungan server lokal ini digunakan untuk menjalankan script web (seperti Streamlit) dan memproses query relasional pada database (seperti eksekusi relasi tabel antar vendor dan product).
+* Processor: Intel Core i3 Generasi ke-10 (atau prosesor AMD yang setara).
+* RAM: 8 GB (Kapasitas minimal ini sangat disarankan agar server web lokal dan database engine SQL dapat berjalan bersamaan tanpa bottleneck).
+* Storage: 256 GB SSD (Penggunaan Solid State Drive diwajibkan untuk menjamin kecepatan baca/tulis data, terutama saat melakukan validasi query database dengan banyak relasi tabel).
+* Operating System: Windows 10/11 atau Ubuntu Server.
+2. Perangkat Akses Operasional (Super Admin & Vendor) 
+Mengingat BeliKuy menggunakan konsep multi-company, dashboard operasional akan diakses oleh dua pihak utama: pengelola platform (Super Admin) dan para penjual (Vendor).
+* PC/Laptop: Perangkat dengan minimum RAM 4 GB sudah memadai untuk mengakses dashboard analitik dan manajemen produk melalui web browser.
+* Perangkat Cetak: Printer thermal atau printer label pengiriman. Perangkat ini secara khusus dibutuhkan oleh pihak Vendor untuk mencetak resi pengiriman dari pesanan pelanggan secara efisien.
+
+
+3. Database
+-- =====================================
+-- DATABASE BELIKUY
+-- =====================================
+CREATE DATABASE IF NOT EXISTS belikuy;
+USE belikuy;
+
+
+-- =====================================
+-- 1. USERS (MASTER)
+-- =====================================
+CREATE TABLE Users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'customer', 'seller') DEFAULT 'customer',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- =====================================
+-- 2. COMPANIES / SELLER (MASTER)
+-- =====================================
+CREATE TABLE Companies (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    company_name VARCHAR(100) NOT NULL,
+    address TEXT,
+    rating DECIMAL(2,1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
+);
+
+
+-- =====================================
+-- 3. CATEGORIES (MASTER)
+-- =====================================
+CREATE TABLE Categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL
+);
+
+
+-- =====================================
+-- 4. SUPPLY COMPANIES (MASTER)
+-- =====================================
+CREATE TABLE Supply_Companies (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    supply_company_name VARCHAR(100) NOT NULL,
+    contact_number VARCHAR(20),
+    address TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- =====================================
+-- 5. PRODUCTS (MASTER)
+-- =====================================
+CREATE TABLE Products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    company_id INT,
+    category_id INT,
+    supply_company_id INT,
+    brand VARCHAR(100) NOT NULL,
+    product_name VARCHAR(150) NOT NULL,
+    size VARCHAR(50) DEFAULT NULL,
+    color VARCHAR(50) DEFAULT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    stock INT NOT NULL DEFAULT 0,
+    image_url VARCHAR(255), 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+
+    FOREIGN KEY (company_id) REFERENCES Companies(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES Categories(id) ON DELETE SET NULL,
+    FOREIGN KEY (supply_company_id) REFERENCES Supply_Companies(id) ON DELETE SET NULL
+);
+
+
+-- =====================================
+-- 6. USER ADDRESSES (MASTER)
+-- =====================================
+CREATE TABLE User_Addresses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    address TEXT NOT NULL,
+    city VARCHAR(100),
+    postal_code VARCHAR(10),
+    is_default BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
+);
+
+
+-- =====================================
+-- 7. SHIPMENT COMPANIES (MASTER)
+-- =====================================
+CREATE TABLE Shipment_Companies (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    company_name VARCHAR(50) NOT NULL,
+    service_type VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- =====================================
+-- 8. ORDERS (TRANSACTION)
+-- =====================================
+CREATE TABLE Orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    address_id INT,
+    total_price DECIMAL(10, 2) NOT NULL,
+    status ENUM('pending', 'paid', 'shipped', 'completed', 'cancelled') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+
+    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
+    FOREIGN KEY (address_id) REFERENCES User_Addresses(id)
+);
+
+
+-- =====================================
+-- 9. ORDER ITEMS (TRANSACTION)
+-- =====================================
+CREATE TABLE Order_Items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    product_id INT,
+    quantity INT NOT NULL,
+    price DECIMAL(10,2),
+    subtotal DECIMAL(10, 2) NOT NULL,
+
+
+    FOREIGN KEY (order_id) REFERENCES Orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES Products(id) ON DELETE CASCADE
+);
+
+
+-- =====================================
+-- 10. PAYMENTS (TRANSACTION)
+-- =====================================
+CREATE TABLE Payments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    payment_method ENUM('transfer', 'ewallet', 'cod'),
+    payment_status ENUM('pending', 'paid', 'failed') DEFAULT 'pending',
+    paid_at TIMESTAMP NULL,
+
+
+    FOREIGN KEY (order_id) REFERENCES Orders(id) ON DELETE CASCADE
+);
+
+
+-- =====================================
+-- 11. SHIPMENTS (TRANSACTION)
+-- =====================================
+CREATE TABLE Shipments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    company_id INT,
+    shipment_company_id INT,
+    tracking_number VARCHAR(100),
+    shipping_status ENUM('pending', 'shipped', 'delivered') DEFAULT 'pending',
+
+
+    FOREIGN KEY (order_id) REFERENCES Orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (company_id) REFERENCES Companies(id) ON DELETE CASCADE,
+    FOREIGN KEY (shipment_company_id) REFERENCES Shipment_Companies(id) ON DELETE SET NULL
+);
+
+
+-- =====================================
+-- 12. REVIEWS (TRANSACTION)
+-- =====================================
+CREATE TABLE Reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    product_id INT,
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+
+    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES Products(id) ON DELETE CASCADE
+);
+
+
+
+
+
+
+
+1. Users  
+2. Categories  
+3. Supply Companies
+4. Shipment Companies    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   5. Companies
+   6. Products  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      7. User Addresses
+      8. Orders    
+
+
+
+
+
+
+         9. Order Items
+         10. Payments  
+  
+
+
+
+            11. Shipments
+            12. Reviews    
+
+
+               1. Modul Pembeli (Storefront) 
+               * Pencarian Global & Filter (Read) 
+Mencari produk yang namanya mengandung kata kunci tertentu, difilter berdasarkan kategori, dan diurutkan dari harga termurah.
+
+
+SELECT p.id, p.product_name, p.price, c.company_name, c.rating, cat.category_name
+FROM Products p
+JOIN Companies c ON p.company_id = c.id
+JOIN Categories cat ON p.category_id = cat.id
+WHERE p.product_name LIKE '%?%' 
+  AND p.category_id = ?
+ORDER BY p.price ASC;
+
+               * Riwayat Transaksi (Read)
+Melihat daftar pesanan milik satu pengguna. 
+
+
+SELECT o.id AS order_id, o.created_at, o.total_price, o.status, p.payment_method, p.payment_status
+FROM Orders o
+LEFT JOIN Payments p ON o.id = p.order_id
+WHERE o.user_id = ?
+ORDER BY o.created_at DESC;
+(Catatan: Keranjang belanja multi-store disimpan di level aplikasi, misalnya menggunakan st.session_state di Streamlit, sebelum akhirnya di-INSERT ke database saat checkout).
+               2. Modul Penjual (Seller Center)
+               * Manajemen Produk Mandiri (CRUD)
+Hanya bisa dilakukan untuk tokonya sendiri (company_id harus sesuai dengan toko milik user yang login). 
+               * Create (Tambah Produk): 
+INSERT INTO Products (company_id, category_id, supply_company_id, brand, product_name, size, color, description, price, stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?); 
+
+               * Read (Lihat Daftar Produk Toko):
+SELECT id, product_name, price, stock 
+FROM Products 
+WHERE company_id = ?;
+
+               * Update (Ubah Harga/Stok Produk):
+UPDATE Products 
+SET price = ?, stock = ? 
+WHERE id = ? AND company_id = ?;
+
+               * Delete (Hapus Produk):
+DELETE FROM Products 
+WHERE id = ? AND company_id = ?;
+
+
+
+               * Laporan Pendapatan Toko (Read)
+Menghitung total omzet (penjualan sukses) untuk satu toko spesifik.
+SELECT SUM(oi.subtotal) AS total_omzet, COUNT(DISTINCT o.id) AS total_pesanan
+FROM Order_Items oi
+JOIN Products p ON oi.product_id = p.id
+JOIN Orders o ON oi.order_id = o.id
+WHERE p.company_id = ? AND o.status = 'completed';
+
+
+
+               3. Modul Pemrosesan Pesanan & Tracking (Order Service) 
+               * Penerimaan & Routing Pesanan (Create) 
+Saat checkout, data masuk ke Orders, lalu dipecah ke Order_Items, dan mencetak resi pengiriman di Shipments per vendor. Ini harus dijalankan dalam satu Transaction agar datanya sinkron. 
+
+
+-- 1. Buat Order Induk
+INSERT INTO Orders (user_id, address_id, total_price, status) 
+VALUES (?, ?, ?, 'pending');
+-- (Ambil ID Order yang baru dibuat menggunakan LAST_INSERT_ID())
+
+
+-- 2. Masukkan Item (Berulang sesuai jumlah barang di keranjang)
+INSERT INTO Order_Items (order_id, product_id, quantity, price, subtotal) 
+VALUES (?, ?, ?, ?, ?);
+
+
+-- 3. Kurangi Stok Produk
+UPDATE Products SET stock = stock - ? WHERE id = ?;
+
+
+-- 4. Buat Shipment per Perusahaan/Vendor
+INSERT INTO Shipments (order_id, company_id, shipment_company_id, shipping_status) VALUES (?, ?, ?, 'pending'); 
+
+               * Manajemen Status Pengiriman oleh Penjual (Update)
+Penjual mengupdate status resi (misal memasukkan nomor resi).
+
+
+UPDATE Shipments 
+SET tracking_number = ?, shipping_status = 'shipped' 
+WHERE order_id = ? AND company_id = ?;
+
+
+
+               4. Modul Super Admin (Owner Dashboard) 
+               * Pantauan Transaksi Global (Read)
+Melihat ringkasan seluruh transaksi yang terjadi di BeliKuy.
+
+
+SELECT 
+    COUNT(id) AS total_transaksi,
+    SUM(total_price) AS total_perputaran_uang,
+    status
+FROM Orders
+GROUP BY status;
+
+
+
+               * Manajemen Vendor (Update/Delete)
+Memblokir atau menghapus toko yang melanggar aturan.
+
+
+-- Menghapus toko (Akan otomatis menghapus produknya karena ON DELETE CASCADE)
+DELETE FROM Companies WHERE id = ?;
+
+               * Manajemen Ekspedisi / Master Kurir (CRUD) 
+Admin dapat menambah, melihat, mengedit, atau menghapus  layanan kurir yang tersedia di platform BeliKuy. 
+
+
+-- Create (Tambah Kurir Baru): 
+INSERT INTO Shipment_Companies (company_name, service_type) 
+VALUES (?, ?);
+
+-- Read (Lihat Daftar Kurir untuk Dropdown/Tabel) 
+SELECT id, company_name, service_type 
+FROM Shipment_Companies
+ORDER BY company_name ASC;
+
+-- Update (Ubah Nama/Layanan Kurir)
+UPDATE Shipment_Companies 
+SET company_name = ?, service_type = ? 
+WHERE id = ?;
+
+
+
+-- Delete (Hapus Kurir)
+DELETE FROM Shipment_Companies 
+    WHERE id = ?;
+    ```
+
+               * Manajemen Penyuplai / Master Distributor (CRUD)
+Admin dapat mengelola daftar perusahaan penyuplai/distributor yang nantinya akan dipilih oleh para seller saat mereka meng-input produk. 
+
+
+-- Create (Tambah Penyuplai Baru) 
+INSERT INTO Supply_Companies (supply_company_name, contact_number, address) 
+VALUES (?, ?, ?); 
+
+-- Read (Lihat Daftar Penyuplai) 
+SELECT id, supply_company_name, contact_number, address FROM Supply_Companies ORDER BY supply_company_name ASC; 
+
+-- Update (Ubah Kontak/Alamat Penyuplai) 
+UPDATE Supply_Companies SET supply_company_name = ?, contact_number = ?, address = ? 
+WHERE id = ?; 
+
+-- Delete (Hapus Penyuplai) 
+DELETE FROM Supply_Companies 
+WHERE id = ?; 
+
+               5. Modul Manajemen Pengguna & Keamanan (User & Auth Service) 
+               * Registrasi & Login (Create & Read)
+               * Registrasi User Baru:
+INSERT INTO Users (username, email, password, role) 
+VALUES (?, ?, ?, 'customer');
+
+               * Login (Pengecekan Kredensial):
+SELECT id, username, role, password 
+FROM Users 
+WHERE email = ?;
+(Melakukan validasi hashing password di sisi Python/Streamlit setelah data ini diambil, tidak menyimpan password dalam bentuk plain text).
+
+
+               * Pengecekan Kepemilikan Toko (Untuk Session Streamlit):
+Saat pengguna sukses login, jalankan ini untuk mengecek apakah dia punya toko, lalu simpan datanya di st.session_state. 
+
+
+SELECT id AS company_id, company_name 
+FROM Companies 
+WHERE user_id = ?;
+
+
+
+               * Manajemen Buku Alamat (CRUD)
+               * Tambah Alamat Baru:
+INSERT INTO User_Addresses (user_id, address, city, postal_code, is_default)
+VALUES (?, ?, ?, ?, ?);
+
+               * Set Alamat Utama (Update): 
+               * Karena hanya boleh ada satu alamat utama per user, lakukan ini:
+-- Reset semua alamat user tersebut menjadi bukan default
+UPDATE User_Addresses SET is_default = FALSE WHERE user_id = ?;
+
+
+-- Set satu alamat spesifik menjadi default
+UPDATE User_Addresses SET is_default = TRUE WHERE id = ? AND user_id = ?;
+
+________________
+               4. UI & UX Design
+               1. User Experience
+               1. Pendekatan Utama (UX Philosophy)
+Pendekatan User Experience pada aplikasi BeliKuy berpusat pada konsep "Aesthetic Usability Effect", di mana desain visual yang menarik (menggunakan perpaduan soft pink dan soft purple) dimanfaatkan untuk meningkatkan kenyamanan dan toleransi pengguna, tanpa mengorbankan fungsionalitas. Aplikasi dirancang dengan prinsip classy, clean, dan simple guna meminimalisir beban kognitif (cognitive load) pengguna saat menavigasi aplikasi, sehingga proses belanja maupun pengelolaan toko menjadi intuitif.
+
+
+               2. Arsitektur Informasi & Navigasi Tersegmentasi (Role-Based)
+BeliKuy menerapkan arsitektur informasi yang dinamis berdasarkan Role-Based Access Control (RBAC) untuk menjaga fokus masing-masing pengguna: 
+               * Store Front (Pembeli): Menggunakan pola navigasi eksploratori dengan Top Navbar. Pendekatan ini membebaskan ruang layar vertikal untuk menampilkan grid produk secara maksimal (visual-heavy). Search bar diletakkan secara prominen untuk memfasilitasi goal-oriented users yang ingin mencari barang secara spesifik dan cepat.
+               * Seller Center & Super Admin: Menggunakan pendekatan task-oriented dengan Sidebar Navigation. Sidebar memberikan struktur hierarki yang stabil dan permanen, memudahkan penjual dan admin untuk berpindah antar modul operasional (seperti manajemen produk, pesanan, dan laporan) secara efisien tanpa kehilangan konteks halaman.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               3. Pemetaan User Journey & Interaksi
+Setiap alur pengguna dirancang untuk meminimalisir gesekan (frictionless experience): 
+               * Fase Discovery & Keputusan (Pembeli): Pengguna disajikan informasi yang mudah dipindai (scannable) melalui card-based design dengan soft shadows. Pada halaman detail produk, hierarki visual diarahkan secara tegas pada gambar produk, harga, dan tombol CTA (Call-to-Action) "Add to Cart" yang kontras.
+               * Fase Checkout (Multi-store Cart): Mengingat sifatnya sebagai marketplace, UX pada keranjang belanja dikelompokkan berdasarkan toko. Subtotal per toko disajikan secara transparan untuk mencegah kebingungan pengguna, dilanjutkan dengan alur checkout linear (Alamat -> Kurir -> Pembayaran) yang terstruktur dan terprediksi.
+               * Fase Manajemen & Operasional (Penjual & Admin): Dashboard dirancang menggunakan visualisasi data yang sederhana (grafik dasar dan statistik numerik) agar pengguna dapat menyerap ringkasan performa toko/platform hanya dengan sekilas pandang (glanceable insights). Proses CRUD (Create, Read, Update, Delete) pada produk dan manajemen order disajikan dalam format tabel/grid yang responsif.
+
+
+               4. Hierarki Visual dan Readability
+Untuk memastikan kenyamanan penggunaan dalam durasi yang lama, tipografi dirancang secara matang. Penggunaan Plus Jakarta Sans pada heading memberikan karakter modern-playful yang sesuai dengan identitas brand, sedangkan Inter pada body text menjamin tingkat keterbacaan (readability) yang tinggi pada ukuran layar yang kecil. CTA selalu diutamakan dengan warna gradient accent agar selalu menonjol dari latar belakang neutral/off-white. 
+
+
+               5. Micro-interactions & Umpan Balik (Feedback System)
+Untuk membuat sistem terasa "hidup" dan responsif, aplikasi mengintegrasikan micro-interactions berupa animasi hover yang ringan pada product card dan transisi smooth pada modal atau dropdown. Interaksi ini memberikan umpan balik instan setiap kali pengguna melakukan aksi, sekaligus mendukung elemen kawaii minimalis yang memperkuat identitas emosional aplikasi. 
+
+
+               6. Aksesibilitas & Responsivitas 
+Seluruh layout mengadopsi prinsip airy layout (spasi yang longgar) dan rounded corners yang ramah di mata. Desain juga dipastikan mobile-friendly, di mana komponen-komponen utama dirancang adaptif terhadap berbagai ukuran layar (responsive design), memastikan pengalaman yang konsisten baik saat diakses melalui desktop maupun perangkat mobile.
+
+
+               7. Flowchart
+               * Flowchart Alur Pembeli
+  
+
+________________
+               * Flowchart Alur Seller  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  * Flowchart Alur Super Admin
+  
+
+________________
+                  2. User Interface
+                  1. Homepage Storefront  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     2. Product Detail Page
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     3. Search & Filter Page  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        4. Shopping Cart
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        5. Checkout Page
+
+
+
+
+
+
+                        5. Address Management  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           6. Order History Page
+
+
+
+
+
+
+
+
+
+
+                           6. Order History Page
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+________________
+
+
+                           7. Login & Register Page  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              8. User Profile Page
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+________________
+
+
+                              9. Address Management  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 10. Seller Pages
+                                 * Dashboard  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+________________
+
+
+                                    * Product Management  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       * Order Management  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+________________
+
+
+                                          * Income Report  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                             11. Super Admin Pages
+                                             * Dashboard Overview  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+________________
+
+
+                                                * Vendor Management  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                   * Shipment Management  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      * Supplier Management  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                         * Transaction Monitoring

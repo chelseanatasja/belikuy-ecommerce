@@ -1,0 +1,10 @@
+node_modules/
+.env
+__pycache__/
+*.pyc
+.streamlit/
+belikuy_frontend/st_components/
+*.log
+*.tmp
+*.bak
+.DS_Store

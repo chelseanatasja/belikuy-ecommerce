@@ -1,0 +1,82 @@
+/* BeliKuy Custom CSS - Translated from Tailwind Config */
+
+:root {
+    --primary: #874e58;
+    --background: #f8f9fa;
+    --surface-container-lowest: #ffffff;
+    --on-background: #191c1d;
+    --on-surface: #191c1d;
+    --on-surface-variant: #514345;
+    --primary-container: #ffb6c1;
+    --on-primary-container: #7b444e;
+    --secondary-container: #f8d5f7;
+    --outline: #847375;
+    --error: #ba1a1a;
+}
+
+/* Streamlit main background */
+.stApp {
+    background-color: var(--background) !important;
+    color: var(--on-background) !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* Custom Buttons matching Tailwind UI */
+.stButton > button {
+    background: linear-gradient(to right, var(--primary-container), var(--secondary-container)) !important;
+    color: var(--on-primary-container) !important;
+    border-radius: 9999px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.05em !important;
+    border: none !important;
+    padding: 0.75rem 1.5rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 6px rgba(255, 182, 193, 0.2) !important;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(255, 182, 193, 0.4) !important;
+}
+
+/* Inputs styling */
+.stTextInput > div > div > input,
+.stNumberInput > div > div > input,
+.stSelectbox > div > div > select {
+    background-color: #f8f9fa !important;
+    border: 1px solid var(--outline) !important;
+    border-radius: 0.5rem !important;
+    padding: 0.75rem !important;
+    color: var(--on-surface) !important;
+}
+
+.stTextInput > div > div > input:focus,
+.stNumberInput > div > div > input:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 2px var(--primary-container) !important;
+}
+
+/* Cards (st.container) */
+div[data-testid="stVerticalBlock"] > div.element-container {
+    background-color: var(--surface-container-lowest);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 4px 15px rgba(255, 182, 193, 0.05);
+}
+
+/* Typography Overrides */
+h1, h2, h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    color: var(--on-background) !important;
+}
+h1 { font-size: 40px !important; font-weight: 700 !important; }
+h2 { font-size: 32px !important; font-weight: 600 !important; }
+h3 { font-size: 24px !important; font-weight: 600 !important; }
+
+/* Gradient Text for Brand */
+.brand-text {
+    background: linear-gradient(to right, var(--primary-container), var(--secondary-container));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+}

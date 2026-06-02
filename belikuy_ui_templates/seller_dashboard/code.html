@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BeliKuy Seller Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#fcb3be",
+                        "on-secondary-fixed": "#29132c",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-variant": "#e1e3e4",
+                        "primary": "#874e58",
+                        "surface-bright": "#f8f9fa",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#f7ddda",
+                        "surface": "#f8f9fa",
+                        "surface-dim": "#d9dadb",
+                        "outline-variant": "#d6c2c3",
+                        "tertiary-container": "#ddc4c1",
+                        "secondary": "#715572",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#f8f9fa",
+                        "secondary-container": "#f8d5f7",
+                        "on-primary-fixed": "#360c17",
+                        "inverse-surface": "#2e3132",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#ffb6c1",
+                        "on-primary-container": "#7b444e",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#ffd9de",
+                        "on-secondary": "#ffffff",
+                        "outline": "#847375",
+                        "on-tertiary-container": "#63504e",
+                        "primary-fixed-dim": "#fcb3be",
+                        "on-primary-fixed-variant": "#6b3741",
+                        "on-background": "#191c1d",
+                        "tertiary-fixed-dim": "#dac1be",
+                        "on-surface-variant": "#514345",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#583e5a",
+                        "secondary-fixed-dim": "#debcde",
+                        "on-secondary-container": "#755977",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-container-high": "#e7e8e9",
+                        "tertiary": "#6d5a58",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#544341",
+                        "on-surface": "#191c1d",
+                        "on-tertiary-fixed": "#261817",
+                        "surface-tint": "#874e58",
+                        "surface-container": "#edeeef",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed": "#fbd8fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "xl": "48px"
+                    },
+                    "fontFamily": {
+                        "h3": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h3": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "h2": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="bg-zinc-50 dark:bg-zinc-900 text-pink-400 dark:text-pink-300 font-['Plus_Jakarta_Sans'] text-sm font-semibold h-screen w-64 fixed left-0 top-0 border-r border-r border-zinc-200 dark:border-zinc-800 flex flex-col h-full p-4 tap-highlight-transparent z-40 hidden md:flex">
+<!-- Header -->
+<div class="mb-8 px-4 flex items-center gap-3">
+<img alt="Store Logo" class="w-10 h-10 rounded-full object-cover shadow-[0_4px_10px_rgba(255,182,193,0.3)]" data-alt="A small, stylized logo for a boutique shop featuring a cute kawaii aesthetic in soft pastel pinks and whites, professionally photographed under soft, even studio lighting to convey a premium brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoBMCJXY_3n_xsbnBgahq5BQ9MFd-5MTkieVUhZaqQRANzyrj15iIaFMz9Z-0jIX4wRayheWUFUVVlMhy-36v_oTEQJkJBUfp7E-ANSvhufl0GMuQpOapiredaYSr6U0sDTyx_JaWku2AeU1MjoGkegnRkCCuewP471zQpCZQfFunfAwenxjzOMoek8vYWc2ZsTRqU9dwMhNFjnSpOHpgERqiI7HcL46RP7N0vAG-cw80ou2wrjhKZkBoa-4KdULlof-LHY4p5NQ"/>
+<div>
+<h2 class="text-xl font-bold text-zinc-900 dark:text-white leading-tight">Seller Center</h2>
+<p class="text-xs text-zinc-500 font-normal">BeliKuy Marketplace</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 space-y-1">
+<a class="bg-pink-100/50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-300 rounded-xl px-4 py-3 mb-1 flex items-center gap-3 group" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300 flex items-center gap-3 group" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Products</span>
+</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300 flex items-center gap-3 group" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span>Orders</span>
+</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300 flex items-center gap-3 group" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Analytics</span>
+</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300 flex items-center gap-3 group" href="#">
+<span class="material-symbols-outlined">campaign</span>
+<span>Marketing</span>
+</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl px-4 py-3 mb-1 hover:translate-x-1 transition-all duration-300 flex items-center gap-3 group" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<!-- CTA -->
+<div class="mt-auto">
+<button class="w-full bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-label-caps uppercase rounded-full py-3 px-4 shadow-[0_4px_15px_rgba(255,182,193,0.3)] hover:-translate-y-0.5 transition-transform flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                Add New Product
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 p-lg md:p-xl min-h-screen">
+<!-- Header Section -->
+<header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-xl gap-4">
+<div>
+<h1 class="font-h2 text-h2 text-on-background">Halo, Kawaiify Official! <span class="text-2xl">✨</span></h1>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2 mt-2">
+<span class="inline-flex items-center gap-1 bg-surface-container-high px-2 py-1 rounded-full text-sm">
+<span class="w-2 h-2 rounded-full bg-green-400"></span> Toko Aktif
+                    </span>
+                    Siap untuk melihat performa tokomu hari ini?
+                </p>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full bg-surface-container-lowest shadow-[0_4px_15px_rgba(255,182,193,0.15)] flex items-center justify-center text-outline relative hover:-translate-y-0.5 transition-transform">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden shadow-[0_4px_15px_rgba(255,182,193,0.2)]">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A portrait of a young woman with a soft smile, wearing a pastel pink sweater, shot in a bright, modern studio with soft diffuse lighting that perfectly complements a kawaii-chic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuVN6AuI_cN1kp-PY9bUT7WE3GdsAWUu8oD5p78Z3gA1ssFZragheO1GLS0dU21kUhEPtXyvxbcOuRkwlauI30eP7J4gR1Y5j-plpU5yZ5ib9PjsiPYN4wmWGW_kEPLJrdDEwAbf-3vjizhSIVnCq1hZZBezUztYgLsDW49X4JnAy3sohF6MJH5ZdnWtvqqgk-jHPEfPYpQnQKTktbh37te4Dp9LZZlewEa5umSt3vpnM0NNvdPK1RAcN5wlP5DyOTQRV2ke34fQ"/>
+</div>
+</div>
+</header>
+<!-- Stats Grid (Bento Style) -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg mb-xl">
+<!-- Stat Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-[0_8px_30px_rgba(255,182,193,0.15)] flex flex-col justify-between relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-container opacity-20 rounded-full blur-2xl"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Total Omzet</span>
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-lg" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</div>
+<div>
+<h3 class="font-h3 text-h3 text-on-background">Rp 12.500.000</h3>
+<p class="font-body-sm text-sm text-green-500 mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> +15% dari bulan lalu
+                    </p>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-[0_8px_30px_rgba(255,182,193,0.15)] flex flex-col justify-between relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-secondary-container opacity-20 rounded-full blur-2xl"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Pesanan Baru</span>
+<span class="material-symbols-outlined text-secondary bg-secondary-fixed p-2 rounded-lg" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+</div>
+<div>
+<h3 class="font-h3 text-h3 text-on-background">42</h3>
+<p class="font-body-sm text-sm text-on-surface-variant mt-1 flex items-center gap-1">
+                        Menunggu diproses
+                    </p>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-[0_8px_30px_rgba(255,182,193,0.15)] flex flex-col justify-between relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-tertiary-container opacity-20 rounded-full blur-2xl"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Produk Aktif</span>
+<span class="material-symbols-outlined text-tertiary bg-tertiary-fixed p-2 rounded-lg" style="font-variation-settings: 'FILL' 1;">category</span>
+</div>
+<div>
+<h3 class="font-h3 text-h3 text-on-background">156</h3>
+<p class="font-body-sm text-sm text-on-surface-variant mt-1 flex items-center gap-1">
+                        Dari total 180 produk
+                    </p>
+</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-[0_8px_30px_rgba(255,182,193,0.15)] flex flex-col justify-between relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-container opacity-30 rounded-full blur-2xl"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Rating Toko</span>
+<span class="material-symbols-outlined text-yellow-500 bg-yellow-50 p-2 rounded-lg" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div>
+<h3 class="font-h3 text-h3 text-on-background">4.9<span class="text-sm text-on-surface-variant font-normal">/5.0</span></h3>
+<p class="font-body-sm text-sm text-on-surface-variant mt-1 flex items-center gap-1">
+                        Berdasarkan 320 ulasan
+                    </p>
+</div>
+</div>
+</section>
+<!-- Main Content Asymmetric Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+<!-- Chart Section (Spans 2 columns) -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-xl p-lg shadow-[0_8px_30px_rgba(255,182,193,0.15)]">
+{year_filter_html}
+<!-- Mock Graph Visualization using Tailwind & CSS Gradients -->
+<div class="h-64 relative flex items-end justify-between gap-2 pt-8">
+<!-- Grid Lines -->
+<div class="absolute inset-0 flex flex-col justify-between z-0">
+<div class="border-b border-surface-variant/50 w-full h-0"></div>
+<div class="border-b border-surface-variant/50 w-full h-0"></div>
+<div class="border-b border-surface-variant/50 w-full h-0"></div>
+<div class="border-b border-surface-variant/50 w-full h-0"></div>
+</div>
+<!-- Bars -->
+<div class="relative z-10 w-full flex justify-between items-end h-full group">
+<div class="w-1/12 bg-primary-container rounded-t-md h-[30%] opacity-70 group-hover:opacity-50 hover:!opacity-100 transition-opacity relative">
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-on-surface-variant">Jan</span>
+</div>
+<div class="w-1/12 bg-primary-container rounded-t-md h-[45%] opacity-70 group-hover:opacity-50 hover:!opacity-100 transition-opacity relative">
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-on-surface-variant">Feb</span>
+</div>
+<div class="w-1/12 bg-primary-container rounded-t-md h-[35%] opacity-70 group-hover:opacity-50 hover:!opacity-100 transition-opacity relative">
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-on-surface-variant">Mar</span>
+</div>
+<div class="w-1/12 bg-primary-container rounded-t-md h-[60%] opacity-70 group-hover:opacity-50 hover:!opacity-100 transition-opacity relative">
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-on-surface-variant">Apr</span>
+</div>
+<div class="w-1/12 bg-primary-container rounded-t-md h-[50%] opacity-70 group-hover:opacity-50 hover:!opacity-100 transition-opacity relative">
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-on-surface-variant">Mei</span>
+</div>
+<div class="w-1/12 bg-gradient-to-t from-primary-container to-secondary-container rounded-t-md h-[85%] shadow-[0_0_15px_rgba(255,182,193,0.5)] relative">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface px-2 py-1 rounded text-xs shadow-sm font-bold text-primary">Peak!</span>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-on-surface-variant font-bold text-primary">Jun</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Orders Section -->
+<div class="lg:col-span-1 bg-surface-container-lowest rounded-xl p-lg shadow-[0_8px_30px_rgba(255,182,193,0.15)] flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-h3 text-[20px] font-semibold text-on-background">Pesanan Terbaru</h3>
+<button class="text-primary font-body-sm text-sm hover:underline">Lihat Semua</button>
+</div>
+<div class="flex flex-col gap-4 flex-1">
+<!-- Order Item 1 -->
+<div class="flex items-center gap-4 p-3 rounded-xl hover:bg-surface-bright transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-surface-container-low shrink-0">
+<img alt="Product Image" class="w-full h-full object-cover" data-alt="A close-up product shot of a cute, pastel pink sneaker with soft lighting against a minimal white background, emphasizing its trendy kawaii aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZoYgvavL_ilrO8mVp8f8iWWEFY_4g1oiXS4bMdb05jF3SGyusHQVu3iVotJmLTEOa51Cu_4sNU6rIL1CzfKZg9KJfugs7QNLutKKfb62dJkuH01r52bGv34Yx5ZeEEyV56oCxjRHCgpnLS_IhuuijIsl7KDmUYny_lrvnqwSTC0z1tdjo6Ib0yUNaxJnugkvQacvdKF-pKySCYAC99WqLwPpStMMDNvZnXphpL5mT5OJYrAo5_pwkGUiRRGCAjgZSZY9uBd_3vA"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-body-md text-sm font-semibold text-on-background truncate group-hover:text-primary transition-colors">Kawaii Sneaker Pink</h4>
+<p class="font-body-sm text-xs text-on-surface-variant">ORD-9921 • Budi Santoso</p>
+</div>
+<div class="shrink-0 text-right">
+<span class="inline-block px-2 py-1 rounded bg-yellow-50 text-yellow-600 text-[10px] font-bold tracking-wider uppercase">Diproses</span>
+</div>
+</div>
+<!-- Order Item 2 -->
+<div class="flex items-center gap-4 p-3 rounded-xl hover:bg-surface-bright transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-surface-container-low shrink-0">
+<img alt="Product Image" class="w-full h-full object-cover" data-alt="A beautifully styled flat lay of a minimalist wireless headphone resting on a soft beige surface, illuminated by warm, diffused light to create a premium, calm vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt8DLhmlKazIfGB48ObzwnQaSQ0zynWJ6QWZhtYlJyd9wlppBLeljgeAzU_GJSe6NxDUAH5oqiwsvq1ErGYxP80ZonvH5yD1_Gq6bnQn3wJlODSSbwcLduKTOo-UzAYCTo8WHewrqURUwVYZgPDTgvzUsaQY81NLAF3BRX_qga7wp80NDPmnbi56wVNSM4tn2T517FJRKhewloscx4Ayh3HBgwS4O93fc8iVuPVueCNenSxLVMqWBBEX2Iu5UJn5TRb8-T359AOg"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-body-md text-sm font-semibold text-on-background truncate group-hover:text-primary transition-colors">Aesthetic Headphone</h4>
+<p class="font-body-sm text-xs text-on-surface-variant">ORD-9920 • Siti Aminah</p>
+</div>
+<div class="shrink-0 text-right">
+<span class="inline-block px-2 py-1 rounded bg-green-50 text-green-600 text-[10px] font-bold tracking-wider uppercase">Selesai</span>
+</div>
+</div>
+<!-- Order Item 3 -->
+<div class="flex items-center gap-4 p-3 rounded-xl hover:bg-surface-bright transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-surface-container-low shrink-0">
+<img alt="Product Image" class="w-full h-full object-cover" data-alt="A delicate pastel-colored cosmetic pouch laid on a clean marble surface, softly lit to highlight its smooth texture and elegant simplicity in a modern setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKNKpvukUSSWC97b0vBHx9HF5x8XPO05qtYO8QuqVlQnZppS5MSc5yBVGGpUVrPRJzlOdN9MU6NSl6vS7IRAvfWBuQ3KSNYxe55LWd5-60r0Koiz5s1pLcIp8pIz_AHkg6XnWSBIxp732UCpYz9_Kd8PKLTwe7x5fsYHT1VXhSM0vDbdZA_W0Vy4ik5afv8cYIsybbBF3f4_4imZg8O8Fs7vomsiwa44U0Gcw3Ab6Omo8vT1sxF5rfN87sgktadqEKOTUwMz05DQ"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-body-md text-sm font-semibold text-on-background truncate group-hover:text-primary transition-colors">Pastel Pouch</h4>
+<p class="font-body-sm text-xs text-on-surface-variant">ORD-9919 • Rina Melati</p>
+</div>
+<div class="shrink-0 text-right">
+<span class="inline-block px-2 py-1 rounded bg-blue-50 text-blue-600 text-[10px] font-bold tracking-wider uppercase">Dikirim</span>
+</div>
+</div>
+</div>
+<button class="mt-4 w-full py-3 rounded-xl border border-outline-variant text-on-surface-variant font-label-caps uppercase hover:bg-surface-container-low hover:text-primary transition-colors">
+                    Kelola Pesanan
+                </button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) - Generated from JSON strictly for responsiveness fallback -->
+<nav class="bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl text-pink-400 dark:text-pink-300 font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest fixed bottom-0 w-full rounded-t-3xl border-t border-t border-pink-100/30 dark:border-zinc-800 shadow-[0_-10px_40px_rgba(255,182,193,0.15)] fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 md:hidden">
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-950/30 dark:to-purple-950/30 text-pink-500 rounded-2xl px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="mt-1">Wishlist</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="mt-1">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

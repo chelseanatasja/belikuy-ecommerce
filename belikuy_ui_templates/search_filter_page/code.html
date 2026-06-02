@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BeliKuy Search</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#fcb3be",
+                        "on-secondary-fixed": "#29132c",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-variant": "#e1e3e4",
+                        "primary": "#874e58",
+                        "surface-bright": "#f8f9fa",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#f7ddda",
+                        "surface": "#f8f9fa",
+                        "surface-dim": "#d9dadb",
+                        "outline-variant": "#d6c2c3",
+                        "tertiary-container": "#ddc4c1",
+                        "secondary": "#715572",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#f8f9fa",
+                        "secondary-container": "#f8d5f7",
+                        "on-primary-fixed": "#360c17",
+                        "inverse-surface": "#2e3132",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#ffb6c1",
+                        "on-primary-container": "#7b444e",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#ffd9de",
+                        "on-secondary": "#ffffff",
+                        "outline": "#847375",
+                        "on-tertiary-container": "#63504e",
+                        "primary-fixed-dim": "#fcb3be",
+                        "on-primary-fixed-variant": "#6b3741",
+                        "on-background": "#191c1d",
+                        "tertiary-fixed-dim": "#dac1be",
+                        "on-surface-variant": "#514345",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#583e5a",
+                        "secondary-fixed-dim": "#debcde",
+                        "on-secondary-container": "#755977",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-container-high": "#e7e8e9",
+                        "tertiary": "#6d5a58",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#544341",
+                        "on-surface": "#191c1d",
+                        "on-tertiary-fixed": "#261817",
+                        "surface-tint": "#874e58",
+                        "surface-container": "#edeeef",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed": "#fbd8fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "xl": "48px"
+                    },
+                    "fontFamily": {
+                        "h3": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h3": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "h2": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom Checkbox styles */
+        .checkbox-custom {
+            appearance: none;
+            background-color: #fff;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.15em;
+            height: 1.15em;
+            border: 1.5px solid #d6c2c3;
+            border-radius: 0.25rem;
+            display: grid;
+            place-content: center;
+        }
+        .checkbox-custom::before {
+            content: "";
+            width: 0.65em;
+            height: 0.65em;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em #874e58;
+            background-color: #874e58;
+            transform-origin: center;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+        .checkbox-custom:checked::before {
+            transform: scale(1);
+        }
+        .checkbox-custom:checked {
+            border-color: #874e58;
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen text-on-background font-body-md text-body-md pt-20 pb-20 md:pb-8">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-pink-50/50 dark:border-zinc-800/50 shadow-[0_8px_30px_rgb(255,182,193,0.1)]">
+<div class="flex justify-between items-center px-6 py-3 max-w-7xl mx-auto">
+<!-- Brand -->
+<div class="flex items-center gap-2">
+<span class="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-500">BeliKuy</span>
+</div>
+<!-- Search (Center) -->
+<div class="hidden md:flex flex-1 max-w-xl mx-8 relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-bright border-none rounded-full py-2.5 pl-12 pr-4 text-on-surface focus:ring-2 focus:ring-primary-container focus:bg-white transition-all shadow-[0_2px_10px_rgba(255,182,193,0.1)] focus:shadow-[0_4px_15px_rgba(255,182,193,0.2)] font-body-sm text-body-sm outline-none" placeholder="Search Kawaii aesthetics..." type="text"/>
+</div>
+<!-- Navigation Links & Actions -->
+<div class="hidden md:flex items-center gap-6">
+<a class="font-['Plus_Jakarta_Sans'] text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-pink-400 transition-colors duration-200 active:scale-95 transition-transform" href="#">Categories</a>
+<a class="font-['Plus_Jakarta_Sans'] text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-pink-400 transition-colors duration-200 active:scale-95 transition-transform" href="#">Flash Sale</a>
+<a class="font-['Plus_Jakarta_Sans'] text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-pink-400 transition-colors duration-200 active:scale-95 transition-transform" href="#">Brands</a>
+<div class="flex items-center gap-4 ml-4 pl-4 border-l border-outline-variant">
+<button class="text-pink-400 dark:text-pink-300 hover:text-pink-500 transition-colors relative">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="absolute -top-1 -right-1 bg-error text-on-error text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">3</span>
+</button>
+<button class="text-pink-400 dark:text-pink-300 hover:text-pink-500 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<img alt="User profile" class="w-8 h-8 rounded-full border border-primary-container cursor-pointer hover:shadow-md transition-shadow object-cover" data-alt="A small, circular avatar portrait of a stylish young woman against a minimal, soft pastel pink background. Lighting is soft and bright, emphasizing a clean, contemporary aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkMAugop2Q7uDmn_X5UAQZcQe-LtNBNL4NfaufWbqevMbDU9JW8DqKRZeDNY9stW51mPC9gnwwjiyuxK9PlFlrTn9S6P-93Qhuy4E_gjVB4RNoq6Oxyqli1Uzn8P1btRPdgFEK2nKqhzRQOIwRawY5MenUd7Q_CsqKJQP1XsR8yfzHetXGCOz8NkbGFww7Xazh1MhrevTz3rYzeOHzSx-Ud7emXql-YFOoYngnzdsAoZFXNOmaZ1KolD8cqTzYMR-KF-tdgpH76Q"/>
+</div>
+</div>
+<!-- Mobile Search Icon -->
+<button class="md:hidden text-pink-400 dark:text-pink-300">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Layout -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row gap-8">
+<!-- Sidebar Filter -->
+<aside class="w-full md:w-64 flex-shrink-0 space-y-8">
+<div class="bg-white rounded-xl p-6 shadow-[0_8px_30px_rgb(255,182,193,0.08)] sticky top-28">
+<div class="flex items-center justify-between mb-6 border-b border-surface-variant pb-4">
+<h2 class="font-h3 text-h3 text-on-surface">Filters</h2>
+<button class="text-primary font-label-caps text-label-caps hover:text-primary-container transition-colors">RESET</button>
+</div>
+<!-- Categories -->
+<div class="mb-8">
+<h3 class="font-h2 text-body-lg font-semibold text-on-surface mb-4">Categories</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="checkbox-custom" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary transition-colors">Stationery</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="checkbox-custom" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary transition-colors">Home Decor</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="checkbox-custom" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary transition-colors">Accessories</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="checkbox-custom" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary transition-colors">Plushies</span>
+</label>
+</div>
+</div>
+<!-- Price Range -->
+<div class="mb-8">
+<h3 class="font-h2 text-body-lg font-semibold text-on-surface mb-4">Price Range</h3>
+<div class="relative w-full h-1 bg-surface-variant rounded-full mb-6">
+<div class="absolute left-[20%] right-[40%] h-full bg-primary-container rounded-full"></div>
+<div class="absolute left-[20%] top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-primary rounded-full shadow-md cursor-pointer hover:scale-110 transition-transform"></div>
+<div class="absolute right-[40%] top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-primary rounded-full shadow-md cursor-pointer hover:scale-110 transition-transform"></div>
+</div>
+<div class="flex items-center justify-between gap-4">
+<div class="flex-1 bg-surface-bright rounded-lg px-3 py-2 border border-surface-variant">
+<span class="font-body-sm text-body-sm text-outline block mb-1">Min</span>
+<span class="font-body-md text-body-sm font-medium text-on-surface">$10</span>
+</div>
+<span class="text-outline">-</span>
+<div class="flex-1 bg-surface-bright rounded-lg px-3 py-2 border border-surface-variant">
+<span class="font-body-sm text-body-sm text-outline block mb-1">Max</span>
+<span class="font-body-md text-body-sm font-medium text-on-surface">$150</span>
+</div>
+</div>
+</div>
+<!-- Rating -->
+<div class="mb-8">
+<h3 class="font-h2 text-body-lg font-semibold text-on-surface mb-4">Rating</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="checkbox-custom" type="checkbox"/>
+<div class="flex items-center text-primary-container">
+<span class="material-symbols-outlined fill text-base">star</span>
+<span class="material-symbols-outlined fill text-base">star</span>
+<span class="material-symbols-outlined fill text-base">star</span>
+<span class="material-symbols-outlined fill text-base">star</span>
+<span class="material-symbols-outlined fill text-base">star</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant ml-1">&amp; Up</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="checkbox-custom" type="checkbox"/>
+<div class="flex items-center text-primary-container">
+<span class="material-symbols-outlined fill text-base">star</span>
+<span class="material-symbols-outlined fill text-base">star</span>
+<span class="material-symbols-outlined fill text-base">star</span>
+<span class="material-symbols-outlined fill text-base">star</span>
+<span class="material-symbols-outlined text-base">star</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant ml-1">&amp; Up</span>
+</label>
+</div>
+</div>
+<!-- Apply Button -->
+<button class="w-full bg-gradient-to-r from-primary-container to-inverse-primary text-on-primary-container font-label-caps text-label-caps py-3 rounded-full hover:shadow-[0_4px_15px_rgba(255,182,193,0.4)] transition-all active:scale-95">
+                    APPLY FILTERS
+                </button>
+</div>
+</aside>
+<!-- Product Grid Area -->
+<div class="flex-1 flex flex-col gap-6">
+<!-- Sorting Header -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white rounded-xl p-4 shadow-[0_4px_20px_rgb(255,182,193,0.05)]">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Showing <strong class="text-on-surface font-semibold">24</strong> results for "Kawaii Accessories"</span>
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-outline">Sort by:</span>
+<select class="bg-surface-bright border-none text-on-surface font-body-sm text-body-sm rounded-lg py-2 pl-3 pr-8 focus:ring-2 focus:ring-primary-container outline-none cursor-pointer">
+<option>Newest Arrivals</option>
+<option>Lowest Price</option>
+<option>Highest Price</option>
+</select>
+</div>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Product Card 1 -->
+<div class="bg-white rounded-2xl p-4 shadow-[0_8px_30px_rgb(255,182,193,0.08)] hover:shadow-[0_12px_40px_rgb(255,182,193,0.15)] transition-all group flex flex-col">
+<div class="relative w-full aspect-square rounded-xl overflow-hidden mb-4 bg-surface-bright">
+<img alt="Pastel pink mechanical keyboard" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A top-down view of a pastel pink mechanical keyboard resting on a clean, light-colored desk surface. The aesthetic is soft and modern, illuminated by bright, diffused natural light. Surrounding the keyboard are subtle hints of cute stationery, enhancing the kawaii-chic vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlQ7MuOv1t8QiEWAUZxFhx2RPHpV8VdULfh6719xoFwyJ0IXJcBwJ2YQrXF_qErWgAnQftu01JEEU4sCXK_nI0ta9KG_sY1hwEqXvZXifLBsyTIVyeSDaDVHKxomXPuvhBgSQtOA4kMJQA3AVgKFqN_ccWj0NPDyhKH4XisxbnlFaYKSdkjAHgQtKVD7VSkAdOQHcW0yAtFP6TFvh3UavIGgw6RWBtEGUVOnFvsLIaCtS6JRi1fSmofMvsYqgTog7Yja8wlNV6NQ"/>
+<button class="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-outline hover:text-primary hover:bg-white transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 bg-secondary-container text-on-secondary-container font-label-caps text-[10px] px-2 py-1 rounded-md">NEW</div>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex items-center gap-1 mb-1 text-primary-container">
+<span class="material-symbols-outlined fill text-[14px]">star</span>
+<span class="font-body-sm text-[12px] font-medium text-on-surface-variant">4.9 <span class="text-outline font-normal">(128)</span></span>
+</div>
+<h3 class="font-h3 text-body-md font-semibold text-on-surface line-clamp-2 mb-1 group-hover:text-primary transition-colors">Strawberry Milk PBT Keycap Set</h3>
+<p class="font-body-sm text-[12px] text-outline mb-3">Kawaii Desk Co.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-h2 text-h3 text-primary font-bold">$45.00</span>
+<button class="w-8 h-8 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-white rounded-2xl p-4 shadow-[0_8px_30px_rgb(255,182,193,0.08)] hover:shadow-[0_12px_40px_rgb(255,182,193,0.15)] transition-all group flex flex-col">
+<div class="relative w-full aspect-square rounded-xl overflow-hidden mb-4 bg-surface-bright">
+<img alt="Cute bunny plush toy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A soft, fluffy white bunny plush toy sitting on a clean, pastel-toned surface. The lighting is bright and ethereal, casting very soft shadows to create a dreamy, cozy atmosphere. The minimal background ensures the toy remains the central focus, epitomizing soft neomorphism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJZPHjCNqqu_Ns6Qr511IM1ZhfRDHm23frCGdnhLUqU5kvO6SVNJ2pG7CC7RQa8_yx9E0QTc3P00BOtrRYu6TluMMCqsqhgQYmlXR0IAtlh8DPwoH89lJeFrcn3e2_-JfDa4djmotoAf7o5KlyhZ-fj1j0CfIIQ8pv4EJ0e37pyR7q76uaAsN54WcABpLBuXM8vo5ciZorFub-JmbE9hFw4qe5e8rahL8LCi-FIePak6vMhZ2yDalgODLWVIlmYW3m8Anwu3Yqfw"/>
+<button class="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-primary bg-white transition-colors shadow-sm">
+<span class="material-symbols-outlined fill text-[18px]">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 bg-tertiary-container text-on-tertiary-container font-label-caps text-[10px] px-2 py-1 rounded-md">BESTSELLER</div>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex items-center gap-1 mb-1 text-primary-container">
+<span class="material-symbols-outlined fill text-[14px]">star</span>
+<span class="font-body-sm text-[12px] font-medium text-on-surface-variant">5.0 <span class="text-outline font-normal">(452)</span></span>
+</div>
+<h3 class="font-h3 text-body-md font-semibold text-on-surface line-clamp-2 mb-1 group-hover:text-primary transition-colors">Mochi Bunny Huggable Plushie</h3>
+<p class="font-body-sm text-[12px] text-outline mb-3">Fluff &amp; Co.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-h2 text-h3 text-primary font-bold">$28.50</span>
+<button class="w-8 h-8 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-white rounded-2xl p-4 shadow-[0_8px_30px_rgb(255,182,193,0.08)] hover:shadow-[0_12px_40px_rgb(255,182,193,0.15)] transition-all group flex flex-col">
+<div class="relative w-full aspect-square rounded-xl overflow-hidden mb-4 bg-surface-bright">
+<img alt="Pastel gel pens set" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A neatly arranged set of pastel-colored gel pens lying on a pristine white desk top. The composition is highly organized and minimal, with soft, diffused lighting highlighting the matte texture of the pen casings. The overall mood is inspiring and calm, perfect for a chic stationery collection." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9uyMUzQEVw2P8wJoOLuX0NhkBPSV_1Av8lXV4AIRw-AeF4PgA7VgqWfRgKEiurYTmRE0WIbuybxosCDQ1v_Q7P3452JzaP3apSDWT63kxRv_Ltm8AZUsHHykIZVpQnDvwz1KxedLSxqdJY1Tk-e-o-2YwLEyrrg_hI1xodCUmMt9-WGo6VuGXjcA02Q60kloeY9o7ep9xwngthlw0r1LLcHO1ZJA9YbdcJYBIl4gOa7l_TKBKlPF81UV-ikDRPAg_bpxr67w-gQ"/>
+<button class="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-outline hover:text-primary hover:bg-white transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex items-center gap-1 mb-1 text-primary-container">
+<span class="material-symbols-outlined fill text-[14px]">star</span>
+<span class="font-body-sm text-[12px] font-medium text-on-surface-variant">4.7 <span class="text-outline font-normal">(89)</span></span>
+</div>
+<h3 class="font-h3 text-body-md font-semibold text-on-surface line-clamp-2 mb-1 group-hover:text-primary transition-colors">Macaron Color Gel Pen Set (6 Pack)</h3>
+<p class="font-body-sm text-[12px] text-outline mb-3">Paper &amp; Vibe</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-h2 text-h3 text-primary font-bold">$12.00</span>
+<button class="w-8 h-8 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-white rounded-2xl p-4 shadow-[0_8px_30px_rgb(255,182,193,0.08)] hover:shadow-[0_12px_40px_rgb(255,182,193,0.15)] transition-all group flex flex-col">
+<div class="relative w-full aspect-square rounded-xl overflow-hidden mb-4 bg-surface-bright">
+<img alt="Cute ceramic mug" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A charming, hand-crafted ceramic mug with a subtle pastel glaze, sitting on a light wooden coaster. The background is a soft, out-of-focus white surface. High-key, gentle lighting emphasizes the organic, smooth curves of the mug, creating a warm, boutique atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZFgq8ojI24iUwu-1nWwwubiOUPPJRhseDdaBCqp5PwTup0FJAZh9R66e595OJ0G_Hyga0K_hQxAHTvRPaQjtSr-BMcyQzBSrO3myCWfxs1Bm5-PBens8e48928lMaUIXjvNN4Am6DZYz4s7c9J5t6bzRx0FHVUELAhgCUyLeeX2UXKBglXpJ0QBMhq_Ew8rZAIRdG3LUBb1Nudin-SDqUCKoAHetiFAnktttMeWaQSz3N9E93bJtDfNybvbX2OzXO2APzPTz5kg"/>
+<button class="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-outline hover:text-primary hover:bg-white transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 bg-error-container text-on-error-container font-label-caps text-[10px] px-2 py-1 rounded-md">-15% SALE</div>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex items-center gap-1 mb-1 text-primary-container">
+<span class="material-symbols-outlined fill text-[14px]">star</span>
+<span class="font-body-sm text-[12px] font-medium text-on-surface-variant">4.8 <span class="text-outline font-normal">(210)</span></span>
+</div>
+<h3 class="font-h3 text-body-md font-semibold text-on-surface line-clamp-2 mb-1 group-hover:text-primary transition-colors">Cloud Shaped Ceramic Coffee Mug</h3>
+<p class="font-body-sm text-[12px] text-outline mb-3">Ceramics Studio</p>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-body-sm text-[12px] text-outline line-through">$24.00</span>
+<span class="font-h2 text-h3 text-primary font-bold">$20.40</span>
+</div>
+<button class="w-8 h-8 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-12 flex justify-center items-center gap-2">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-outline hover:bg-surface-variant transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center bg-primary text-white font-body-sm font-medium shadow-[0_4px_15px_rgba(255,182,193,0.4)]">1</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors font-body-sm font-medium">2</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors font-body-sm font-medium">3</button>
+<span class="w-10 h-10 flex items-center justify-center text-outline">...</span>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors font-body-sm font-medium">8</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl rounded-t-3xl shadow-[0_-10px_40px_rgba(255,182,193,0.15)]">
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined mb-1">favorite</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest">Wishlist</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-950/30 dark:to-purple-950/30 text-pink-500 rounded-2xl px-5 py-2 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined mb-1">search</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 px-5 py-2 hover:text-pink-400 scale-110 duration-500 ease-out" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-widest">Profile</span>
+</a>
+</nav>
+</body></html>

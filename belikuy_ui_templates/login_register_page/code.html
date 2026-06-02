@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BeliKuy - Login / Register</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#fcb3be",
+                        "on-secondary-fixed": "#29132c",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-variant": "#e1e3e4",
+                        "primary": "#874e58",
+                        "surface-bright": "#f8f9fa",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#f7ddda",
+                        "surface": "#f8f9fa",
+                        "surface-dim": "#d9dadb",
+                        "outline-variant": "#d6c2c3",
+                        "tertiary-container": "#ddc4c1",
+                        "secondary": "#715572",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#f8f9fa",
+                        "secondary-container": "#f8d5f7",
+                        "on-primary-fixed": "#360c17",
+                        "inverse-surface": "#2e3132",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#ffb6c1",
+                        "on-primary-container": "#7b444e",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#ffd9de",
+                        "on-secondary": "#ffffff",
+                        "outline": "#847375",
+                        "on-tertiary-container": "#63504e",
+                        "primary-fixed-dim": "#fcb3be",
+                        "on-primary-fixed-variant": "#6b3741",
+                        "on-background": "#191c1d",
+                        "tertiary-fixed-dim": "#dac1be",
+                        "on-surface-variant": "#514345",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#583e5a",
+                        "secondary-fixed-dim": "#debcde",
+                        "on-secondary-container": "#755977",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-container-high": "#e7e8e9",
+                        "tertiary": "#6d5a58",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#544341",
+                        "on-surface": "#191c1d",
+                        "on-tertiary-fixed": "#261817",
+                        "surface-tint": "#874e58",
+                        "surface-container": "#edeeef",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed": "#fbd8fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "xl": "48px"
+                    },
+                    "fontFamily": {
+                        "h3": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h3": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "h2": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex items-center justify-center p-md md:p-lg">
+<!-- Main Container: Split Screen Card -->
+<div class="w-full max-w-container-max bg-surface-container-lowest rounded-xl shadow-[0_8px_30px_rgba(255,182,193,0.2)] overflow-hidden flex flex-col md:flex-row min-h-[600px] relative">
+<!-- Left Side: Illustration -->
+<div class="hidden md:flex md:w-1/2 relative bg-gradient-to-br from-primary-fixed to-secondary-fixed p-xl flex-col justify-between items-center text-center">
+<div class="absolute inset-0 z-0">
+<img alt="BeliKuy Illustration" class="w-full h-full object-cover opacity-40 mix-blend-overlay" data-alt="A highly aesthetic, stylized digital illustration featuring an abstract, kawaii-chic shopping theme. The composition is filled with soft, rounded geometric shapes like spheres, floating shopping bags, and playful abstract ribbons. The color palette is a sophisticated blend of pastel pinks, soft lavenders, and creamy off-whites, creating a warm, premium, and airy atmosphere. The lighting is soft and diffused, evoking a trendy, modern lifestyle brand feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDeWw3PQMCV0ArNQ2ltxKtD4roL-rh8Sl9QHSpNFiqbp1tzaLhqZdqU78ocbE6f2m474mG98MMa46Q4HWYrThhDwu0vqy0t2-owH3jZuPZu8DcPJedWJbe557E5OohrSoLgicqzXewqwZ4V3ctIDGipAPGOGwl7jb0fI62PWpA3U8eS9btW_mYvMCIZA0NBicR_lUik2iD759fTGu01S4GXV6Ld_cEqwmFa5YHrxaCgAJUbFP5EGaDI66jQDKVw8y30D8E7Wybbg"/>
+</div>
+<div class="relative z-10 w-full flex justify-start">
+<span class="font-h2 text-h2 text-on-primary-container tracking-tighter font-extrabold drop-shadow-md">BeliKuy</span>
+</div>
+<div class="relative z-10 space-y-md">
+<h1 class="font-h1 text-h1 text-on-primary-fixed-variant leading-tight">Lapak Luas,<br/>Belanja Puas.</h1>
+<p class="font-body-lg text-body-lg text-on-secondary-container">Temukan jutaan produk pilihan dengan gaya dan kualitas terbaik, hanya di genggamanmu.</p>
+</div>
+<div class="relative z-10">
+<!-- Decorative element -->
+<div class="w-24 h-1 bg-surface-container-lowest rounded-full opacity-50 mx-auto"></div>
+</div>
+</div>
+<!-- Right Side: Forms -->
+<div class="w-full md:w-1/2 p-lg md:p-xl flex flex-col justify-center relative bg-surface-container-lowest">
+<!-- Mobile Brand Header (Visible only on mobile) -->
+<div class="md:hidden flex justify-center mb-lg">
+<span class="font-h2 text-h2 text-transparent bg-clip-text bg-gradient-to-r from-primary-container to-secondary-container font-extrabold">BeliKuy</span>
+</div>
+<div class="w-full max-w-md mx-auto space-y-lg">
+<!-- Header -->
+<div class="text-center md:text-left space-y-sm">
+<h2 class="font-h2 text-h2 text-on-background">Masuk</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Selamat datang kembali! Yuk lanjut belanja.</p>
+</div>
+<!-- Form -->
+<form class="space-y-md">
+<!-- Email Input -->
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">mail</span>
+</div>
+<input class="w-full pl-[48px] pr-md py-3 bg-surface-bright border-none rounded-lg font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-primary-container focus:bg-surface-container-lowest shadow-[0_4px_15px_rgba(255,182,193,0.05)] transition-all outline-none placeholder:text-outline-variant" placeholder="Email" type="email"/>
+</div>
+<!-- Password Input -->
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">lock</span>
+</div>
+<input class="w-full pl-[48px] pr-md py-3 bg-surface-bright border-none rounded-lg font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-primary-container focus:bg-surface-container-lowest shadow-[0_4px_15px_rgba(255,182,193,0.05)] transition-all outline-none placeholder:text-outline-variant" placeholder="Kata Sandi" type="password"/>
+<div class="absolute inset-y-0 right-0 pr-md flex items-center cursor-pointer">
+<span class="material-symbols-outlined text-outline hover:text-primary transition-colors">visibility_off</span>
+</div>
+</div>
+<!-- Forgot Password & Remember Me -->
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<label class="flex items-center space-x-2 cursor-pointer">
+<input class="rounded text-primary-container focus:ring-primary-container bg-surface-bright border-none" type="checkbox"/>
+<span class="text-on-surface-variant">Ingat saya</span>
+</label>
+<a class="text-primary hover:text-on-primary-container font-medium transition-colors" href="#">Lupa sandi?</a>
+</div>
+<!-- Submit Button -->
+<button class="w-full py-4 rounded-full bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-label-caps text-label-caps hover:shadow-[0_8px_20px_rgba(255,182,193,0.4)] hover:-translate-y-0.5 transition-all duration-300" type="button">
+                        MASUK SEKARANG
+                    </button>
+</form>
+<!-- Divider -->
+<div class="relative flex items-center py-md">
+<div class="flex-grow border-t border-surface-variant"></div>
+<span class="flex-shrink-0 mx-4 font-body-sm text-body-sm text-outline">atau masuk dengan</span>
+<div class="flex-grow border-t border-surface-variant"></div>
+</div>
+<!-- Social Logins -->
+<div class="grid grid-cols-2 gap-md">
+<button class="flex items-center justify-center space-x-2 py-3 rounded-lg bg-surface-bright hover:bg-surface-container-low transition-colors text-on-surface font-body-sm text-body-sm shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+<img alt="Google" class="w-5 h-5" data-alt="The official Google G logo, featuring its standard multi-colored design (blue, red, yellow, green) on a transparent background, displayed cleanly as a small UI icon element." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4ipnX0DKQtrY2ZzqVQR-i3-jztOKubGGlDX7pEDkI8OTkrgpOl7WjTRy1INO2b5JEmb_11FDjC9gZYO02YwzX6zEPGhrFOXR26nlRIHvBVYhQBZb7c-MOnvEyGjJLkDRLlgc0A7Z2egEyqfKE3sH3dHM7qLrXxO80W4Q3YISRJ-cjbc37OVcevlJMUG9HjvR6iznunbWmBVTdhDXObMuC-ZnzbvUnyhMkxhvQoiZXcdPgXvWMDoC9a0i43PvSc1nx3MLYA_eZhw"/>
+<span>Google</span>
+</button>
+<button class="flex items-center justify-center space-x-2 py-3 rounded-lg bg-surface-bright hover:bg-surface-container-low transition-colors text-on-surface font-body-sm text-body-sm shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+<img alt="Facebook" class="w-5 h-5" data-alt="The official Facebook 'f' logo, featuring the classic blue background and white letter, displayed cleanly as a small UI icon element." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxi-Chdcjy8xcdxkX2kacLC24k56bmGxSFsESF4Xebc-O9PoBP0itamB1cJpEvpsBRPrnpPIEtPqMWnhfwLfUd7kiNR1K3s0tZ3VUMp-WL3Ze7Pei1jE1iTnfgxf40AS9tHiX99IRfS4B6OSCyQmFl22Af287UXmaHzX9gpnC4A2Xddrg9Bfq9aw_K-JRULlY12CzJTWZO1oJ0rA4SvR0d5fAULJWjZeecDY16btF45iCXJomRHfkyNlO7cGd4pkQxiDspz3wAxw"/>
+<span>Facebook</span>
+</button>
+</div>
+<!-- Toggle to Register -->
+<div class="text-center font-body-sm text-body-sm pt-md">
+<span class="text-on-surface-variant">Belum punya akun?</span>
+<a class="text-primary font-medium hover:text-on-primary-container transition-colors ml-1" href="#">Daftar di sini</a>
+</div>
+</div>
+</div>
+</div>
+</body></html>
