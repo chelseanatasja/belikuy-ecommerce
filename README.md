@@ -41,12 +41,13 @@ Pastikan perangkat lunak berikut sudah terinstal:
 2. Akses *database client*:
    - Jika menggunakan **Laragon**: Klik tombol **Database** (HeidiSQL) atau akses `http://localhost/phpmyadmin` jika terinstal.
    - Jika menggunakan **XAMPP**: Buka *browser* dan akses `http://localhost/phpmyadmin`.
-3. Buat 4 *database* kosong dengan nama berikut:
+3. Buat 4 *database* kosong di phpMyAdmin/HeidiSQL dengan nama persis seperti berikut:
    - `belikuy_marketplace_db`
    - `belikuy_seller_db`
    - `belikuy_payment_db`
    - `belikuy_delivery_db`
-4. Lakukan *Import* _file_ SQL yang telah disediakan ke masing-masing *database* tersebut.
+4. Buka folder `database_dumps` yang ada di dalam repositori ini.
+5. Lakukan *Import* _file_ `.sql` yang ada di dalam folder tersebut ke masing-masing *database* yang bersesuaian (contoh: *import* `belikuy_marketplace_db.sql` ke dalam *database* `belikuy_marketplace_db`).
 
 ### 3. Instalasi *Dependencies* (Wajib Dilakukan Sekali)
 Sebelum menjalankan, pastikan semua *library* pendukung terinstal. Buka Terminal/CMD dan jalankan:
