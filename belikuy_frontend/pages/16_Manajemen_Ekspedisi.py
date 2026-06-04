@@ -1,18 +1,27 @@
 import streamlit as st
 import sys, os, re
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + "/..")
 from utils import get_api, post_api, delete_api, require_role, hide_streamlit_ui
 from html_bridge import render_original_html
 from unified_sidebar import inject_admin_sidebar, handle_admin_global_action
 
-st.set_page_config(page_title="BeliKuy - Manajemen Ekspedisi", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(
+    page_title="BeliKuy - Manajemen Ekspedisi",
+    layout="wide",
+    initial_sidebar_state="collapsed",
+)
 hide_streamlit_ui()
 require_role("admin")
 
 import mysql.connector
 
+
 def get_db_connection():
-    return mysql.connector.connect(host="127.0.0.1", user="root", password="", database="belikuy")
+    return mysql.connector.connect(
+        host="127.0.0.1", user="root", password="", database="belikuy"
+    )
+
 
 conn = get_db_connection()
 cursor = conn.cursor(dictionary=True)
@@ -20,19 +29,28 @@ cursor.execute("SELECT * FROM shipment_companies ORDER BY id DESC")
 companies = cursor.fetchall()
 conn.close()
 
-HTML_BASE = r"D:\belikuy\belikuy_ui_templates"
-with open(os.path.join(HTML_BASE, "super_admin_shipment_management/code.html"), encoding='utf-8') as f:
+HTML_BASE = (
+    r"D:\Tugas Kuliah\Semester 4\Workshop RPL\belikuy-ecommerce\belikuy_ui_templates"
+)
+with open(
+    os.path.join(HTML_BASE, "super_admin_shipment_management/code.html"),
+    encoding="utf-8",
+) as f:
     html = f.read()
 
 # Build Cards
 cards = ""
 for c in companies:
-    is_active = (c.get('status', 'active') == 'active')
-    status_dot = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span>' if is_active else '<span class="w-2 h-2 rounded-full bg-gray-400"></span>'
-    status_text = 'Aktif' if is_active else 'Nonaktif'
-    toggle_icon = 'toggle_on' if is_active else 'toggle_off'
-    
-    cards += f'''
+    is_active = c.get("status", "active") == "active"
+    status_dot = (
+        '<span class="w-2 h-2 rounded-full bg-emerald-400"></span>'
+        if is_active
+        else '<span class="w-2 h-2 rounded-full bg-gray-400"></span>'
+    )
+    status_text = "Aktif" if is_active else "Nonaktif"
+    toggle_icon = "toggle_on" if is_active else "toggle_off"
+
+    cards += f"""
     <article class="bg-surface-container-lowest rounded-xl p-lg shadow-[0_8px_30px_rgb(255,182,193,0.05)] flex flex-col relative group">
         <div class="flex justify-between items-start mb-6">
             <div class="w-16 h-16 rounded-xl bg-primary-container text-primary flex items-center justify-center overflow-hidden font-h3 font-bold text-2xl">
@@ -58,15 +76,20 @@ for c in companies:
             <button onclick="stNavigate({{action:'delete_shipment', sid:{c.get('id')}}})" class="flex-1 bg-error-container text-on-error-container font-label-caps text-[12px] py-2 rounded-full hover:bg-error hover:text-on-error transition-colors">Hapus</button>
         </div>
     </article>
-    '''
+    """
 
 if not cards:
     cards = '<div class="col-span-1 md:col-span-2 lg:col-span-3 text-center py-12 text-on-surface-variant">Belum ada ekspedisi terdaftar.</div>'
 
-html = re.sub(r'(<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">)(.*?)(</main>)', rf'\1{cards}</div>\3', html, flags=re.DOTALL)
+html = re.sub(
+    r'(<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">)(.*?)(</main>)',
+    rf"\1{cards}</div>\3",
+    html,
+    flags=re.DOTALL,
+)
 
 # Add Modal
-modal_html = f'''
+modal_html = f"""
 <div id="addModal" class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-sm z-[100] hidden flex items-start pt-32 justify-center p-4">
     <div class="bg-surface-container-lowest rounded-xl w-full max-w-md p-xl shadow-[0_20px_50px_rgba(255,182,193,0.3)] relative transform transition-transform">
         <button onclick="toggleModal()" type="button" class="absolute top-6 right-6 text-on-surface-variant hover:text-error transition-colors p-2 rounded-full hover:bg-surface-container">
@@ -87,8 +110,8 @@ modal_html = f'''
         </div>
     </div>
 </div>
-'''
-html = html.replace('</body>', modal_html + '</body>')
+"""
+html = html.replace("</body>", modal_html + "</body>")
 
 js_head = """<script>
 function stNavigate(params) {
@@ -128,7 +151,7 @@ html = inject_admin_sidebar(html, "16_Manajemen_Ekspedisi")
 action_data = render_original_html("belikuy_v2_admin_shipment", html, height=1200)
 
 if action_data:
-    act = action_data.get('action')
+    act = action_data.get("action")
     if handle_admin_global_action(st, act):
         pass
     elif act == "add_shipment":
@@ -137,7 +160,10 @@ if action_data:
         if name and stype:
             conn = get_db_connection()
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO shipment_companies (company_name, service_type) VALUES (%s, %s)", (name, stype))
+            cursor.execute(
+                "INSERT INTO shipment_companies (company_name, service_type) VALUES (%s, %s)",
+                (name, stype),
+            )
             conn.commit()
             conn.close()
         st.rerun()
@@ -154,10 +180,13 @@ if action_data:
         sid = action_data.get("sid")
         cstatus = action_data.get("cstatus")
         if sid:
-            new_status = 'inactive' if cstatus == 'active' else 'active'
+            new_status = "inactive" if cstatus == "active" else "active"
             conn = get_db_connection()
             cursor = conn.cursor()
-            cursor.execute("UPDATE shipment_companies SET status = %s WHERE id = %s", (new_status, sid))
+            cursor.execute(
+                "UPDATE shipment_companies SET status = %s WHERE id = %s",
+                (new_status, sid),
+            )
             conn.commit()
             conn.close()
         st.rerun()

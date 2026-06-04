@@ -1,112 +1,164 @@
 import streamlit as st
 import sys, os, re
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + "/..")
-from utils import get_api, put_api, require_role, hide_streamlit_ui, format_rupiah, get_image_base64
+from utils import (
+    get_api,
+    put_api,
+    require_role,
+    hide_streamlit_ui,
+    format_rupiah,
+    get_image_base64,
+)
 from html_bridge import render_original_html
 from unified_sidebar import inject_seller_sidebar, handle_seller_global_action
 import requests as _req
 import mysql.connector
 
+
 @st.dialog("📋 Detail Transaksi")
 def show_transaction_details(tid):
     conn = mysql.connector.connect(host="127.0.0.1", user="root", password="")
     c = conn.cursor(dictionary=True)
-    c.execute("""
+    c.execute(
+        """
         SELECT oi.*, p.product_name 
         FROM belikuy_marketplace_db.order_items oi 
         LEFT JOIN belikuy_seller_db.products p ON oi.product_id = p.id 
         WHERE oi.order_id = %s
-    """, (tid,))
+    """,
+        (tid,),
+    )
     items = c.fetchall()
-    
-    c.execute("SELECT o.*, u.username, u.email FROM belikuy_marketplace_db.orders o LEFT JOIN belikuy_marketplace_db.users u ON o.user_id = u.id WHERE o.id = %s", (tid,))
+
+    c.execute(
+        "SELECT o.*, u.username, u.email FROM belikuy_marketplace_db.orders o LEFT JOIN belikuy_marketplace_db.users u ON o.user_id = u.id WHERE o.id = %s",
+        (tid,),
+    )
     order = c.fetchone()
     conn.close()
-    
+
     if order:
-        st.markdown(f"**Order ID:** #{order['id']}  \n**Pembeli:** {order['username']} ({order['email']})  \n**Tanggal:** {order['created_at']}  \n**Status:** {str(order['status']).upper()}")
+        st.markdown(
+            f"**Order ID:** #{order['id']}  \n**Pembeli:** {order['username']} ({order['email']})  \n**Tanggal:** {order['created_at']}  \n**Status:** {str(order['status']).upper()}"
+        )
         st.divider()
         st.markdown("### Daftar Produk")
         for item in items:
-            st.markdown(f"- **{item['product_name'] or 'Produk Dihapus'}** (x{item['quantity']}) — {format_rupiah(item['price'] or 0)}")
+            st.markdown(
+                f"- **{item['product_name'] or 'Produk Dihapus'}** (x{item['quantity']}) — {format_rupiah(item['price'] or 0)}"
+            )
         st.divider()
-        st.markdown(f"### Total Pembayaran (Semua Toko): **{format_rupiah(order['total_price'])}**")
+        st.markdown(
+            f"### Total Pembayaran (Semua Toko): **{format_rupiah(order['total_price'])}**"
+        )
     else:
         st.error("Transaksi tidak ditemukan.")
 
-st.set_page_config(page_title="BeliKuy - Kelola Pesanan", layout="wide", initial_sidebar_state="collapsed")
+
+st.set_page_config(
+    page_title="BeliKuy - Kelola Pesanan",
+    layout="wide",
+    initial_sidebar_state="collapsed",
+)
 hide_streamlit_ui()
 require_role("seller")
 
-user = st.session_state['user']
-company = user.get('company', {}); company_id = company.get('company_id') if company else None
+user = st.session_state["user"]
+company = user.get("company", {})
+company_id = company.get("company_id") if company else None
 
 orders, _ = get_api(f"companies/{company_id}/orders")
-if not orders: orders = []
+if not orders:
+    orders = []
 
 # Get shipment companies for dropdown
 shipment_companies, _ = get_api("admin/shipment-companies")
-if not shipment_companies: shipment_companies = []
+if not shipment_companies:
+    shipment_companies = []
 
 # Deduplication: query returns 1 row per order_item (JOIN),
 # sehingga 1 pesanan dengan 3 item = 3 baris. Kita ambil 1 row per order_id.
 seen = {}
 for o in orders:
-    oid = o.get('order_id')
+    oid = o.get("order_id")
     if oid not in seen:
         seen[oid] = o
 unique_orders = list(seen.values())
 
-active_filter = st.session_state.get('order_status_filter', '')
-active_search = st.session_state.get('order_search', '').strip().lower()
+active_filter = st.session_state.get("order_status_filter", "")
+active_search = st.session_state.get("order_search", "").strip().lower()
+
 
 def matches_filter(o, f):
-    status = (o.get('order_status') or o.get('status') or 'pending').lower()
-    return True if f == '' else status == f
+    status = (o.get("order_status") or o.get("status") or "pending").lower()
+    return True if f == "" else status == f
+
 
 def matches_search(o, q):
-    if not q: return True
-    return (q in str(o.get('order_id', '')).lower() or
-            q in (o.get('customer_name', '') or '').lower())
+    if not q:
+        return True
+    return (
+        q in str(o.get("order_id", "")).lower()
+        or q in (o.get("customer_name", "") or "").lower()
+    )
 
-display_orders = [o for o in unique_orders if matches_filter(o, active_filter) and matches_search(o, active_search)]
+
+display_orders = [
+    o
+    for o in unique_orders
+    if matches_filter(o, active_filter) and matches_search(o, active_search)
+]
 
 
-HTML_BASE = r"D:\belikuy\belikuy_ui_templates"
-with open(os.path.join(HTML_BASE, "seller_order_management/code.html"), encoding='utf-8') as f:
+HTML_BASE = (
+    r"D:\Tugas Kuliah\Semester 4\Workshop RPL\belikuy-ecommerce\belikuy_ui_templates"
+)
+with open(
+    os.path.join(HTML_BASE, "seller_order_management/code.html"), encoding="utf-8"
+) as f:
     html = f.read()
 
 # ── Wire original HTML tabs (based on Orders.status) ─────────────────────────
 tab_map = [
-    ('Semua',              ''),
-    ('Belum Bayar',        'pending'),
-    ('Perlu Dikirim',      'paid'),
-    ('Dalam Pengiriman',   'shipped'),
-    ('Selesai',            'completed'),
-    ('Dibatalkan',         'cancelled'),
+    ("Semua", ""),
+    ("Belum Bayar", "pending"),
+    ("Perlu Dikirim", "paid"),
+    ("Dalam Pengiriman", "shipped"),
+    ("Selesai", "completed"),
+    ("Dibatalkan", "cancelled"),
 ]
+
 
 def count_tab(f):
     return sum(1 for o in unique_orders if matches_filter(o, f))
 
+
 def make_tab(label, val):
     is_active = active_filter == val
-    active_cls = "text-primary border-b-2 border-primary" if is_active else "text-on-surface-variant hover:text-primary transition-colors"
-    return f'<button onclick="stNavigate({{action:\'filter_status\', status_val:\'{val}\'}})\" class="whitespace-nowrap px-4 py-2 font-body-sm text-body-sm font-semibold {active_cls}">{label} ({count_tab(val)})</button>'
+    active_cls = (
+        "text-primary border-b-2 border-primary"
+        if is_active
+        else "text-on-surface-variant hover:text-primary transition-colors"
+    )
+    return f"<button onclick=\"stNavigate({{action:'filter_status', status_val:'{val}'}})\" class=\"whitespace-nowrap px-4 py-2 font-body-sm text-body-sm font-semibold {active_cls}\">{label} ({count_tab(val)})</button>"
 
-tabs_html = ''.join([make_tab(label, val) for label, val in tab_map])
+
+tabs_html = "".join([make_tab(label, val) for label, val in tab_map])
 html = re.sub(
     r'<div class="flex overflow-x-auto no-scrollbar gap-2 mb-lg border-b border-surface-variant pb-xs">.*?</div>',
     f'<div class="flex flex-wrap gap-2 mb-lg border-b border-surface-variant pb-xs">{tabs_html}</div>',
-    html, flags=re.DOTALL
+    html,
+    flags=re.DOTALL,
 )
 
 # ── Wire search input ──────────────────────────────────────────────────────────
-order_search_val = active_search.replace('"', '&quot;')
+order_search_val = active_search.replace('"', "&quot;")
 html = re.sub(
     r'(<input[^>]*placeholder="Cari Order ID[^"]*"[^>]*)(/>|>)',
     rf'\1 value="{order_search_val}" onkeydown="onOrderSearchEnter(event,this.value)" \2',
-    html, count=1
+    html,
+    count=1,
 )
 
 # ── Shipment company options HTML ──────────────────────────────────────────────
@@ -121,11 +173,11 @@ total_orders = len(display_orders)
 total_pages = max(1, -(-total_orders // PAGE_SIZE))  # ceiling division
 
 # Reset page ke 1 kalau ganti tab filter
-if st.session_state.get('_last_filter') != active_filter:
-    st.session_state['order_page'] = 1
-    st.session_state['_last_filter'] = active_filter
+if st.session_state.get("_last_filter") != active_filter:
+    st.session_state["order_page"] = 1
+    st.session_state["_last_filter"] = active_filter
 
-current_page = max(1, min(st.session_state.get('order_page', 1), total_pages))
+current_page = max(1, min(st.session_state.get("order_page", 1), total_pages))
 page_start = (current_page - 1) * PAGE_SIZE
 page_orders = display_orders[page_start : page_start + PAGE_SIZE]
 
@@ -133,27 +185,29 @@ page_orders = display_orders[page_start : page_start + PAGE_SIZE]
 cards = ""
 for o in page_orders:
     # Use Orders.status as primary label driver
-    os_ = (o.get('order_status') or o.get('status') or 'pending').lower()
+    os_ = (o.get("order_status") or o.get("status") or "pending").lower()
     # Shipments data only for display (not for filtering)
-    ss = (o.get('shipping_status') or 'pending').lower()
+    ss = (o.get("shipping_status") or "pending").lower()
     tracking = o.get("tracking_number", "") or ""
     ship_co = o.get("shipment_company_name", "") or ""
     ship_svc = o.get("shipment_service", "") or ""
 
     label_map = {
-        'pending':   ("Belum Bayar",       "text-secondary bg-secondary-container/50"),
-        'paid':      ("Perlu Dikirim",      "text-yellow-700 bg-yellow-100"),
-        'shipped':   ("Dalam Pengiriman",   "text-blue-700 bg-blue-100"),
-        'completed': ("Selesai",            "text-green-700 bg-green-100"),
-        'cancelled': ("Dibatalkan",         "text-error bg-error-container/50"),
+        "pending": ("Belum Bayar", "text-secondary bg-secondary-container/50"),
+        "paid": ("Perlu Dikirim", "text-yellow-700 bg-yellow-100"),
+        "shipped": ("Dalam Pengiriman", "text-blue-700 bg-blue-100"),
+        "completed": ("Selesai", "text-green-700 bg-green-100"),
+        "cancelled": ("Dibatalkan", "text-error bg-error-container/50"),
     }
-    label_txt, label_bg = label_map.get(os_, ("Belum Bayar", "text-secondary bg-secondary-container/50"))
+    label_txt, label_bg = label_map.get(
+        os_, ("Belum Bayar", "text-secondary bg-secondary-container/50")
+    )
     opacity = ""
 
     action_btn = ""
-    if os_ == 'paid':   # Belum dikirim → tampilkan form resi + ekspedisi
+    if os_ == "paid":  # Belum dikirim → tampilkan form resi + ekspedisi
 
-        action_btn = f'''
+        action_btn = f"""
         <div class="flex flex-col gap-3 w-full">
             <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
                 <div class="flex-1">
@@ -176,9 +230,9 @@ for o in page_orders:
                     <span class="material-symbols-outlined text-[14px]">cancel</span> Batalkan
                 </button>
             </div>
-        </div>'''
-    elif os_ == 'shipped':   # Dalam pengiriman → tampilkan info ekspedisi
-        action_btn = f'''
+        </div>"""
+    elif os_ == "shipped":  # Dalam pengiriman → tampilkan info ekspedisi
+        action_btn = f"""
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full">
             <div class="flex-1">
                 <p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
@@ -192,12 +246,14 @@ for o in page_orders:
                     Status pengiriman: <strong>{ss.capitalize()}</strong>
                 </p>
             </div>
-        </div>'''
+        </div>"""
 
-    img_path = o.get('image_url', '') or ''
-    img_b64 = get_image_base64(img_path) if img_path else 'https://via.placeholder.com/64'
+    img_path = o.get("image_url", "") or ""
+    img_b64 = (
+        get_image_base64(img_path) if img_path else "https://via.placeholder.com/64"
+    )
 
-    cards += f'''
+    cards += f"""
     <div class="bg-surface-container-lowest rounded-xl p-lg shadow-glow relative overflow-hidden group hover:shadow-glow-lg transition-shadow {opacity}">
         <div class="absolute top-0 right-0 w-24 h-24 bg-primary-container/20 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
         <div class="flex justify-between items-start mb-md pb-md border-b border-surface-variant/50">
@@ -225,15 +281,23 @@ for o in page_orders:
         </div>
         {f'<div class="flex justify-end pt-md border-t border-surface-variant/50">{action_btn}</div>' if action_btn else ''}
     </div>
-    '''
+    """
 
 if not display_orders:
     cards = '<div class="col-span-2 text-center py-16 text-on-surface-variant"><span class="material-symbols-outlined text-[48px] mb-4 block">inbox</span>Tidak ada pesanan.</div>'
 
 # Pagination controls
 if total_pages > 1:
-    prev_disabled = 'opacity-40 cursor-not-allowed pointer-events-none' if current_page <= 1 else 'hover:bg-primary-container/50 cursor-pointer'
-    next_disabled = 'opacity-40 cursor-not-allowed pointer-events-none' if current_page >= total_pages else 'hover:bg-primary-container/50 cursor-pointer'
+    prev_disabled = (
+        "opacity-40 cursor-not-allowed pointer-events-none"
+        if current_page <= 1
+        else "hover:bg-primary-container/50 cursor-pointer"
+    )
+    next_disabled = (
+        "opacity-40 cursor-not-allowed pointer-events-none"
+        if current_page >= total_pages
+        else "hover:bg-primary-container/50 cursor-pointer"
+    )
 
     # Page number buttons (show max 5 pages around current)
     page_btns = ""
@@ -243,10 +307,14 @@ if total_pages > 1:
         start_p = max(1, end_p - 4)
 
     for p in range(start_p, end_p + 1):
-        active_cls = "bg-primary text-white shadow-glow" if p == current_page else "text-on-surface-variant hover:bg-primary-container/40"
+        active_cls = (
+            "bg-primary text-white shadow-glow"
+            if p == current_page
+            else "text-on-surface-variant hover:bg-primary-container/40"
+        )
         page_btns += f'<button onclick="stNavigate({{action:\'go_page\', page:{p}}})" class="w-9 h-9 rounded-full font-semibold text-sm transition-all {active_cls}">{p}</button>'
 
-    pagination_html = f'''
+    pagination_html = f"""
     <div class="col-span-2 flex items-center justify-between pt-4 mt-2 border-t border-surface-variant/50">
         <p class="text-sm text-on-surface-variant">
             Menampilkan <strong>{page_start+1}–{min(page_start+PAGE_SIZE, total_orders)}</strong> dari <strong>{total_orders}</strong> pesanan
@@ -262,16 +330,18 @@ if total_pages > 1:
                 <span class="material-symbols-outlined text-[18px]">chevron_right</span>
             </button>
         </div>
-    </div>'''
+    </div>"""
 else:
     pagination_html = ""
 
 html = re.sub(
     r'(<div class="grid grid-cols-1 xl:grid-cols-2 gap-lg">)(.*?)(</main>)',
-    rf'\1{cards}</div>{pagination_html}\3', html, flags=re.DOTALL
+    rf"\1{cards}</div>{pagination_html}\3",
+    html,
+    flags=re.DOTALL,
 )
 
-company_name = user.get('company', {}).get('company_name', 'Toko Saya')
+company_name = user.get("company", {}).get("company_name", "Toko Saya")
 html = inject_seller_sidebar(html, "11_Kelola_Pesanan", company_name)
 
 js_head = """<script>
@@ -297,28 +367,31 @@ html = html.replace('href="#"', 'href="#" onclick="event.preventDefault();"')
 action_data = render_original_html("belikuy_v2_orders", html, height=1400)
 
 if action_data:
-    act = action_data.get('action')
+    act = action_data.get("action")
     if handle_seller_global_action(st, act):
         pass
     elif act == "filter_status":
-        st.session_state['order_status_filter'] = action_data.get('status_val', '')
-        st.session_state['order_page'] = 1
+        st.session_state["order_status_filter"] = action_data.get("status_val", "")
+        st.session_state["order_page"] = 1
         st.rerun()
     elif act == "search_order":
-        st.session_state['order_search'] = action_data.get('q', '')
-        st.session_state['order_page'] = 1
+        st.session_state["order_search"] = action_data.get("q", "")
+        st.session_state["order_page"] = 1
         st.rerun()
     elif act == "view_txn":
         show_transaction_details(action_data.get("oid"))
     elif act == "go_page":
-        page = int(action_data.get('page', 1))
-        st.session_state['order_page'] = max(1, min(page, total_pages))
+        page = int(action_data.get("page", 1))
+        st.session_state["order_page"] = max(1, min(page, total_pages))
         st.rerun()
     elif act == "update_status":
         order_id = action_data.get("oid")
         status = action_data.get("status")
         if order_id and status:
-            put_api(f"orders/{order_id}/status", {"status": status, "company_id": company_id})
+            put_api(
+                f"orders/{order_id}/status",
+                {"status": status, "company_id": company_id},
+            )
         st.rerun()
     elif act == "kirim_order":
         order_id = action_data.get("oid")
@@ -333,5 +406,8 @@ if action_data:
     elif act == "cancel_order":
         order_id = action_data.get("oid")
         if order_id:
-            put_api(f"orders/{order_id}/status", {"status": "cancelled", "company_id": company_id})
+            put_api(
+                f"orders/{order_id}/status",
+                {"status": "cancelled", "company_id": company_id},
+            )
         st.rerun()

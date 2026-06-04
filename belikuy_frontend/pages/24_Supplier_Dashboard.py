@@ -1,45 +1,67 @@
 import streamlit as st
 import sys, os
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + "/..")
-from utils import get_api, post_api, require_login, require_role, hide_streamlit_ui, format_rupiah
+from utils import (
+    get_api,
+    post_api,
+    require_login,
+    require_role,
+    hide_streamlit_ui,
+    format_rupiah,
+)
 from b2b_sidebar import inject_custom_sidebar
 from html_bridge import render_original_html
 
-st.set_page_config(page_title="Supplier Dashboard", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(
+    page_title="Supplier Dashboard", layout="wide", initial_sidebar_state="collapsed"
+)
 hide_streamlit_ui()
 require_login()
-user = st.session_state.get('user')
+user = st.session_state.get("user")
 require_role("supplier")
 
-HTML_BASE = r"D:\belikuy\belikuy_ui_templates"
-with open(os.path.join(HTML_BASE, "b2b_dashboard/code.html"), encoding='utf-8') as f:
+HTML_BASE = (
+    r"D:\Tugas Kuliah\Semester 4\Workshop RPL\belikuy-ecommerce\belikuy_ui_templates"
+)
+with open(os.path.join(HTML_BASE, "b2b_dashboard/code.html"), encoding="utf-8") as f:
     html = f.read()
 
 # Mock or real data fetching
 import mysql.connector
-conn = mysql.connector.connect(host="127.0.0.1", user="root", password="", database="belikuy_supplier_db")
+
+conn = mysql.connector.connect(
+    host="127.0.0.1", user="root", password="", database="belikuy_supplier_db"
+)
 cursor = conn.cursor(dictionary=True)
 
-cursor.execute("SELECT * FROM supply_companies WHERE user_id = %s LIMIT 1", (user['id'],))
+cursor.execute(
+    "SELECT * FROM supply_companies WHERE user_id = %s LIMIT 1", (user["id"],)
+)
 company = cursor.fetchone()
 cursor.fetchall()
 
 orders = []
 if company:
-    cursor.execute("SELECT * FROM supplier_orders WHERE supplier_id = %s ORDER BY created_at DESC LIMIT 20", (company['id'],))
+    cursor.execute(
+        "SELECT * FROM supplier_orders WHERE supplier_id = %s ORDER BY created_at DESC LIMIT 20",
+        (company["id"],),
+    )
     orders = cursor.fetchall()
 conn.close()
 
-total_revenue = sum([o['total_price'] for o in orders if o['status'] in ('shipped', 'completed')])
-total_pending = sum(1 for o in orders if o['status'] in ('pending', 'paid'))
-total_shipped = sum(1 for o in orders if o['status'] == 'shipped')
+total_revenue = sum(
+    [o["total_price"] for o in orders if o["status"] in ("shipped", "completed")]
+)
+total_pending = sum(1 for o in orders if o["status"] in ("pending", "paid"))
+total_shipped = sum(1 for o in orders if o["status"] == "shipped")
 
 # Replace Placeholders
 html = html.replace("{PAGE_TITLE}", "Supplier Dashboard")
-html = html.replace("{USERNAME}", user['username'])
+html = html.replace("{USERNAME}", user["username"])
 html = html.replace("{ROLE_CAPS}", "Supplier")
 html = html.replace("{SUBTITLE}", "Kelola pesanan grosir B2B Anda di sini.")
-html = html.replace("{USER_INITIAL}", user['username'][0].upper())
+html = html.replace("{USER_INITIAL}", user["username"][0].upper())
 
 html = html.replace("{STAT1_TITLE}", "Pendapatan B2B")
 html = html.replace("{STAT1_ICON}", "payments")
@@ -62,24 +84,40 @@ html = html.replace("{STAT4_VAL}", "Sangat Baik")
 html = html.replace("{STAT4_DESC}", "Tingkat respons 98%")
 
 html = html.replace("{TABLE_TITLE}", "Pesanan Grosir Terbaru")
-html = html.replace("{TABLE_HEADERS}", "<tr><th class='p-4'>Order ID</th><th class='p-4'>Tanggal</th><th class='p-4'>Total</th><th class='p-4'>Status</th></tr>")
+html = html.replace(
+    "{TABLE_HEADERS}",
+    "<tr><th class='p-4'>Order ID</th><th class='p-4'>Tanggal</th><th class='p-4'>Total</th><th class='p-4'>Status</th></tr>",
+)
 
 rows_html = ""
 for o in orders:
-    s_color = "bg-yellow-100 text-yellow-800" if o['status'] == 'pending' else ("bg-blue-100 text-blue-800" if o['status'] == 'shipped' else "bg-green-100 text-green-800")
-    
+    s_color = (
+        "bg-yellow-100 text-yellow-800"
+        if o["status"] == "pending"
+        else (
+            "bg-blue-100 text-blue-800"
+            if o["status"] == "shipped"
+            else "bg-green-100 text-green-800"
+        )
+    )
+
     action_btn = ""
-    if o['status'] == 'paid':
+    if o["status"] == "paid":
         action_btn = f"<button onclick=\"stNavigate({{action:'ship_order', oid:{o['id']}}})\" class='px-3 py-1 bg-primary text-white rounded text-xs hover:bg-primary-container hover:text-on-primary-container transition-colors font-semibold'>Kirim Barang</button>"
-    elif o['status'] == 'pending':
-        action_btn = "<span class='text-xs text-outline italic'>Menunggu Pembayaran</span>"
+    elif o["status"] == "pending":
+        action_btn = (
+            "<span class='text-xs text-outline italic'>Menunggu Pembayaran</span>"
+        )
     else:
         action_btn = "<span class='text-xs text-green-600 italic'>Selesai</span>"
-        
+
     rows_html += f"<tr class='hover:bg-surface-bright transition-colors'><td class='p-4 font-semibold'>#{o['id']}</td><td class='p-4'>{o['created_at'].strftime('%d %b %Y')}</td><td class='p-4'>{format_rupiah(o['total_price'])}</td><td class='p-4'><span class='px-2 py-1 rounded-full text-[10px] uppercase font-bold tracking-wider {s_color}'>{o['status']}</span></td><td class='p-4 text-right'>{action_btn}</td></tr>"
 
 if not orders:
-    html = html.replace("{EMPTY_STATE}", "<div class='p-8 text-center text-on-surface-variant'>Belum ada pesanan B2B.</div>")
+    html = html.replace(
+        "{EMPTY_STATE}",
+        "<div class='p-8 text-center text-on-surface-variant'>Belum ada pesanan B2B.</div>",
+    )
 else:
     html = html.replace("{EMPTY_STATE}", "")
 
@@ -88,31 +126,51 @@ html = html.replace("{TABLE_ROWS}", rows_html)
 # --- Catalog Section ---
 catalog_html = ""
 if company:
-    conn = mysql.connector.connect(host="127.0.0.1", user="root", password="", database="belikuy_seller_db")
+    conn = mysql.connector.connect(
+        host="127.0.0.1", user="root", password="", database="belikuy_seller_db"
+    )
     cur2 = conn.cursor(dictionary=True)
-    cur2.execute("SELECT * FROM products WHERE supply_company_id = %s ORDER BY product_name ASC", (company['id'],))
+    cur2.execute(
+        "SELECT * FROM products WHERE supply_company_id = %s ORDER BY product_name ASC",
+        (company["id"],),
+    )
     catalog_items = cur2.fetchall()
     conn.close()
-    
+
     cards = ""
     for c in catalog_items:
-        img_path = c.get('image_url', '') or ''
+        img_path = c.get("image_url", "") or ""
         from utils import get_image_base64
-        img = get_image_base64(img_path) if img_path else 'https://via.placeholder.com/400?text=Produk'
-        stok = c.get('stock', 0)
-        is_active = int(c.get('is_active', 1))
-        
+
+        img = (
+            get_image_base64(img_path)
+            if img_path
+            else "https://via.placeholder.com/400?text=Produk"
+        )
+        stok = c.get("stock", 0)
+        is_active = int(c.get("is_active", 1))
+
         status_label = "Aktif" if is_active else "Nonaktif"
-        status_bg = "bg-tertiary-fixed text-on-tertiary-fixed" if is_active else "bg-zinc-200 text-zinc-600"
+        status_bg = (
+            "bg-tertiary-fixed text-on-tertiary-fixed"
+            if is_active
+            else "bg-zinc-200 text-zinc-600"
+        )
         toggle_icon = "visibility_off" if is_active else "visibility"
-        toggle_cls = "text-on-surface-variant hover:text-primary hover:bg-primary-container" if is_active else "text-primary bg-primary-container/40 hover:bg-primary-container"
-        
+        toggle_cls = (
+            "text-on-surface-variant hover:text-primary hover:bg-primary-container"
+            if is_active
+            else "text-primary bg-primary-container/40 hover:bg-primary-container"
+        )
+
         size_color = []
-        if c.get("size"): size_color.append(f"Ukuran: {c['size']}")
-        if c.get("color"): size_color.append(f"Warna: {c['color']}")
+        if c.get("size"):
+            size_color.append(f"Ukuran: {c['size']}")
+        if c.get("color"):
+            size_color.append(f"Warna: {c['color']}")
         sc_text = " | ".join(size_color) if size_color else "All Size/Color"
-        
-        cards += f'''
+
+        cards += f"""
         <article class="bg-surface-container-lowest rounded-2xl p-4 shadow-ambient hover:-translate-y-1 transition-transform duration-300 flex flex-col group {'opacity-60' if not is_active else ''}">
             <div class="relative h-48 rounded-[12px] bg-surface-container overflow-hidden mb-4">
                 <img alt="Product" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="{img}"/>
@@ -143,18 +201,18 @@ if company:
                 </button>
             </div>
         </article>
-        '''
-        
-    cards += '''
+        """
+
+    cards += """
     <article onclick="toggleModal()" class="bg-transparent rounded-2xl p-4 border-2 border-dashed border-outline-variant hover:border-primary transition-colors duration-300 flex flex-col items-center justify-center min-h-[300px] cursor-pointer group">
         <div class="w-16 h-16 rounded-full bg-surface-container-low group-hover:bg-primary-container flex items-center justify-center mb-4 transition-colors">
             <span class="material-symbols-outlined text-[32px] text-outline group-hover:text-primary transition-colors">add_circle</span>
         </div>
         <h3 class="font-h3 text-h3 text-on-surface-variant group-hover:text-primary transition-colors text-center">Tambah<br/>Produk B2B</h3>
     </article>
-    '''
+    """
 
-    catalog_html = f'''
+    catalog_html = f"""
     <div class="mb-8 mt-8">
         <h3 class="font-h3 text-[24px] font-semibold text-on-background mb-6">Katalog Produk Grosir Anda</h3>
         <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -227,12 +285,14 @@ if company:
         if(m) m.style.display = 'none';
     }});
     </script>
-    '''
+    """
 
 html = html.replace("{EXTRA_CONTENT}", catalog_html)
 
 # Inject Sidebar
-html = inject_custom_sidebar(html, "Supplier", "Mitra", "inventory_2", user['username'][0].upper())
+html = inject_custom_sidebar(
+    html, "Supplier", "Mitra", "inventory_2", user["username"][0].upper()
+)
 
 # Render
 action = render_original_html("supplier_dashboard_b2b_v2", html, height=1200)
@@ -240,9 +300,13 @@ action = render_original_html("supplier_dashboard_b2b_v2", html, height=1200)
 if action:
     if action.get("action") == "ship_order":
         oid = action.get("oid")
-        conn = mysql.connector.connect(host="127.0.0.1", user="root", password="", database="belikuy_supplier_db")
+        conn = mysql.connector.connect(
+            host="127.0.0.1", user="root", password="", database="belikuy_supplier_db"
+        )
         cur = conn.cursor()
-        cur.execute("UPDATE supplier_orders SET status = 'shipped' WHERE id = %s", (oid,))
+        cur.execute(
+            "UPDATE supplier_orders SET status = 'shipped' WHERE id = %s", (oid,)
+        )
         conn.commit()
         conn.close()
         st.rerun()
@@ -253,30 +317,45 @@ if action:
         img = action.get("img")
         size = action.get("size")
         color = action.get("color")
-        conn = mysql.connector.connect(host="127.0.0.1", user="root", password="", database="belikuy_seller_db")
+        conn = mysql.connector.connect(
+            host="127.0.0.1", user="root", password="", database="belikuy_seller_db"
+        )
         cur = conn.cursor()
-        cur.execute("INSERT INTO products (product_name, price, stock, category_id, supply_company_id, image_url, size, color, brand, description, is_active) VALUES (%s, %s, %s, 1, %s, %s, %s, %s, 'B2B Brand', 'B2B Wholesale Product', 1)", (name, price, stock, company['id'], img, size, color))
+        cur.execute(
+            "INSERT INTO products (product_name, price, stock, category_id, supply_company_id, image_url, size, color, brand, description, is_active) VALUES (%s, %s, %s, 1, %s, %s, %s, %s, 'B2B Brand', 'B2B Wholesale Product', 1)",
+            (name, price, stock, company["id"], img, size, color),
+        )
         conn.commit()
         conn.close()
         st.rerun()
     elif action.get("action") == "toggle_product":
         pid = action.get("pid")
         new_active = action.get("is_active")
-        conn = mysql.connector.connect(host="127.0.0.1", user="root", password="", database="belikuy_seller_db")
+        conn = mysql.connector.connect(
+            host="127.0.0.1", user="root", password="", database="belikuy_seller_db"
+        )
         cur = conn.cursor()
-        cur.execute("UPDATE products SET is_active = %s WHERE id = %s AND supply_company_id = %s", (new_active, pid, company['id']))
+        cur.execute(
+            "UPDATE products SET is_active = %s WHERE id = %s AND supply_company_id = %s",
+            (new_active, pid, company["id"]),
+        )
         conn.commit()
         conn.close()
         st.rerun()
     elif action.get("action") == "delete_product":
         pid = action.get("pid")
-        conn = mysql.connector.connect(host="127.0.0.1", user="root", password="", database="belikuy_seller_db")
+        conn = mysql.connector.connect(
+            host="127.0.0.1", user="root", password="", database="belikuy_seller_db"
+        )
         cur = conn.cursor()
-        cur.execute("DELETE FROM products WHERE id = %s AND supply_company_id = %s", (pid, company['id']))
+        cur.execute(
+            "DELETE FROM products WHERE id = %s AND supply_company_id = %s",
+            (pid, company["id"]),
+        )
         conn.commit()
         conn.close()
         st.rerun()
     elif action.get("action") == "logout":
         st.session_state.clear()
-        st.session_state['_auto_logout'] = True
+        st.session_state["_auto_logout"] = True
         st.switch_page("app.py")

@@ -1,78 +1,114 @@
 import streamlit as st
 import sys, os, re
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + "/..")
-from utils import get_api, post_api, put_api, delete_api, require_role, hide_streamlit_ui, format_rupiah, get_image_base64
+from utils import (
+    get_api,
+    post_api,
+    put_api,
+    delete_api,
+    require_role,
+    hide_streamlit_ui,
+    format_rupiah,
+    get_image_base64,
+)
 from html_bridge import render_original_html
 from unified_sidebar import inject_seller_sidebar, handle_seller_global_action
 import requests as _req
 
-st.set_page_config(page_title="BeliKuy - Kelola Produk", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(
+    page_title="BeliKuy - Kelola Produk",
+    layout="wide",
+    initial_sidebar_state="collapsed",
+)
 hide_streamlit_ui()
 require_role("seller")
 
-user = st.session_state['user']
-company = user.get('company', {}); company_id = company.get('company_id') if company else None
+user = st.session_state["user"]
+company = user.get("company", {})
+company_id = company.get("company_id") if company else None
 
 products, _ = get_api(f"products/seller/{company_id}")
-if not products: products = []
+if not products:
+    products = []
 categories, _ = get_api("categories")
-if not categories: categories = []
+if not categories:
+    categories = []
 supply_companies, _ = get_api("admin/supply-companies")
-if not supply_companies: supply_companies = []
+if not supply_companies:
+    supply_companies = []
 
 
 # Active filter from session
-active_cat_filter = str(st.session_state.get('prod_cat_filter', ''))
-active_search = st.session_state.get('prod_search', '').strip().lower()
+active_cat_filter = str(st.session_state.get("prod_cat_filter", ""))
+active_search = st.session_state.get("prod_search", "").strip().lower()
 
 # Filter products by category and search
 display_products = products
 if active_cat_filter:
-    display_products = [p for p in display_products if str(p.get('category_id', '')) == active_cat_filter]
+    display_products = [
+        p
+        for p in display_products
+        if str(p.get("category_id", "")) == active_cat_filter
+    ]
 if active_search:
-    display_products = [p for p in display_products if active_search in (p.get('product_name', '') or '').lower()]
+    display_products = [
+        p
+        for p in display_products
+        if active_search in (p.get("product_name", "") or "").lower()
+    ]
 
 
-HTML_BASE = r"D:\belikuy\belikuy_ui_templates"
-with open(os.path.join(HTML_BASE, "seller_product_management/code.html"), encoding='utf-8') as f:
+HTML_BASE = (
+    r"D:\Tugas Kuliah\Semester 4\Workshop RPL\belikuy-ecommerce\belikuy_ui_templates"
+)
+with open(
+    os.path.join(HTML_BASE, "seller_product_management/code.html"), encoding="utf-8"
+) as f:
     html = f.read()
 
 # ── Remove "Tambah Produk Baru" header button ────────────────────────────────
 html = re.sub(
     r'<button[^>]*class="[^"]*gradient-btn[^"]*"[^>]*>.*?</button>',
-    '', html, flags=re.DOTALL
+    "",
+    html,
+    flags=re.DOTALL,
 )
 
 # ── Replace static category select with dynamic one ─────────────────────────
 cat_options_html = '<option value="">Semua Kategori</option>'
 for c in categories:
-    selected = 'selected' if active_cat_filter == str(c['id']) else ''
-    cat_options_html += f'<option value="{c["id"]}" {selected}>{c["category_name"]}</option>'
+    selected = "selected" if active_cat_filter == str(c["id"]) else ""
+    cat_options_html += (
+        f'<option value="{c["id"]}" {selected}>{c["category_name"]}</option>'
+    )
 
 html = re.sub(
-    r'(<select[^>]*>)\s*<option[^>]*>Semua Kategori</option>.*?(</select>)',
-    rf'\1{cat_options_html}\2', html, flags=re.DOTALL
+    r"(<select[^>]*>)\s*<option[^>]*>Semua Kategori</option>.*?(</select>)",
+    rf"\1{cat_options_html}\2",
+    html,
+    flags=re.DOTALL,
 )
 # Wire up the category select to call stNavigate on change
 html = html.replace(
     'class="w-full bg-surface-container-low border-none rounded-xl py-3.5 pl-12 pr-10 font-body-md text-body-md text-on-surface appearance-none focus:ring-0 focus:bg-surface-container-lowest focus:shadow-glow transition-all cursor-pointer"',
     'onchange="stNavigate({action:\'filter_cat\', cat_id: this.value})" class="w-full bg-surface-container-low border-none rounded-xl py-3.5 pl-12 pr-10 font-body-md text-body-md text-on-surface appearance-none focus:ring-0 focus:bg-surface-container-lowest focus:shadow-glow transition-all cursor-pointer"',
-    1  # Only first occurrence (category filter, not status filter)
+    1,  # Only first occurrence (category filter, not status filter)
 )
 # Remove status filter select (second select, not connected to backend)
 html = re.sub(
-    r'<!-- Status Filter -->.*?</div>\s*</div>',
-    '</div>', html, flags=re.DOTALL
+    r"<!-- Status Filter -->.*?</div>\s*</div>", "</div>", html, flags=re.DOTALL
 )
 # Remove the expand_more icon span that sits next to the category select (causes double arrow)
 html = re.sub(
     r'<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>',
-    '', html
+    "",
+    html,
 )
 # Remove Tailwind forms plugin (it adds its own select arrow via background-image → double arrow)
 html = html.replace(
     'src="https://cdn.tailwindcss.com?plugins=forms,container-queries"',
-    'src="https://cdn.tailwindcss.com?plugins=container-queries"'
+    'src="https://cdn.tailwindcss.com?plugins=container-queries"',
 )
 # Add CSS arrow and wire search input
 arrow_css = """<style>
@@ -81,21 +117,26 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 html = html.replace("</head>", arrow_css + "</head>")
 
 # Wire search input: match actual placeholder in HTML
-search_val = active_search.replace('"', '&quot;')
+search_val = active_search.replace('"', "&quot;")
 html = re.sub(
     r'(<input[^>]*placeholder="Cari nama produk[^"]*"[^>]*)(/>|>)',
     rf'\1 value="{search_val}" onkeydown="onSearchEnter(event,this.value)" \2',
-    html, count=1
+    html,
+    count=1,
 )
 
 
 # ── Build Product Cards ──────────────────────────────────────────────────────
 cards = ""
 for p in display_products:
-    img_path = p.get('image_url', '') or ''
-    img = get_image_base64(img_path) if img_path else 'https://via.placeholder.com/400?text=Produk'
-    stok = p.get('stock', 0)
-    is_active = int(p.get('is_active', 1))
+    img_path = p.get("image_url", "") or ""
+    img = (
+        get_image_base64(img_path)
+        if img_path
+        else "https://via.placeholder.com/400?text=Produk"
+    )
+    stok = p.get("stock", 0)
+    is_active = int(p.get("is_active", 1))
 
     if not is_active:
         status_label = "Nonaktif"
@@ -110,10 +151,14 @@ for p in display_products:
     toggle_icon = "visibility_off" if is_active else "visibility"
     toggle_label = "Nonaktifkan" if is_active else "Aktifkan"
     toggle_action = f"stNavigate({{action:'toggle_product', pid:{p['id']}, is_active:{0 if is_active else 1}}})"
-    toggle_cls = "text-on-surface-variant hover:text-primary hover:bg-primary-container" if is_active else "text-primary bg-primary-container/40 hover:bg-primary-container"
-    name_safe = p.get('product_name', '').replace("'", "\\'").replace('"', '&quot;')
+    toggle_cls = (
+        "text-on-surface-variant hover:text-primary hover:bg-primary-container"
+        if is_active
+        else "text-primary bg-primary-container/40 hover:bg-primary-container"
+    )
+    name_safe = p.get("product_name", "").replace("'", "\\'").replace('"', "&quot;")
 
-    cards += f'''
+    cards += f"""
     <article class="bg-surface-container-lowest rounded-2xl p-4 shadow-ambient hover:-translate-y-1 transition-transform duration-300 flex flex-col group {'opacity-60' if not is_active else ''}">
         <div class="relative h-56 rounded-[12px] bg-surface-container overflow-hidden mb-4">
             <img alt="Product Image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" src="{img}"/>
@@ -151,33 +196,40 @@ for p in display_products:
             </button>
         </div>
     </article>
-    '''
+    """
 
 # Add new product placeholder card
-cards += '''
+cards += """
 <article onclick="toggleModal()" class="bg-transparent rounded-2xl p-4 border-2 border-dashed border-outline-variant hover:border-primary transition-colors duration-300 flex flex-col items-center justify-center min-h-[400px] cursor-pointer group">
     <div class="w-16 h-16 rounded-full bg-surface-container-low group-hover:bg-primary-container flex items-center justify-center mb-4 transition-colors">
         <span class="material-symbols-outlined text-[32px] text-outline group-hover:text-primary transition-colors">add_circle</span>
     </div>
     <h3 class="font-h3 text-h3 text-on-surface-variant group-hover:text-primary transition-colors text-center">Tambah<br/>Produk Baru</h3>
 </article>
-'''
+"""
 
 # Replace product grid
 html = re.sub(
     r'(<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">)(.*?)(</section>)',
-    rf'\1{cards}\3', html, flags=re.DOTALL
+    rf"\1{cards}\3",
+    html,
+    flags=re.DOTALL,
 )
 
 # ── Category & Supply Company Options for modals ─────────────────────────────
-cat_opts = "".join([f'<option value="{c["id"]}">{c["category_name"]}</option>' for c in categories])
+cat_opts = "".join(
+    [f'<option value="{c["id"]}">{c["category_name"]}</option>' for c in categories]
+)
 sc_opts = '<option value="">— Tidak ada / Pilih Supplier —</option>' + "".join(
-    [f'<option value="{s["id"]}">{s["supply_company_name"]}</option>' for s in supply_companies]
+    [
+        f'<option value="{s["id"]}">{s["supply_company_name"]}</option>'
+        for s in supply_companies
+    ]
 )
 
 
 # ── Modals ────────────────────────────────────────────────────────────────────
-modals_html = f'''
+modals_html = f"""
 <div id="productModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] hidden items-start pt-16 justify-center p-4 flex">
     <div class="bg-white rounded-2xl w-full max-w-2xl p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
         <button onclick="toggleModal()" type="button" class="absolute top-5 right-5 text-gray-400 hover:text-red-500 transition-colors p-1">
@@ -274,10 +326,14 @@ modals_html = f'''
         </div>
     </div>
 </div>
-'''
-html = html.replace('</body>', modals_html + '</body>')
+"""
+html = html.replace("</body>", modals_html + "</body>")
 
-company_name = user.get('company', {}).get('company_name', 'Toko Saya') if user.get('company') else 'Toko Saya'
+company_name = (
+    user.get("company", {}).get("company_name", "Toko Saya")
+    if user.get("company")
+    else "Toko Saya"
+)
 html = inject_seller_sidebar(html, "10_Kelola_Produk", company_name)
 
 # ── JS — define AFTER sidebar inject, will be placed before </head> ───────────
@@ -355,15 +411,15 @@ html = html.replace('href="#"', 'href="#" onclick="event.preventDefault();"')
 action_data = render_original_html("belikuy_v2_products", html, height=1500)
 
 if action_data:
-    act = action_data.get('action')
+    act = action_data.get("action")
     if handle_seller_global_action(st, act):
         pass
     elif act == "filter_cat":
-        st.session_state['prod_cat_filter'] = str(action_data.get('cat_id', ''))
-        st.session_state['order_page'] = 1
+        st.session_state["prod_cat_filter"] = str(action_data.get("cat_id", ""))
+        st.session_state["order_page"] = 1
         st.rerun()
     elif act == "search_prod":
-        st.session_state['prod_search'] = action_data.get('q', '')
+        st.session_state["prod_search"] = action_data.get("q", "")
         st.rerun()
     elif act == "delete_product":
         pid = action_data.get("pid")
@@ -375,8 +431,12 @@ if action_data:
         is_active = action_data.get("is_active", 1)
         if pid:
             import requests as _req
-            _req.patch(f"http://localhost:5000/api/products/{pid}/toggle",
-                       json={"company_id": company_id, "is_active": int(is_active)}, timeout=8)
+
+            _req.patch(
+                f"http://localhost:5000/api/products/{pid}/toggle",
+                json={"company_id": company_id, "is_active": int(is_active)},
+                timeout=8,
+            )
         st.rerun()
     elif act == "add_product":
         name = action_data.get("name", "").strip()
@@ -395,7 +455,7 @@ if action_data:
                 "description": desc,
                 "image_url": img,
                 "brand": brand,
-                "company_id": company_id
+                "company_id": company_id,
             }
             sc_id = action_data.get("sc_id", "")
             if sc_id:
@@ -418,11 +478,10 @@ if action_data:
                 "price": float(price),
                 "stock": int(float(stock)),
                 "category_id": int(cat) if cat else None,
-                "company_id": company_id
+                "company_id": company_id,
             }
             sc_id = action_data.get("sc_id", "")
             if sc_id:
                 payload["supply_company_id"] = int(sc_id)
             put_api(f"products/{pid}", payload)
         st.rerun()
-

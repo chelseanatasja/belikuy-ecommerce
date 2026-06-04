@@ -1,18 +1,27 @@
 import streamlit as st
 import sys, os, re
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + "/..")
 from utils import get_api, post_api, delete_api, require_role, hide_streamlit_ui
 from html_bridge import render_original_html
 from unified_sidebar import inject_admin_sidebar, handle_admin_global_action
 
-st.set_page_config(page_title="BeliKuy - Manajemen Supplier", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(
+    page_title="BeliKuy - Manajemen Supplier",
+    layout="wide",
+    initial_sidebar_state="collapsed",
+)
 hide_streamlit_ui()
 require_role("admin")
 
 import mysql.connector
 
+
 def get_db_connection():
-    return mysql.connector.connect(host="127.0.0.1", user="root", password="", database="belikuy_supplier_db")
+    return mysql.connector.connect(
+        host="127.0.0.1", user="root", password="", database="belikuy_supplier_db"
+    )
+
 
 conn = get_db_connection()
 cursor = conn.cursor(dictionary=True)
@@ -20,22 +29,39 @@ cursor.execute("SELECT * FROM supply_companies ORDER BY id DESC")
 suppliers = cursor.fetchall()
 conn.close()
 
-HTML_BASE = r"D:\belikuy\belikuy_ui_templates"
-with open(os.path.join(HTML_BASE, "super_admin_supplier_management/code.html"), encoding='utf-8') as f:
+HTML_BASE = (
+    r"D:\Tugas Kuliah\Semester 4\Workshop RPL\belikuy-ecommerce\belikuy_ui_templates"
+)
+with open(
+    os.path.join(HTML_BASE, "super_admin_supplier_management/code.html"),
+    encoding="utf-8",
+) as f:
     html = f.read()
 
 # Remove filter button and change search placeholder
-html = html.replace('placeholder="Cari nama supplier, kategori, atau kontak..."', 'placeholder="Cari nama supplier..."')
-html = re.sub(r'<button class="bg-surface-container-lowest text-on-surface font-label-caps text-label-caps px-lg py-md rounded-xl flex items-center gap-sm shadow-sm hover:bg-surface-container-low transition-colors">\s*<span class="material-symbols-outlined">filter_list</span>\s*Filter\s*</button>', '', html, flags=re.DOTALL)
+html = html.replace(
+    'placeholder="Cari nama supplier, kategori, atau kontak..."',
+    'placeholder="Cari nama supplier..."',
+)
+html = re.sub(
+    r'<button class="bg-surface-container-lowest text-on-surface font-label-caps text-label-caps px-lg py-md rounded-xl flex items-center gap-sm shadow-sm hover:bg-surface-container-low transition-colors">\s*<span class="material-symbols-outlined">filter_list</span>\s*Filter\s*</button>',
+    "",
+    html,
+    flags=re.DOTALL,
+)
 
 # Build Cards
 cards = ""
 for s in suppliers:
-    is_active = (s.get('status', 'active') == 'active')
-    status_badge = '<span class="bg-primary-container text-on-primary-container font-label-caps text-[10px] px-2 py-1 rounded-full tracking-wider">Aktif</span>' if is_active else '<span class="bg-surface-variant text-on-surface-variant font-label-caps text-[10px] px-2 py-1 rounded-full tracking-wider">Nonaktif</span>'
-    toggle_icon = 'toggle_on' if is_active else 'toggle_off'
-    
-    cards += f'''
+    is_active = s.get("status", "active") == "active"
+    status_badge = (
+        '<span class="bg-primary-container text-on-primary-container font-label-caps text-[10px] px-2 py-1 rounded-full tracking-wider">Aktif</span>'
+        if is_active
+        else '<span class="bg-surface-variant text-on-surface-variant font-label-caps text-[10px] px-2 py-1 rounded-full tracking-wider">Nonaktif</span>'
+    )
+    toggle_icon = "toggle_on" if is_active else "toggle_off"
+
+    cards += f"""
     <article class="bg-surface-container-lowest rounded-xl p-lg shadow-[0_8px_30px_rgb(255,182,193,0.1)] hover:shadow-[0_12px_40px_rgb(255,182,193,0.15)] transition-shadow duration-300 flex flex-col group border border-transparent hover:border-primary-fixed-dim">
         <div class="flex justify-between items-start mb-md">
             <div class="flex items-center gap-md">
@@ -72,15 +98,20 @@ for s in suppliers:
             </div>
         </div>
     </article>
-    '''
+    """
 
 if not cards:
     cards = '<div class="col-span-1 md:col-span-2 lg:col-span-3 text-center py-12 text-on-surface-variant">Belum ada supplier terdaftar.</div>'
 
-html = re.sub(r'(<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg pb-xl">)(.*?)(</div>\s*</div>\s*</main>)', rf'\1{cards}\3', html, flags=re.DOTALL)
+html = re.sub(
+    r'(<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg pb-xl">)(.*?)(</div>\s*</div>\s*</main>)',
+    rf"\1{cards}\3",
+    html,
+    flags=re.DOTALL,
+)
 
 # Add Modal
-modal_html = f'''
+modal_html = f"""
 <div id="addModal" class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-sm z-[100] hidden flex items-start pt-32 justify-center p-4">
     <div class="bg-surface-container-lowest rounded-xl w-full max-w-md p-xl shadow-[0_20px_50px_rgba(255,182,193,0.3)] relative transform transition-transform">
         <button onclick="toggleModal()" type="button" class="absolute top-6 right-6 text-on-surface-variant hover:text-error transition-colors p-2 rounded-full hover:bg-surface-container">
@@ -105,8 +136,8 @@ modal_html = f'''
         </div>
     </div>
 </div>
-'''
-html = html.replace('</body>', modal_html + '</body>')
+"""
+html = html.replace("</body>", modal_html + "</body>")
 
 js_head = """<script>
 function stNavigate(params) {
@@ -163,17 +194,20 @@ html = inject_admin_sidebar(html, "17_Manajemen_Supplier")
 action_data = render_original_html("belikuy_v2_admin_supplier", html, height=1200)
 
 if action_data:
-    act = action_data.get('action')
+    act = action_data.get("action")
     if handle_admin_global_action(st, act):
         pass
     elif act == "add_supplier":
         name = action_data.get("name", "")
         contact = action_data.get("contact", "")
         addr = action_data.get("addr", "")
-        if name: 
+        if name:
             conn = get_db_connection()
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO supply_companies (supply_company_name, contact_number, address) VALUES (%s, %s, %s)", (name, contact, addr))
+            cursor.execute(
+                "INSERT INTO supply_companies (supply_company_name, contact_number, address) VALUES (%s, %s, %s)",
+                (name, contact, addr),
+            )
             conn.commit()
             conn.close()
         st.rerun()
@@ -190,10 +224,13 @@ if action_data:
         sid = action_data.get("sid")
         cstatus = action_data.get("cstatus")
         if sid:
-            new_status = 'inactive' if cstatus == 'active' else 'active'
+            new_status = "inactive" if cstatus == "active" else "active"
             conn = get_db_connection()
             cursor = conn.cursor()
-            cursor.execute("UPDATE supply_companies SET status = %s WHERE id = %s", (new_status, sid))
+            cursor.execute(
+                "UPDATE supply_companies SET status = %s WHERE id = %s",
+                (new_status, sid),
+            )
             conn.commit()
             conn.close()
         st.rerun()

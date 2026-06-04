@@ -1,37 +1,55 @@
 import streamlit as st
 import sys, os, re
 import mysql.connector
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + "/..")
 from utils import require_role, hide_streamlit_ui, format_rupiah
 from html_bridge import render_original_html
 from unified_sidebar import inject_admin_sidebar, handle_admin_global_action
 
-st.set_page_config(page_title="BeliKuy - Monitoring Transaksi", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(
+    page_title="BeliKuy - Monitoring Transaksi",
+    layout="wide",
+    initial_sidebar_state="collapsed",
+)
 hide_streamlit_ui()
 require_role("admin")
 
+
 @st.dialog("📋 Detail Transaksi")
 def show_transaction_details(tid):
-    conn = mysql.connector.connect(host="127.0.0.1", user="root", password="", database="belikuy_marketplace_db")
+    conn = mysql.connector.connect(
+        host="127.0.0.1", user="root", password="", database="belikuy_marketplace_db"
+    )
     c = conn.cursor(dictionary=True)
-    c.execute("""
+    c.execute(
+        """
         SELECT oi.*, p.product_name 
         FROM order_items oi 
         LEFT JOIN belikuy_seller_db.products p ON oi.product_id = p.id 
         WHERE oi.order_id = %s
-    """, (tid,))
+    """,
+        (tid,),
+    )
     items = c.fetchall()
-    
-    c.execute("SELECT o.*, u.username, u.email FROM orders o LEFT JOIN users u ON o.user_id = u.id WHERE o.id = %s", (tid,))
+
+    c.execute(
+        "SELECT o.*, u.username, u.email FROM orders o LEFT JOIN users u ON o.user_id = u.id WHERE o.id = %s",
+        (tid,),
+    )
     order = c.fetchone()
     conn.close()
-    
+
     if order:
-        st.markdown(f"**Order ID:** #{order['id']}  \n**Pembeli:** {order['username']} ({order['email']})  \n**Tanggal:** {order['created_at']}  \n**Status:** {str(order['status']).upper()}")
+        st.markdown(
+            f"**Order ID:** #{order['id']}  \n**Pembeli:** {order['username']} ({order['email']})  \n**Tanggal:** {order['created_at']}  \n**Status:** {str(order['status']).upper()}"
+        )
         st.divider()
         st.markdown("### Daftar Produk")
         for item in items:
-            st.markdown(f"- **{item['product_name'] or 'Produk Dihapus'}** (x{item['quantity']}) — {format_rupiah(item['price'] or 0)}")
+            st.markdown(
+                f"- **{item['product_name'] or 'Produk Dihapus'}** (x{item['quantity']}) — {format_rupiah(item['price'] or 0)}"
+            )
         st.divider()
         st.markdown(f"### Total Pembayaran: **{format_rupiah(order['total_price'])}**")
     else:
@@ -40,7 +58,9 @@ def show_transaction_details(tid):
 
 # --- Fetch Data ---
 def fetch_transactions():
-    conn = mysql.connector.connect(host="127.0.0.1", user="root", password="", database="belikuy_marketplace_db")
+    conn = mysql.connector.connect(
+        host="127.0.0.1", user="root", password="", database="belikuy_marketplace_db"
+    )
     cursor = conn.cursor(dictionary=True)
     query = """
     SELECT o.id, o.created_at, o.total_price, o.status, u.username, c.company_name
@@ -57,25 +77,33 @@ def fetch_transactions():
     conn.close()
     return res
 
+
 recent = fetch_transactions()
 
-HTML_BASE = r"D:\belikuy\belikuy_ui_templates"
-with open(os.path.join(HTML_BASE, "super_admin_transaction_monitoring/code.html"), encoding='utf-8') as f:
+HTML_BASE = (
+    r"D:\Tugas Kuliah\Semester 4\Workshop RPL\belikuy-ecommerce\belikuy_ui_templates"
+)
+with open(
+    os.path.join(HTML_BASE, "super_admin_transaction_monitoring/code.html"),
+    encoding="utf-8",
+) as f:
     html = f.read()
 
 # Build Table Rows
 rows = ""
 status_cfg = {
-    'pending': ('Processing', 'bg-tertiary-container text-on-tertiary-container'),
-    'paid': ('Processing', 'bg-tertiary-container text-on-tertiary-container'),
-    'shipped': ('Shipped', 'bg-primary-container text-on-primary-container'),
-    'completed': ('Completed', 'bg-surface-variant text-on-surface-variant'),
-    'cancelled': ('Cancelled', 'bg-error-container text-on-error-container')
+    "pending": ("Processing", "bg-tertiary-container text-on-tertiary-container"),
+    "paid": ("Processing", "bg-tertiary-container text-on-tertiary-container"),
+    "shipped": ("Shipped", "bg-primary-container text-on-primary-container"),
+    "completed": ("Completed", "bg-surface-variant text-on-surface-variant"),
+    "cancelled": ("Cancelled", "bg-error-container text-on-error-container"),
 }
 
 for t in recent:
-    s_label, s_class = status_cfg.get(t.get("status", ""), ('Unknown', 'bg-surface-variant text-on-surface-variant'))
-    rows += f'''
+    s_label, s_class = status_cfg.get(
+        t.get("status", ""), ("Unknown", "bg-surface-variant text-on-surface-variant")
+    )
+    rows += f"""
     <tr class="border-b border-surface-variant hover:bg-surface-bright transition-colors group cursor-pointer txn-row" 
         data-date="{str(t.get("created_at",""))[:10]}" 
         data-amount="{t.get("total_price",0)}" 
@@ -95,17 +123,21 @@ for t in recent:
             </button>
         </td>
     </tr>
-    '''
+    """
 
 if not rows:
     rows = '<tr><td colspan="7" class="py-12 text-center text-on-surface-variant">Belum ada transaksi.</td></tr>'
 
 # Build dynamic filters HTML for Seller Dropdown
-sellers = sorted(list(set([t.get("company_name") for t in recent if t.get("company_name")])))
-seller_opts = '<option value="">Semua Seller</option>' + ''.join([f'<option value="{s}">{s}</option>' for s in sellers])
+sellers = sorted(
+    list(set([t.get("company_name") for t in recent if t.get("company_name")]))
+)
+seller_opts = '<option value="">Semua Seller</option>' + "".join(
+    [f'<option value="{s}">{s}</option>' for s in sellers]
+)
 
 # Build Filters + Table HTML
-main_content = f'''
+main_content = f"""
 <main class="flex-1 md:ml-64 p-lg overflow-y-auto">
 <header class="flex justify-between items-center mb-lg">
     <div>
@@ -193,9 +225,14 @@ main_content = f'''
     </div>
 </section>
 </main>
-'''
+"""
 
-html = re.sub(r'<main class="ml-64 flex-1 flex flex-col p-lg min-h-screen">.*?</main>', main_content, html, flags=re.DOTALL)
+html = re.sub(
+    r'<main class="ml-64 flex-1 flex flex-col p-lg min-h-screen">.*?</main>',
+    main_content,
+    html,
+    flags=re.DOTALL,
+)
 
 js_head = """<script>
 function stNavigate(params) {
@@ -322,8 +359,8 @@ html = inject_admin_sidebar(html, "15_Monitoring_Transaksi")
 action_data = render_original_html("belikuy_v2_admin_txn", html, height=1200)
 
 if action_data:
-    act = action_data.get('action')
+    act = action_data.get("action")
     if handle_admin_global_action(st, act):
         pass
-    elif act == 'view_txn':
-        show_transaction_details(action_data.get('tid'))
+    elif act == "view_txn":
+        show_transaction_details(action_data.get("tid"))

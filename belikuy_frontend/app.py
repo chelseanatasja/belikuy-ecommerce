@@ -10,47 +10,50 @@ from html_bridge import render_original_html
 st.set_page_config(
     page_title="BeliKuy - Login & Register",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="collapsed",
 )
 hide_streamlit_ui()
 
 # ── Session state ──
-if 'user' not in st.session_state:
-    st.session_state['user'] = None
+if "user" not in st.session_state:
+    st.session_state["user"] = None
 
 # Auto-redirect
-if st.session_state.get('user'):
-    role = st.session_state['user']['role']
-    if role == 'admin':
+if st.session_state.get("user"):
+    role = st.session_state["user"]["role"]
+    if role == "admin":
         st.switch_page("pages/13_Admin_Dashboard.py")
-    elif role == 'seller':
+    elif role == "seller":
         st.switch_page("pages/9_Seller_Dashboard.py")
-    elif role == 'supplier':
+    elif role == "supplier":
         st.switch_page("pages/24_Supplier_Dashboard.py")
-    elif role == 'fintech':
+    elif role == "fintech":
         st.switch_page("pages/25_Fintech_Dashboard.py")
-    elif role == 'delivery':
+    elif role == "delivery":
         st.switch_page("pages/26_Delivery_Dashboard.py")
     else:
         st.switch_page("pages/1_Storefront.py")
 
-HTML_BASE = r"D:\belikuy\belikuy_ui_templates"
+HTML_BASE = (
+    r"D:\Tugas Kuliah\Semester 4\Workshop RPL\belikuy-ecommerce\belikuy_ui_templates"
+)
 
-with open(os.path.join(HTML_BASE, "login_register_page/code.html"), encoding='utf-8') as f:
+with open(
+    os.path.join(HTML_BASE, "login_register_page/code.html"), encoding="utf-8"
+) as f:
     html = f.read()
 
 # Error handling alerts from previous actions
 alert_js = ""
 
 
-
-if '_login_error' in st.session_state:
+if "_login_error" in st.session_state:
     st.error(f"❌ {st.session_state.pop('_login_error')}")
-elif '_reg_error' in st.session_state:
+elif "_reg_error" in st.session_state:
     st.error(f"❌ {st.session_state.pop('_reg_error')}")
-elif '_reg_success' in st.session_state:
+elif "_reg_success" in st.session_state:
     st.success("✅ Akun berhasil dibuat! Silakan login.")
-    st.session_state.pop('_reg_success')
+    st.session_state.pop("_reg_success")
 
 js_head = f"""<script>
 function doLogin() {{
@@ -95,22 +98,40 @@ function showLogin() {{
 {alert_js}
 </script>
 """
-html = html.replace('</head>', js_head + '\n</head>', 1)
+html = html.replace("</head>", js_head + "\n</head>", 1)
 
 # Modify inputs to add IDs
-html = html.replace('placeholder="Email" type="email"', 'id="bk-email" placeholder="Email" type="email"', 1)
-html = html.replace('placeholder="Kata Sandi" type="password"', 'id="bk-pass" placeholder="Kata Sandi" type="password"', 1)
+html = html.replace(
+    'placeholder="Email" type="email"',
+    'id="bk-email" placeholder="Email" type="email"',
+    1,
+)
+html = html.replace(
+    'placeholder="Kata Sandi" type="password"',
+    'id="bk-pass" placeholder="Kata Sandi" type="password"',
+    1,
+)
 html = re.sub(
     r'(<button[^>]*type="button"[^>]*>)\s*MASUK SEKARANG',
-    r'\1\n                        MASUK SEKARANG',
+    r"\1\n                        MASUK SEKARANG",
     html,
-    count=1
+    count=1,
 )
 # Just insert onclick right before type="button" for the login button
-html = html.replace('<form class="space-y-md">', '<div class="space-y-md" onkeypress="if(event.key === \'Enter\') doLogin();">')
-html = html.replace('type="button">\n                        MASUK SEKARANG', 'type="button" onclick="doLogin(); return false;">\n                        MASUK SEKARANG')
-html = html.replace('href="#">Daftar di sini</a>', 'href="#" onclick="showRegister(); return false;">Daftar di sini</a>', 1)
-html = html.replace('</form>', '</div>', 1)
+html = html.replace(
+    '<form class="space-y-md">',
+    '<div class="space-y-md" onkeypress="if(event.key === \'Enter\') doLogin();">',
+)
+html = html.replace(
+    'type="button">\n                        MASUK SEKARANG',
+    'type="button" onclick="doLogin(); return false;">\n                        MASUK SEKARANG',
+)
+html = html.replace(
+    'href="#">Daftar di sini</a>',
+    'href="#" onclick="showRegister(); return false;">Daftar di sini</a>',
+    1,
+)
+html = html.replace("</form>", "</div>", 1)
 
 # Add Register HTML Block
 REGISTER_HTML = """
@@ -153,13 +174,23 @@ REGISTER_HTML = """
 </div>
 <div id="bk-login-section">
 """
-html = html.replace('<div class="w-full max-w-md mx-auto space-y-lg">', REGISTER_HTML + '<div class="w-full max-w-md mx-auto space-y-lg">', 1)
-html = html.replace('</div>\n</div>\n</div>\n</body>', '</div>\n</div>\n</div>\n</div>\n</div>\n</body>', 1)
+html = html.replace(
+    '<div class="w-full max-w-md mx-auto space-y-lg">',
+    REGISTER_HTML + '<div class="w-full max-w-md mx-auto space-y-lg">',
+    1,
+)
+html = html.replace(
+    "</div>\n</div>\n</div>\n</body>",
+    "</div>\n</div>\n</div>\n</div>\n</div>\n</body>",
+    1,
+)
 
 # Remove Social Logins section
 html = re.sub(
-    r'(<!-- Divider -->.*?<span>Facebook</span>\s*</button>\s*</div>)',
-    '', html, flags=re.IGNORECASE|re.DOTALL
+    r"(<!-- Divider -->.*?<span>Facebook</span>\s*</button>\s*</div>)",
+    "",
+    html,
+    flags=re.IGNORECASE | re.DOTALL,
 )
 
 # Render HTML using custom bridge
@@ -172,23 +203,25 @@ if action_data:
         password = action_data.get("password")
         data, status = post_api("auth/login", {"email": email, "password": password})
         if status == 200:
-            st.session_state['user'] = data['user']
-            role = data['user']['role']
-            if role == 'admin':
+            st.session_state["user"] = data["user"]
+            role = data["user"]["role"]
+            if role == "admin":
                 st.switch_page("pages/13_Admin_Dashboard.py")
-            elif role == 'seller':
+            elif role == "seller":
                 st.switch_page("pages/9_Seller_Dashboard.py")
-            elif role == 'supplier':
+            elif role == "supplier":
                 st.switch_page("pages/24_Supplier_Dashboard.py")
-            elif role == 'fintech':
+            elif role == "fintech":
                 st.switch_page("pages/25_Fintech_Dashboard.py")
-            elif role == 'delivery':
+            elif role == "delivery":
                 st.switch_page("pages/26_Delivery_Dashboard.py")
             else:
                 st.switch_page("pages/1_Storefront.py")
         else:
             st.error(f"DEBUG: Login failed with status {status}, data: {data}")
-            st.session_state['_login_error'] = data.get('error', 'Login gagal. Periksa email/password.')
+            st.session_state["_login_error"] = data.get(
+                "error", "Login gagal. Periksa email/password."
+            )
             st.rerun()
 
     elif action_data.get("action") == "do_register":
@@ -196,14 +229,18 @@ if action_data:
         email = action_data.get("email")
         password = action_data.get("password")
         role_reg = action_data.get("role")
-        data, status = post_api("auth/register", {
-            "username": username, "email": email,
-            "password": password, "role": role_reg
-        })
+        data, status = post_api(
+            "auth/register",
+            {
+                "username": username,
+                "email": email,
+                "password": password,
+                "role": role_reg,
+            },
+        )
         if status == 201:
-            st.session_state['_reg_success'] = True
+            st.session_state["_reg_success"] = True
             st.rerun()
         else:
-            st.session_state['_reg_error'] = data.get('error', 'Registrasi gagal.')
+            st.session_state["_reg_error"] = data.get("error", "Registrasi gagal.")
             st.rerun()
-
