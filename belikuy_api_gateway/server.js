@@ -13,6 +13,8 @@ const DELIVERY = 'http://localhost:3004';
 
 app.use('/uploads', express.static('../belikuy_backend/uploads'));
 
+app.get('/', (req, res) => res.send('API Gateway is running on port 3000'));
+
 // Global middleware, no express path stripping
 app.use(createProxyMiddleware({
     target: MARKETPLACE, // default
@@ -26,8 +28,6 @@ app.use(createProxyMiddleware({
         '/api/suppliers': SELLER
     }
 }));
-
-app.get('/', (req, res) => res.send('API Gateway is running on port 3000'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`API Gateway started on port ${PORT}`));
