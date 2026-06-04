@@ -6,8 +6,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
-
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/users', require('./routes/addressRoutes')); // Assuming user address is here or just mount it
 app.use('/api/addresses', require('./routes/addressRoutes'));
@@ -18,6 +16,8 @@ app.use('/api/categories', require('./routes/categoryRoutes'));
 app.use('/api/payments', require('./routes/paymentRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/withdrawals', require('./routes/withdrawalRoutes'));
+
+app.get('/', (req, res) => res.send('Delivery Service API is running.'));
 
 const PORT = process.env.PORT || 3004;
 app.listen(PORT, () => console.log(`Delivery Service running on port ${PORT}`));
