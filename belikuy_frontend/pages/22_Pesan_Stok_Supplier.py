@@ -145,46 +145,54 @@ if action_data:
         st.rerun()
     elif action == "submit_order":
         items_str = action_data.get("items")
-        if items_str:
-            items = json.loads(items_str)
-            # Fetch company ID
-            company_id = user.get("company", {}).get("company_id")
-            if company_id:
-                # Match to catalog to get prices
-                catalog_res, _ = get_api(
-                    f"suppliers/{st.session_state['selected_supplier_id']}/catalog"
-                )
-                catalog = catalog_res.get("data", []) if catalog_res else []
-                cat_dict = {c["id"]: c["price"] for c in catalog}
+        if not items_str or not str(items_str).strip():
+            st.error("Data pesanan kosong atau tidak valid.")
+        else:
+            try:
+                items = json.loads(items_str)
+            except json.JSONDecodeError:
+                st.error("Data pesanan tidak valid.")
+                items = []
 
-                order_items = []
-                for it in items:
-                    order_items.append(
-                        {
-                            "catalog_id": it["id"],
-                            "quantity": it["qty"],
-                            "price": cat_dict[it["id"]],
-                            "subtotal": it["qty"] * float(cat_dict[it["id"]]),
-                        }
+            if items:
+                # Fetch company ID
+                company_id = user.get("company", {}).get("company_id")
+                if company_id:
+                    # Match to catalog to get prices
+                    catalog_res, _ = get_api(
+                        f"suppliers/{st.session_state['selected_supplier_id']}/catalog"
                     )
+                    catalog = catalog_res.get("data", []) if catalog_res else []
+                    cat_dict = {c["id"]: c["price"] for c in catalog}
 
-                payload = {
-                    "company_id": company_id,
-                    "supplier_id": st.session_state["selected_supplier_id"],
-                    "items": order_items,
-                }
-                order_res, status = post_api("suppliers/orders", payload)
-                if status in (200, 201):
-                    # Reset
-                    st.session_state["selected_supplier_id"] = ""
-                    st.session_state["_supplier_order_success"] = True
-                    st.switch_page("pages/23_Tagihan_Supplier.py")
+                    order_items = []
+                    for it in items:
+                        order_items.append(
+                            {
+                                "catalog_id": it["id"],
+                                "quantity": it["qty"],
+                                "price": cat_dict[it["id"]],
+                                "subtotal": it["qty"] * float(cat_dict[it["id"]]),
+                            }
+                        )
+
+                    payload = {
+                        "company_id": company_id,
+                        "supplier_id": st.session_state["selected_supplier_id"],
+                        "items": order_items,
+                    }
+                    order_res, status = post_api("suppliers/orders", payload)
+                    if status in (200, 201):
+                        # Reset
+                        st.session_state["selected_supplier_id"] = ""
+                        st.session_state["_supplier_order_success"] = True
+                        st.switch_page("pages/23_Tagihan_Supplier.py")
+                    else:
+                        st.error(
+                            f"Gagal memproses: {order_res.get('error') if order_res else 'Unknown'}"
+                        )
                 else:
-                    st.error(
-                        f"Gagal memproses: {order_res.get('error') if order_res else 'Unknown'}"
-                    )
-            else:
-                st.error("Gagal mendapat ID perusahaan Anda.")
+                    st.error("Gagal mendapat ID perusahaan Anda.")
 
     elif action == "logout":
         st.session_state.clear()
